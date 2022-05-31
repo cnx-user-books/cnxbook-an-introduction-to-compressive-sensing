@@ -1,0 +1,402 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:bib="http://bibtexml.sf.net/">
+  <title>Matrices that satisfy the RIP</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37177</md:content-id>
+  <md:title>Matrices that satisfy the RIP</md:title>
+  <md:abstract>This module provides some examples of matrices that satisfy the restricted isometry property (RIP), focusing primarily on random constructions.</md:abstract>
+  <md:uuid>e2e112fc-7384-4657-9b46-915c124e6fb9</md:uuid>
+</metadata>
+
+<content>
+    <para id="id310646">We now turn to the question of how to construct matrices that satisfy the <link document="m37171" version="latest">restricted isometry property</link> (RIP). It is possible to deterministically construct matrices of size <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>×</m:mo><m:mi>N</m:mi></m:mrow></m:math> that satisfy the RIP of order <m:math overflow="scroll"><m:mi>K</m:mi></m:math>, but such constructions also require <m:math overflow="scroll"><m:mi>M</m:mi></m:math> to be relatively large <link target-id="bid1"/>, <link target-id="bid0"/>. For example, the construction in <link target-id="bid1"/> requires <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>=</m:mo><m:mi>O</m:mi><m:mo>(</m:mo><m:msup><m:mi>K</m:mi><m:mn>2</m:mn></m:msup><m:mo form="prefix">log</m:mo><m:mi>N</m:mi><m:mo>)</m:mo></m:mrow></m:math> while the construction in <link target-id="bid0"/> requires <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>=</m:mo><m:mi>O</m:mi><m:mo>(</m:mo><m:mi>K</m:mi><m:msup><m:mi>N</m:mi><m:mi>α</m:mi></m:msup><m:mo>)</m:mo></m:mrow></m:math> for some constant <m:math overflow="scroll"><m:mi>α</m:mi></m:math>. In many real-world settings, these results would lead to an unacceptably large requirement on <m:math overflow="scroll"><m:mi>M</m:mi></m:math>.</para>
+    <para id="id311118">Fortunately, these limitations can be overcome by randomizing the matrix construction. We will construct our random matrices as follows: given <m:math overflow="scroll"><m:mi>M</m:mi></m:math> and <m:math overflow="scroll"><m:mi>N</m:mi></m:math>, generate random matrices <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> by choosing the entries <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mrow><m:mi>i</m:mi><m:mi>j</m:mi></m:mrow></m:msub></m:math> as independent realizations from some probability distribution. We begin by observing that if all we require is that <m:math overflow="scroll"><m:mrow><m:msub><m:mi>δ</m:mi><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:msub><m:mo>&gt;</m:mo><m:mn>0</m:mn></m:mrow></m:math> then we may set <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>=</m:mo><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:math> and draw a <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> according to a Gaussian distribution. With probability 1, any subset of <m:math overflow="scroll"><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:math> columns will be linearly independent, and hence all subsets of <m:math overflow="scroll"><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:math> columns will be bounded below by <m:math overflow="scroll"><m:mrow><m:mn>1</m:mn><m:mo>-</m:mo><m:msub><m:mi>δ</m:mi><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:msub></m:mrow></m:math> where <m:math overflow="scroll"><m:mrow><m:msub><m:mi>δ</m:mi><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:msub><m:mo>&gt;</m:mo><m:mn>0</m:mn></m:mrow></m:math>. However, suppose we wish to know the constant <m:math overflow="scroll"><m:msub><m:mi>δ</m:mi><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:msub></m:math>. In order to find the value of the constant we must consider all possible <m:math overflow="scroll"><m:mfenced separators="" open="(" close=")"><m:mfrac linethickness="0pt"><m:mi>N</m:mi><m:mi>K</m:mi></m:mfrac></m:mfenced></m:math><m:math overflow="scroll"><m:mi>K</m:mi></m:math>-dimensional subspaces of <m:math overflow="scroll"><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:math>. From a computational perspective, this is impossible for any realistic values of <m:math overflow="scroll"><m:mi>N</m:mi></m:math> and <m:math overflow="scroll"><m:mi>K</m:mi></m:math>. Thus, we focus on the problem of achieving the RIP of order <m:math overflow="scroll"><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:math> for a specified constant <m:math overflow="scroll"><m:msub><m:mi>δ</m:mi><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:msub></m:math>. Our treatment is based on the simple approach first described in <link target-id="bid2"/> and later generalized to a larger class of random matrices in <link target-id="bid3"/>.</para>
+    <para id="id311575">To ensure that the matrix will satisfy the RIP, we will impose two conditions on the random distribution. First, we require that the distribution will yield a matrix that is norm-preserving, which will require that</para>
+    <equation id="uid1">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">E</m:mi>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:msubsup>
+              <m:mi>φ</m:mi>
+              <m:mrow>
+                <m:mi>i</m:mi>
+                <m:mi>j</m:mi>
+              </m:mrow>
+              <m:mn>2</m:mn>
+            </m:msubsup>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mo>=</m:mo>
+          <m:mfrac>
+            <m:mn>1</m:mn>
+            <m:mi>M</m:mi>
+          </m:mfrac>
+          <m:mo>,</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id311627">and hence the variance of the distribution is <m:math overflow="scroll"><m:mrow><m:mn>1</m:mn><m:mo>/</m:mo><m:mi>M</m:mi></m:mrow></m:math>. Second, we require that the distribution is a <link document="m37185" version="latest"><emphasis effect="italics">sub-Gaussian</emphasis> distribution</link>, meaning that there exists a constant <m:math overflow="scroll"><m:mrow><m:mi>c</m:mi><m:mo>&gt;</m:mo><m:mn>0</m:mn></m:mrow></m:math> such that</para>
+    <equation id="uid2">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">E</m:mi>
+          <m:mfenced separators="" open="(" close=")">
+            <m:msup>
+              <m:mi>e</m:mi>
+              <m:mrow>
+                <m:msub>
+                  <m:mi>φ</m:mi>
+                  <m:mrow>
+                    <m:mi>i</m:mi>
+                    <m:mi>j</m:mi>
+                  </m:mrow>
+                </m:msub>
+                <m:mi>t</m:mi>
+              </m:mrow>
+            </m:msup>
+          </m:mfenced>
+          <m:mo>≤</m:mo>
+          <m:msup>
+            <m:mi>e</m:mi>
+            <m:mrow>
+              <m:msup>
+                <m:mi>c</m:mi>
+                <m:mn>2</m:mn>
+              </m:msup>
+              <m:msup>
+                <m:mi>t</m:mi>
+                <m:mn>2</m:mn>
+              </m:msup>
+              <m:mo>/</m:mo>
+              <m:mn>2</m:mn>
+            </m:mrow>
+          </m:msup>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id311737">for all <m:math overflow="scroll"><m:mrow><m:mi>t</m:mi><m:mo>∈</m:mo><m:mi mathvariant="double-struck">R</m:mi></m:mrow></m:math>. This says that the moment-generating function of our distribution is dominated by that of a Gaussian distribution, which is also equivalent to requiring that tails of our distribution decay <emphasis effect="italics">at least as fast</emphasis> as the tails of a Gaussian distribution. Examples of sub-Gaussian distributions include the Gaussian distribution, the Bernoulli distribution taking values <m:math overflow="scroll"><m:mrow><m:mo>±</m:mo><m:mn>1</m:mn><m:mo>/</m:mo><m:msqrt><m:mi>M</m:mi></m:msqrt></m:mrow></m:math>, and more generally any distribution with bounded support. See <link document="m37185" version="latest">"Sub-Gaussian random variables"</link> for more details.</para>
+    <para id="id311786">For the moment, we will actually assume a bit more than sub-Gaussianity. Specifically, we will assume that the entries of <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> are <emphasis effect="italics">strictly</emphasis> sub-Gaussian, which means that they satisfy <link target-id="uid2"/> with <m:math overflow="scroll"><m:mrow><m:msup><m:mi>c</m:mi><m:mn>2</m:mn></m:msup><m:mo>=</m:mo><m:mi mathvariant="double-struck">E</m:mi><m:mrow><m:mo>(</m:mo><m:msubsup><m:mi>φ</m:mi><m:mrow><m:mi>i</m:mi><m:mi>j</m:mi></m:mrow><m:mn>2</m:mn></m:msubsup><m:mo>)</m:mo></m:mrow><m:mo>=</m:mo><m:mfrac><m:mn>1</m:mn><m:mi>M</m:mi></m:mfrac></m:mrow></m:math>. Similar results to the following would hold for general sub-Gaussian distributions, but to simplify the constants we restrict our present attention to the strictly sub-Gaussian <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>. In this case we have the following useful result, which is proven in <link document="m32583" version="latest">"Concentration of measure for sub-Gaussian random variables"</link>.</para>
+<rule id="fs-id2173832" type="corollary"><statement id="fs-id1169292149736">
+    <para id="id311869">
+Suppose that <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> is an <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>×</m:mo><m:mi>N</m:mi></m:mrow></m:math> matrix whose entries <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mrow><m:mi>i</m:mi><m:mi>j</m:mi></m:mrow></m:msub></m:math> are i.i.d. with <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mrow><m:mi>i</m:mi><m:mi>j</m:mi></m:mrow></m:msub></m:math> drawn according to a strictly sub-Gaussian distribution with <m:math overflow="scroll"><m:mrow><m:msup><m:mi>c</m:mi><m:mn>2</m:mn></m:msup><m:mo>=</m:mo><m:mn>1</m:mn><m:mo>/</m:mo><m:mi>M</m:mi></m:mrow></m:math>. Let <m:math overflow="scroll"><m:mrow><m:mi>Y</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi></m:mrow></m:math> for <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>∈</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:mrow></m:math>. Then for any <m:math overflow="scroll"><m:mrow><m:mi>ϵ</m:mi><m:mo>&gt;</m:mo><m:mn>0</m:mn></m:mrow></m:math>, and any <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>∈</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:mrow></m:math>,</para>
+    <equation id="uid4">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">E</m:mi>
+          <m:mfenced separators="" open="(" close=")">
+            <m:msubsup>
+              <m:mrow>
+                <m:mo>∥</m:mo>
+                <m:mi>Y</m:mi>
+                <m:mo>∥</m:mo>
+              </m:mrow>
+              <m:mn>2</m:mn>
+              <m:mn>2</m:mn>
+            </m:msubsup>
+          </m:mfenced>
+          <m:mo>=</m:mo>
+          <m:msubsup>
+            <m:mrow>
+              <m:mo>∥</m:mo>
+              <m:mi>x</m:mi>
+              <m:mo>∥</m:mo>
+            </m:mrow>
+            <m:mn>2</m:mn>
+            <m:mn>2</m:mn>
+          </m:msubsup>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id312086">and</para>
+    <equation id="uid5">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">P</m:mi>
+          <m:mfenced separators="" open="(" close=")">
+            <m:mfenced separators="" open="|" close="|">
+              <m:msubsup>
+                <m:mrow>
+                  <m:mo>∥</m:mo>
+                  <m:mi>Y</m:mi>
+                  <m:mo>∥</m:mo>
+                </m:mrow>
+                <m:mn>2</m:mn>
+                <m:mn>2</m:mn>
+              </m:msubsup>
+              <m:mo>-</m:mo>
+              <m:msubsup>
+                <m:mrow>
+                  <m:mo>∥</m:mo>
+                  <m:mi>x</m:mi>
+                  <m:mo>∥</m:mo>
+                </m:mrow>
+                <m:mn>2</m:mn>
+                <m:mn>2</m:mn>
+              </m:msubsup>
+            </m:mfenced>
+            <m:mo>≥</m:mo>
+            <m:mi>ϵ</m:mi>
+            <m:msubsup>
+              <m:mrow>
+                <m:mo>∥</m:mo>
+                <m:mi>x</m:mi>
+                <m:mo>∥</m:mo>
+              </m:mrow>
+              <m:mn>2</m:mn>
+              <m:mn>2</m:mn>
+            </m:msubsup>
+          </m:mfenced>
+          <m:mo>≤</m:mo>
+          <m:mn>2</m:mn>
+          <m:mo form="prefix">exp</m:mo>
+          <m:mfenced separators="" open="(" close=")">
+            <m:mo>-</m:mo>
+            <m:mfrac>
+              <m:mrow>
+                <m:mi>M</m:mi>
+                <m:msup>
+                  <m:mi>ϵ</m:mi>
+                  <m:mn>2</m:mn>
+                </m:msup>
+              </m:mrow>
+              <m:msup>
+                <m:mi>κ</m:mi>
+                <m:mo>*</m:mo>
+              </m:msup>
+            </m:mfrac>
+          </m:mfenced>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id312215">with <m:math overflow="scroll"><m:mrow><m:msup><m:mi>κ</m:mi><m:mo>*</m:mo></m:msup><m:mo>=</m:mo><m:mn>2</m:mn><m:mo>/</m:mo><m:mrow><m:mo>(</m:mo><m:mn>1</m:mn><m:mo>-</m:mo><m:mo form="prefix">log</m:mo><m:mrow><m:mo>(</m:mo><m:mn>2</m:mn><m:mo>)</m:mo></m:mrow><m:mo>)</m:mo></m:mrow><m:mo>≈</m:mo><m:mn>6</m:mn><m:mo>.</m:mo><m:mn>52</m:mn></m:mrow></m:math>.</para>
+</statement>
+</rule>
+    <para id="id312270">This tells us that the norm of a sub-Gaussian random vector strongly concentrates about its mean. Using this result, in <link document="m37186" version="latest">"Proof of the RIP for sub-Gaussian matrices"</link> we provide a simple proof based on that in <link target-id="bid2"/> that sub-Gaussian matrices satisfy the RIP.</para>
+<rule id="fs-id1169301569521" type="theorem"><statement id="fs-id1169292219844">
+    <para id="id312284"> 
+Fix <m:math overflow="scroll"><m:mrow><m:mi>δ</m:mi><m:mo>∈</m:mo><m:mo>(</m:mo><m:mn>0</m:mn><m:mo>,</m:mo><m:mn>1</m:mn><m:mo>)</m:mo></m:mrow></m:math>. Let <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> be an <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>×</m:mo><m:mi>N</m:mi></m:mrow></m:math> random matrix whose entries <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mrow><m:mi>i</m:mi><m:mi>j</m:mi></m:mrow></m:msub></m:math> are i.i.d. with <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mrow><m:mi>i</m:mi><m:mi>j</m:mi></m:mrow></m:msub></m:math> drawn according to a strictly sub-Gaussian distribution with <m:math overflow="scroll"><m:mrow><m:msup><m:mi>c</m:mi><m:mn>2</m:mn></m:msup><m:mo>=</m:mo><m:mn>1</m:mn><m:mo>/</m:mo><m:mi>M</m:mi></m:mrow></m:math>. If</para>
+    <equation id="uid7">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi>M</m:mi>
+          <m:mo>≥</m:mo>
+          <m:msub>
+            <m:mi>κ</m:mi>
+            <m:mn>1</m:mn>
+          </m:msub>
+          <m:mi>K</m:mi>
+          <m:mo form="prefix">log</m:mo>
+          <m:mfenced separators="" open="(" close=")">
+            <m:mfrac>
+              <m:mi>N</m:mi>
+              <m:mi>K</m:mi>
+            </m:mfrac>
+          </m:mfenced>
+          <m:mo>,</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id312441">then <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> satisfies the RIP of order <m:math overflow="scroll"><m:mi>K</m:mi></m:math> with the prescribed <m:math overflow="scroll"><m:mi>δ</m:mi></m:math> with probability exceeding <m:math overflow="scroll"><m:mrow><m:mn>1</m:mn><m:mo>-</m:mo><m:mn>2</m:mn><m:msup><m:mi>e</m:mi><m:mrow><m:mo>-</m:mo><m:msub><m:mi>κ</m:mi><m:mn>2</m:mn></m:msub><m:mi>M</m:mi></m:mrow></m:msup></m:mrow></m:math>, where <m:math overflow="scroll"><m:msub><m:mi>κ</m:mi><m:mn>1</m:mn></m:msub></m:math> is arbitrary and <m:math overflow="scroll"><m:mrow><m:msub><m:mi>κ</m:mi><m:mn>2</m:mn></m:msub><m:mo>=</m:mo><m:msup><m:mi>δ</m:mi><m:mn>2</m:mn></m:msup><m:mo>/</m:mo><m:mn>2</m:mn><m:msup><m:mi>κ</m:mi><m:mo>*</m:mo></m:msup><m:mo>-</m:mo><m:mo form="prefix">log</m:mo><m:mrow><m:mo>(</m:mo><m:mn>42</m:mn><m:mi>e</m:mi><m:mo>/</m:mo><m:mi>δ</m:mi><m:mo>)</m:mo></m:mrow><m:mo>/</m:mo><m:msub><m:mi>κ</m:mi><m:mn>1</m:mn></m:msub></m:mrow></m:math>.</para>
+</statement></rule>
+    <para id="id312580">Note that in light of the measurement bounds in <link document="m37171" version="latest">"The restricted isometry property"</link> we see that <link target-id="uid7"/> achieves the optimal number of measurements (up to a constant).</para>
+    <para id="id312593">Using random matrices to construct <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> has a number of additional benefits. To illustrate these, we will focus on the RIP. First, one can show that for random constructions the measurements are <emphasis effect="italics">democratic</emphasis>, meaning that it is possible to recover a signal using any sufficiently large subset of the measurements <link target-id="bid4"/>, <link target-id="bid5"/>. Thus, by using random <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> one can be robust to the loss or corruption of a small fraction of the measurements. Second, and perhaps more significantly, in practice we are often more interested in the setting where <m:math overflow="scroll"><m:mi>x</m:mi></m:math> is sparse with respect to some basis <m:math overflow="scroll"><m:mi>Ψ</m:mi></m:math>. In this case what we actually require is that the product <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:mi>Ψ</m:mi></m:mrow></m:math> satisfies the RIP. If we were to use a deterministic construction then we would need to explicitly take <m:math overflow="scroll"><m:mi>Ψ</m:mi></m:math> into account in our construction of <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>, but when <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> is chosen randomly we can avoid this consideration. For example, if <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> is chosen according to a Gaussian distribution and <m:math overflow="scroll"><m:mi>Ψ</m:mi></m:math> is an orthonormal basis then one can easily show that <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:mi>Ψ</m:mi></m:mrow></m:math> will also have a Gaussian distribution, and so provided that <m:math overflow="scroll"><m:mi>M</m:mi></m:math> is sufficiently high <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:mi>Ψ</m:mi></m:mrow></m:math> will satisfy the RIP with high probability, just as before. Although less obvious, similar results hold for sub-Gaussian distributions as well <link target-id="bid2"/>. This property, sometimes referred to as <emphasis effect="italics">universality</emphasis>, constitutes a significant advantage of using random matrices to construct <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>.</para>
+    <para id="id312771">Finally, we note that since the fully random matrix approach is sometimes impractical to build in hardware, several hardware architectures have been implemented and/or proposed that enable random measurements to be acquired in practical settings. Examples include the <link document="m37375" version="latest">random demodulator</link> <link target-id="bid6"/>, random filtering <link target-id="bid7"/>, the modulated wideband converter <link target-id="bid8"/>, random convolution <link target-id="bid9"/>, <link target-id="bid10"/>, and the compressive multiplexer <link target-id="bid11"/>. These architectures typically use a reduced amount of randomness and are modeled via matrices <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> that have significantly more structure than a fully random matrix. Perhaps somewhat surprisingly, while it is typically not quite as easy as in the fully random case, one can prove that many of these constructions also satisfy the RIP.
+
+</para>
+  </content>
+  <bib:file>
+    <bib:entry id="bid2">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Baraniuk, R. and Davenport, M. and DeVore, R. and Wakin, M.</bib:author>
+        <bib:title>A simple proof of the restricted isometry property for random matrices</bib:title>
+        <bib:journal>Const. Approx.</bib:journal>
+        <bib:year>2008</bib:year>
+        <!--optional fields-->
+        <bib:volume>28</bib:volume>
+        <bib:number>3</bib:number>
+        <bib:pages>253–263</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid9">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Bajwa, W. and Haupt, J. and Raz, G. and Wright, S. and Nowak, R.</bib:author>
+        <bib:title>Toeplitz-structured compressed sensing matrices</bib:title>
+        <bib:booktitle>Proc. IEEE Work. Stat. Signal Processing</bib:booktitle>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Madison, WI</bib:address>
+        <bib:month>Aug.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid1">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>DeVore, R.</bib:author>
+        <bib:title>Deterministic Constructions of Compressed Sensing Matrices</bib:title>
+        <bib:journal>J. Complex.</bib:journal>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:volume>23</bib:volume>
+        <bib:number>4</bib:number>
+        <bib:pages>918–925</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid4">
+      <bib:techreport>
+        <!--required fields-->
+        <bib:author>Davenport, M. and Laska, J. and Boufouons, P. and Baraniuk, R.</bib:author>
+        <bib:title>A simple proof that random matrices are democratic</bib:title>
+        <bib:institution>Rice Univ., ECE Dept.</bib:institution>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:type>Technical report</bib:type>
+        <bib:number>TREE 0906</bib:number>
+        <bib:address/>
+        <bib:month>Nov.</bib:month>
+        <bib:note/>
+      </bib:techreport>
+    </bib:entry>
+    <bib:entry id="bid0">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Indyk, P.</bib:author>
+        <bib:title>Explicit constructions for compressed sensing of sparse signals</bib:title>
+        <bib:booktitle>Proc. ACM-SIAM Symp. on Discrete Algorithms (SODA)</bib:booktitle>
+        <bib:year>2008</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages>30–33</bib:pages>
+        <bib:address/>
+        <bib:month>Jan.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid5">
+      <bib:unpublished>
+        <!--required fields-->
+        <bib:author>Laska, J. and Boufounos, P. and Davenport, M. and Baraniuk, R.</bib:author>
+        <bib:title>Democracy in action: Quantization, saturation, and compressive sensing</bib:title>
+        <bib:note>Preprint</bib:note>
+        <!--optional fields-->
+        <bib:month/>
+        <bib:year>2009</bib:year>
+      </bib:unpublished>
+    </bib:entry>
+    <bib:entry id="bid8">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Mishali, M. and Eldar, Y. C.</bib:author>
+        <bib:title>From theory to practice: Sub-Nyquist sampling of sparse wideband analog signals</bib:title>
+        <bib:journal>IEEE J. Select. Top. Signal Processing</bib:journal>
+        <bib:year>2010</bib:year>
+        <!--optional fields-->
+        <bib:volume>4</bib:volume>
+        <bib:number>2</bib:number>
+        <bib:pages>375–391</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid3">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Mendelson, S. and Pajor, A. and Tomczack-Jaegermann, N.</bib:author>
+        <bib:title>Uniform uncertainty principle for Bernoulli and subgaussian ensembles</bib:title>
+        <bib:journal>Const. Approx.</bib:journal>
+        <bib:year>2008</bib:year>
+        <!--optional fields-->
+        <bib:volume>28</bib:volume>
+        <bib:number>3</bib:number>
+        <bib:pages>277–289</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid10">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Romberg, J.</bib:author>
+        <bib:title>Compressive sensing by random convolution</bib:title>
+        <bib:journal>SIAM J. Imag. Sci.</bib:journal>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume>2</bib:volume>
+        <bib:number>4</bib:number>
+        <bib:pages>1098–1128</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid11">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Slavinsky, J. P. and Laska, J. and Davenport, M. and Baraniuk, R.</bib:author>
+        <bib:title>The compressive mutliplexer for multi-channel compressive sensing</bib:title>
+        <bib:booktitle>Proc. IEEE Int. Conf. Acoust., Speech, and Signal Processing (ICASSP)</bib:booktitle>
+        <bib:year>2011</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Prague, Czech Republic</bib:address>
+        <bib:month>May</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid6">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Tropp, J. and Laska, J. and Duarte, M. and Romberg, J. and Baraniuk, R.</bib:author>
+        <bib:title>Beyond Nyquist: Efficient sampling of sparse, bandlimited signals</bib:title>
+        <bib:journal>IEEE Trans. Inform. Theory</bib:journal>
+        <bib:year>2010</bib:year>
+        <!--optional fields-->
+        <bib:volume>56</bib:volume>
+        <bib:number>1</bib:number>
+        <bib:pages>520–544</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid7">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Tropp, J. and Wakin, M. and Duarte, M. and Baron, D. and Baraniuk, R.</bib:author>
+        <bib:title>Random filters for compressive sampling and reconstruction</bib:title>
+        <bib:booktitle>Proc. IEEE Int. Conf. Acoust., Speech, and Signal Processing (ICASSP)</bib:booktitle>
+        <bib:year>2006</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Toulouse, France</bib:address>
+        <bib:month>May</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+  </bib:file>
+</document>

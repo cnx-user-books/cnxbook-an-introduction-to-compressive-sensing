@@ -1,0 +1,343 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:bib="http://bibtexml.sf.net/">
+  <title>Null space conditions</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37170</md:content-id>
+  <md:title>Null space conditions</md:title>
+  <md:abstract>This module introduces the spark and the null space property, two common conditions related to the null space of a measurement matrix that ensure the success of sparse recovery algorithms.  Furthermore, the null space property is shown to be a necessary condition for instance optimal or uniform recovery guarantees.</md:abstract>
+  <md:uuid>d313e3ff-ff3f-49ea-89e0-5a6fec2734f5</md:uuid>
+</metadata>
+
+<content>
+    <para id="id170187">A natural place to begin in establishing conditions on <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> in the context of <link document="m37169" version="latest">designing a sensing matrix</link> is by considering the null space of <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>, denoted</para>
+    <equation id="id170210">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="script">N</m:mi>
+          <m:mo>(</m:mo>
+          <m:mi>Φ</m:mi>
+          <m:mo>)</m:mo>
+          <m:mo>=</m:mo>
+          <m:mo>{</m:mo>
+          <m:mi>z</m:mi>
+          <m:mo>:</m:mo>
+          <m:mi>Φ</m:mi>
+          <m:mi>z</m:mi>
+          <m:mo>=</m:mo>
+          <m:mn>0</m:mn>
+          <m:mo>}</m:mo>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id170589">If we wish to be able to recover <emphasis effect="italics">all</emphasis> <link document="m37168" version="latest">sparse</link> signals <m:math overflow="scroll"><m:mi>x</m:mi></m:math> from the measurements <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:mi>x</m:mi></m:mrow></m:math>, then it is immediately clear that for any pair of distinct vectors <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>,</m:mo><m:msup><m:mi>x</m:mi><m:mo>'</m:mo></m:msup><m:mo>∈</m:mo><m:msub><m:mi>Σ</m:mi><m:mi>K</m:mi></m:msub>         
+          <m:mo>=</m:mo>
+          <m:mfenced separators="" open="{" close="}">
+            <m:mi>x</m:mi>
+            <m:mo>:</m:mo>
+            <m:msub>
+              <m:mfenced open="∥" close="∥">
+                <m:mi>x</m:mi>
+              </m:mfenced>
+              <m:mn>0</m:mn>
+            </m:msub>
+            <m:mo>≤</m:mo>
+            <m:mi>K</m:mi>
+          </m:mfenced>
+</m:mrow></m:math>, we must have <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:mi>x</m:mi><m:mo>≠</m:mo><m:mi>Φ</m:mi><m:msup><m:mi>x</m:mi><m:mo>'</m:mo></m:msup></m:mrow></m:math>, since otherwise it would be impossible to distinguish <m:math overflow="scroll"><m:mi>x</m:mi></m:math> from <m:math overflow="scroll"><m:msup><m:mi>x</m:mi><m:mo>'</m:mo></m:msup></m:math> based solely on the measurements <m:math overflow="scroll"><m:mi>y</m:mi></m:math>. More formally, by observing that if <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:mi>x</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:msup><m:mi>x</m:mi><m:mo>'</m:mo></m:msup></m:mrow></m:math> then <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>-</m:mo><m:msup><m:mi>x</m:mi><m:mo>'</m:mo></m:msup><m:mo>)</m:mo><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math> with <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>-</m:mo><m:msup><m:mi>x</m:mi><m:mo>'</m:mo></m:msup><m:mo>∈</m:mo><m:msub><m:mi>Σ</m:mi><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:msub></m:mrow></m:math>, we see that <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> uniquely represents all <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>∈</m:mo><m:msub><m:mi>Σ</m:mi><m:mi>K</m:mi></m:msub></m:mrow></m:math> if and only if <m:math overflow="scroll"><m:mrow><m:mi mathvariant="script">N</m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow></m:math> contains no vectors in <m:math overflow="scroll"><m:msub><m:mi>Σ</m:mi><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:msub></m:math>. There are many equivalent ways of characterizing this property; one of the most common is known as the <emphasis effect="italics">spark</emphasis> <link target-id="bid0"/>.</para>
+    <section id="uid1"><title>The spark</title><definition id="eip-id1169166062225"><term/>
+      <meaning id="id170863">The spark of a given matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> is the smallest number of columns of <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> that are linearly dependent.</meaning>
+</definition>
+      <para id="id170890">This definition allows us to pose the following straightforward guarantee.  </para>
+<rule id="uid3" type="theorem"><title>(Corollary 1 of <link target-id="bid0"/>)</title><statement id="eip-id1169166150965">
+      <para id="id170894">For any vector <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>∈</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>M</m:mi></m:msup></m:mrow></m:math>, there exists at most one signal <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>∈</m:mo><m:msub><m:mi>Σ</m:mi><m:mi>K</m:mi></m:msub></m:mrow></m:math> such that <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi></m:mrow></m:math> if and only if <m:math overflow="scroll"><m:mrow><m:mi> spark </m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo><m:mo>&gt;</m:mo><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:math>.</para>
+</statement>
+<proof id="eip-id1169173340787">
+      <para id="id171174">We first assume that, for any <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>∈</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>M</m:mi></m:msup></m:mrow></m:math>, there exists at most one signal <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>∈</m:mo><m:msub><m:mi>Σ</m:mi><m:mi>K</m:mi></m:msub></m:mrow></m:math> such that <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi></m:mrow></m:math>. Now suppose for the sake of a contradiction that <m:math overflow="scroll"><m:mrow><m:mi> spark </m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo><m:mo>≤</m:mo><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:math>. This means that there exists some set of at most <m:math overflow="scroll"><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:math> columns that are linearly dependent, which in turn implies that there exists an <m:math overflow="scroll"><m:mrow><m:mi>h</m:mi><m:mo>∈</m:mo><m:mi mathvariant="script">N</m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow></m:math> such that <m:math overflow="scroll"><m:mrow><m:mi>h</m:mi><m:mo>∈</m:mo><m:msub><m:mi>Σ</m:mi><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:msub></m:mrow></m:math>. In this case, since <m:math overflow="scroll"><m:mrow><m:mi>h</m:mi><m:mo>∈</m:mo><m:msub><m:mi>Σ</m:mi><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:msub></m:mrow></m:math> we can write <m:math overflow="scroll"><m:mrow><m:mi>h</m:mi><m:mo>=</m:mo><m:mi>x</m:mi><m:mo>-</m:mo><m:msup><m:mi>x</m:mi><m:mo>'</m:mo></m:msup></m:mrow></m:math>, where <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>,</m:mo><m:msup><m:mi>x</m:mi><m:mo>'</m:mo></m:msup><m:mo>∈</m:mo><m:msub><m:mi>Σ</m:mi><m:mi>K</m:mi></m:msub></m:mrow></m:math>. Thus, since <m:math overflow="scroll"><m:mrow><m:mi>h</m:mi><m:mo>∈</m:mo><m:mi mathvariant="script">N</m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow></m:math> we have that <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>-</m:mo><m:msup><m:mi>x</m:mi><m:mo>'</m:mo></m:msup><m:mo>)</m:mo><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math> and hence <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:mi>x</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:msup><m:mi>x</m:mi><m:mo>'</m:mo></m:msup></m:mrow></m:math>. But this contradicts our assumption that there exists at most one signal <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>∈</m:mo><m:msub><m:mi>Σ</m:mi><m:mi>K</m:mi></m:msub></m:mrow></m:math> such that <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi></m:mrow></m:math>. Therefore, we must have that <m:math overflow="scroll"><m:mrow><m:mi> spark </m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo><m:mo>&gt;</m:mo><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:math>.</para><para id="id171512">Now suppose that <m:math overflow="scroll"><m:mrow><m:mi> spark </m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo><m:mo>&gt;</m:mo><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:math>. Assume that for some <m:math overflow="scroll"><m:mi>y</m:mi></m:math> there exist <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>,</m:mo><m:msup><m:mi>x</m:mi><m:mo>'</m:mo></m:msup><m:mo>∈</m:mo><m:msub><m:mi>Σ</m:mi><m:mi>K</m:mi></m:msub></m:mrow></m:math> such that <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:msup><m:mi>x</m:mi><m:mo>'</m:mo></m:msup></m:mrow></m:math>. We therefore have that <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>-</m:mo><m:msup><m:mi>x</m:mi><m:mo>'</m:mo></m:msup><m:mo>)</m:mo><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math>. Letting <m:math overflow="scroll"><m:mrow><m:mi>h</m:mi><m:mo>=</m:mo><m:mi>x</m:mi><m:mo>-</m:mo><m:msup><m:mi>x</m:mi><m:mo>'</m:mo></m:msup></m:mrow></m:math>, we can write this as <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:mi>h</m:mi><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math>. Since <m:math overflow="scroll"><m:mrow><m:mi> spark </m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo><m:mo>&gt;</m:mo><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:math>, all sets of up to <m:math overflow="scroll"><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:math> columns of <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> are linearly independent, and therefore <m:math overflow="scroll"><m:mrow><m:mi>h</m:mi><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math>. This in turn implies <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>=</m:mo><m:msup><m:mi>x</m:mi><m:mo>'</m:mo></m:msup></m:mrow></m:math>, proving the theorem.</para>
+</proof></rule>
+<para id="eip-id1996741">It is easy to see that <m:math overflow="scroll"><m:mrow><m:mi> spark </m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo><m:mo>∈</m:mo><m:mo>[</m:mo><m:mn>2</m:mn><m:mo>,</m:mo><m:mi>M</m:mi><m:mo>+</m:mo><m:mn>1</m:mn><m:mo>]</m:mo></m:mrow></m:math>. Therefore, <link target-id="uid3"/> yields the requirement <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>≥</m:mo><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:math>.</para>
+    </section>
+    <section id="uid4"><title>The null space property</title><para id="id171804">When dealing with <emphasis effect="italics">exactly</emphasis> sparse vectors, the spark provides a complete characterization of when sparse recovery is possible. However, when dealing with <link document="m37166" version="latest"><emphasis effect="italics">approximately</emphasis> sparse</link> signals we must introduce somewhat more restrictive conditions on the null space of <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> <link target-id="bid1"/>. Roughly speaking, we must also ensure that <m:math overflow="scroll"><m:mrow><m:mi mathvariant="script">N</m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow></m:math> does not contain any vectors that are too compressible in addition to vectors that are sparse. In order to state the formal definition we define the following notation that will prove to be useful throughout much of this <link document="col11133" version="latest">course</link>. Suppose that <m:math overflow="scroll"><m:mrow><m:mi>Λ</m:mi><m:mo>⊂</m:mo><m:mo>{</m:mo><m:mn>1</m:mn><m:mo>,</m:mo><m:mn>2</m:mn><m:mo>,</m:mo><m:mo>⋯</m:mo><m:mo>,</m:mo><m:mi>N</m:mi><m:mo>}</m:mo></m:mrow></m:math> is a subset of indices and let <m:math overflow="scroll"><m:mrow><m:msup><m:mi>Λ</m:mi><m:mi>c</m:mi></m:msup><m:mrow><m:mo>=</m:mo><m:mrow><m:mo>{</m:mo><m:mn>1</m:mn><m:mo>,</m:mo><m:mn>2</m:mn><m:mo>,</m:mo><m:mo>⋯</m:mo><m:mo>,</m:mo><m:mi>N</m:mi><m:mo>}</m:mo></m:mrow><m:mo>∖</m:mo><m:mi>Λ</m:mi></m:mrow></m:mrow></m:math>. By <m:math overflow="scroll"><m:msub><m:mi>x</m:mi><m:mi>Λ</m:mi></m:msub></m:math> we typically mean the length <m:math overflow="scroll"><m:mi>N</m:mi></m:math> vector obtained by setting the entries of <m:math overflow="scroll"><m:mi>x</m:mi></m:math> indexed by <m:math overflow="scroll"><m:msup><m:mi>Λ</m:mi><m:mi>c</m:mi></m:msup></m:math> to zero. Similarly, by <m:math overflow="scroll"><m:msub><m:mi>Φ</m:mi><m:mi>Λ</m:mi></m:msub></m:math> we typically mean the <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>×</m:mo><m:mi>N</m:mi></m:mrow></m:math> matrix obtained by setting the columns of <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> indexed by <m:math overflow="scroll"><m:msup><m:mi>Λ</m:mi><m:mi>c</m:mi></m:msup></m:math> to zero.<footnote id="uid5">We note that this notation will occasionally be abused to refer to the length <m:math overflow="scroll"><m:mrow><m:mo>|</m:mo><m:mi>Λ</m:mi><m:mo>|</m:mo></m:mrow></m:math> vector obtained by keeping only the entries corresponding to <m:math overflow="scroll"><m:mi>Λ</m:mi></m:math> or the <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>×</m:mo><m:mo>|</m:mo><m:mi>Λ</m:mi><m:mo>|</m:mo></m:mrow></m:math> matrix obtained by only keeping the columns corresponding to <m:math overflow="scroll"><m:mi>Λ</m:mi></m:math>. The usage should be clear from the context, but typically there is no substantive difference between the two.</footnote></para>
+<definition id="eip-id1676654"><term/>
+      <meaning id="eip-id1165257095645"><para id="eip-id1165257345307"> A matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> satisfies the <emphasis effect="italics">null space property</emphasis> (NSP) of order <m:math overflow="scroll"><m:mi>K</m:mi></m:math> if there exists a constant <m:math overflow="scroll"><m:mrow><m:mi>C</m:mi><m:mo>&gt;</m:mo><m:mn>0</m:mn></m:mrow></m:math> such that,</para>
+      <equation id="uid7">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:msub>
+              <m:mfenced separators="" open="∥" close="∥">
+                <m:msub>
+                  <m:mi>h</m:mi>
+                  <m:mi>Λ</m:mi>
+                </m:msub>
+              </m:mfenced>
+              <m:mn>2</m:mn>
+            </m:msub>
+            <m:mo>≤</m:mo>
+            <m:mi>C</m:mi>
+            <m:mfrac>
+              <m:msub>
+                <m:mfenced separators="" open="∥" close="∥">
+                  <m:msub>
+                    <m:mi>h</m:mi>
+                    <m:msup>
+                      <m:mi>Λ</m:mi>
+                      <m:mi>c</m:mi>
+                    </m:msup>
+                  </m:msub>
+                </m:mfenced>
+                <m:mn>1</m:mn>
+              </m:msub>
+              <m:msqrt>
+                <m:mi>K</m:mi>
+              </m:msqrt>
+            </m:mfrac>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id172212">holds for all <m:math overflow="scroll"><m:mrow><m:mi>h</m:mi><m:mo>∈</m:mo><m:mi mathvariant="script">N</m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow></m:math> and for all <m:math overflow="scroll"><m:mi>Λ</m:mi></m:math> such that <m:math overflow="scroll"><m:mrow><m:mo>|</m:mo><m:mi>Λ</m:mi><m:mo>|</m:mo><m:mo>≤</m:mo><m:mi>K</m:mi></m:mrow></m:math>.</para>
+</meaning></definition>
+      <para id="id172269">The NSP quantifies the notion that vectors in the null space of <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> should not be too concentrated on a small subset of indices. For example, if a vector <m:math overflow="scroll"><m:mi>h</m:mi></m:math> is exactly <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-sparse, then there exists a <m:math overflow="scroll"><m:mi>Λ</m:mi></m:math> such that <m:math overflow="scroll"><m:mrow><m:msub><m:mfenced separators="" open="∥" close="∥"><m:msub><m:mi>h</m:mi><m:msup><m:mi>Λ</m:mi><m:mi>c</m:mi></m:msup></m:msub></m:mfenced><m:mn>1</m:mn></m:msub><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math> and hence <link target-id="uid7"/> implies that <m:math overflow="scroll"><m:mrow><m:msub><m:mi>h</m:mi><m:mi>Λ</m:mi></m:msub><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math> as well. Thus, if a matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> satisfies the NSP then the only <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-sparse vector in <m:math overflow="scroll"><m:mrow><m:mi mathvariant="script">N</m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow></m:math> is <m:math overflow="scroll"><m:mrow><m:mi>h</m:mi><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math>.</para>
+      <para id="id172423">To fully illustrate the implications of the NSP in the context of sparse recovery, we now briefly discuss how we will measure the performance of sparse recovery algorithms when dealing with general non-sparse <m:math overflow="scroll"><m:mi>x</m:mi></m:math>. Towards this end, let <m:math overflow="scroll"><m:mrow><m:mi>Δ</m:mi><m:mo>:</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>M</m:mi></m:msup><m:mo>→</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:mrow></m:math> represent our specific recovery method. We will focus primarily on guarantees of the form</para>
+      <equation id="uid8">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:msub>
+              <m:mfenced separators="" open="∥" close="∥">
+                <m:mi>Δ</m:mi>
+                <m:mo>(</m:mo>
+                <m:mi>Φ</m:mi>
+                <m:mi>x</m:mi>
+                <m:mo>)</m:mo>
+                <m:mo>-</m:mo>
+                <m:mi>x</m:mi>
+              </m:mfenced>
+              <m:mn>2</m:mn>
+            </m:msub>
+            <m:mo>≤</m:mo>
+            <m:mi>C</m:mi>
+            <m:mfrac>
+              <m:mrow>
+                <m:msub>
+                  <m:mi>σ</m:mi>
+                  <m:mi>K</m:mi>
+                </m:msub>
+                <m:msub>
+                  <m:mrow>
+                    <m:mo>(</m:mo>
+                    <m:mi>x</m:mi>
+                    <m:mo>)</m:mo>
+                  </m:mrow>
+                  <m:mn>1</m:mn>
+                </m:msub>
+              </m:mrow>
+              <m:msqrt>
+                <m:mi>K</m:mi>
+              </m:msqrt>
+            </m:mfrac>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id172544">for all <m:math overflow="scroll"><m:mi>x</m:mi></m:math>, where we recall that</para>
+      <equation id="id172560">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:msub>
+              <m:mi>σ</m:mi>
+              <m:mi>K</m:mi>
+            </m:msub>
+            <m:msub>
+              <m:mrow>
+                <m:mo>(</m:mo>
+                <m:mi>x</m:mi>
+                <m:mo>)</m:mo>
+              </m:mrow>
+              <m:mi>p</m:mi>
+            </m:msub>
+            <m:mo>=</m:mo>
+            <m:munder>
+              <m:mo movablelimits="true" form="prefix">min</m:mo>
+              <m:mrow>
+                <m:mover accent="true">
+                  <m:mi>x</m:mi>
+                  <m:mo>^</m:mo>
+                </m:mover>
+                <m:mo>∈</m:mo>
+                <m:msub>
+                  <m:mi>Σ</m:mi>
+                  <m:mi>K</m:mi>
+                </m:msub>
+              </m:mrow>
+            </m:munder>
+            <m:msub>
+              <m:mfenced separators="" open="∥" close="∥">
+                <m:mi>x</m:mi>
+                <m:mo>-</m:mo>
+                <m:mover accent="true">
+                  <m:mi>x</m:mi>
+                  <m:mo>^</m:mo>
+                </m:mover>
+              </m:mfenced>
+              <m:mi>p</m:mi>
+            </m:msub>
+            <m:mo>.</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id172650">This guarantees exact recovery of all possible <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-sparse signals, but also ensures a degree of robustness to non-sparse signals that directly depends on how well the signals are approximated by <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-sparse vectors. Such guarantees are called <emphasis effect="italics">instance-optimal</emphasis> since they guarantee optimal performance for each instance of <m:math overflow="scroll"><m:mi>x</m:mi></m:math> <link target-id="bid1"/>. This distinguishes them from guarantees that only hold for some subset of possible signals, such as sparse or compressible signals — the quality of the guarantee adapts to the particular choice of <m:math overflow="scroll"><m:mi>x</m:mi></m:math>. These are also commonly referred to as <emphasis effect="italics">uniform guarantees</emphasis> since they hold uniformly for all <m:math overflow="scroll"><m:mi>x</m:mi></m:math>.</para>
+      <para id="id172723">Our choice of norms in <link target-id="uid8"/> is somewhat arbitrary. We could easily measure the reconstruction error using other <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> norms. The choice of <m:math overflow="scroll"><m:mi>p</m:mi></m:math>, however, will limit what kinds of guarantees are possible, and will also potentially lead to alternative formulations of the NSP. See, for instance, <link target-id="bid1"/>. Moreover, the form of the right-hand-side of <link target-id="uid8"/> might seem somewhat unusual in that we measure the approximation error as <m:math overflow="scroll"><m:mrow><m:msub><m:mi>σ</m:mi><m:mi>K</m:mi></m:msub><m:msub><m:mrow><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow><m:mn>1</m:mn></m:msub><m:mo>/</m:mo><m:msqrt><m:mi>K</m:mi></m:msqrt></m:mrow></m:math> rather than simply something like <m:math overflow="scroll"><m:mrow><m:msub><m:mi>σ</m:mi><m:mi>K</m:mi></m:msub><m:msub><m:mrow><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow><m:mn>2</m:mn></m:msub></m:mrow></m:math>. However, we will see later in this <link document="col11133" version="latest">course</link> that such a guarantee is actually not possible without taking a prohibitively large number of measurements, and that <link target-id="uid8"/> represents the best possible guarantee we can hope to obtain (see <link document="m37183" version="latest">"Instance-optimal guarantees revisited"</link>).</para>
+      <para id="id172837">Later in this course, we will show that the NSP of order <m:math overflow="scroll"><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:math> is sufficient to establish a guarantee of the form <link target-id="uid8"/> for a practical recovery algorithm (see <link document="m37181" version="latest">"Noise-free signal recovery"</link>). Moreover, the following adaptation of a theorem in <link target-id="bid1"/> demonstrates that if there exists <emphasis effect="italics">any</emphasis> recovery algorithm satisfying <link target-id="uid8"/>, then <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> must necessarily satisfy the NSP of order <m:math overflow="scroll"><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:math>.</para>
+<rule id="eip-id1166662012587" type="theorem"><title>(Theorem 3.2 of <link target-id="bid1"/>)</title><statement id="eip-id4144255">
+      <para id="id172911">Let <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:mo>:</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup><m:mo>→</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>M</m:mi></m:msup></m:mrow></m:math> denote a sensing matrix and <m:math overflow="scroll"><m:mrow><m:mi>Δ</m:mi><m:mo>:</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>M</m:mi></m:msup><m:mo>→</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:mrow></m:math> denote an arbitrary recovery algorithm. If the pair <m:math overflow="scroll"><m:mrow><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>,</m:mo><m:mi>Δ</m:mi><m:mo>)</m:mo></m:mrow></m:math> satisfies <link target-id="uid8"/> then <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> satisfies the NSP of order <m:math overflow="scroll"><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:math>.</para>
+</statement>
+<proof id="eip-id1889441">
+      <para id="id173049">Suppose <m:math overflow="scroll"><m:mrow><m:mi>h</m:mi><m:mo>∈</m:mo><m:mi mathvariant="script">N</m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow></m:math> and let <m:math overflow="scroll"><m:mi>Λ</m:mi></m:math> be the indices corresponding to the <m:math overflow="scroll"><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:math> largest entries of <m:math overflow="scroll"><m:mi>h</m:mi></m:math>. We next split <m:math overflow="scroll"><m:mi>Λ</m:mi></m:math> into <m:math overflow="scroll"><m:msub><m:mi>Λ</m:mi><m:mn>0</m:mn></m:msub></m:math> and <m:math overflow="scroll"><m:msub><m:mi>Λ</m:mi><m:mn>1</m:mn></m:msub></m:math>, where <m:math overflow="scroll"><m:mrow><m:mrow><m:mo>|</m:mo></m:mrow><m:msub><m:mi>Λ</m:mi><m:mn>0</m:mn></m:msub><m:mrow><m:mo>|</m:mo><m:mo>=</m:mo><m:mo>|</m:mo></m:mrow><m:msub><m:mi>Λ</m:mi><m:mn>1</m:mn></m:msub><m:mrow><m:mo>|</m:mo><m:mo>=</m:mo><m:mi>K</m:mi></m:mrow></m:mrow></m:math>. Set <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>=</m:mo><m:msub><m:mi>h</m:mi><m:msub><m:mi>Λ</m:mi><m:mn>1</m:mn></m:msub></m:msub><m:mo>+</m:mo><m:msub><m:mi>h</m:mi><m:msup><m:mi>Λ</m:mi><m:mi>c</m:mi></m:msup></m:msub></m:mrow></m:math> and <m:math overflow="scroll"><m:mrow><m:msup><m:mi>x</m:mi><m:mo>'</m:mo></m:msup><m:mo>=</m:mo><m:mo>-</m:mo><m:msub><m:mi>h</m:mi><m:msub><m:mi>Λ</m:mi><m:mn>0</m:mn></m:msub></m:msub></m:mrow></m:math>, so that <m:math overflow="scroll"><m:mrow><m:mi>h</m:mi><m:mo>=</m:mo><m:mi>x</m:mi><m:mo>-</m:mo><m:msup><m:mi>x</m:mi><m:mo>'</m:mo></m:msup></m:mrow></m:math>. Since by construction <m:math overflow="scroll"><m:mrow><m:msup><m:mi>x</m:mi><m:mo>'</m:mo></m:msup><m:mo>∈</m:mo><m:msub><m:mi>Σ</m:mi><m:mi>K</m:mi></m:msub></m:mrow></m:math>, we can apply <link target-id="uid8"/> to obtain <m:math overflow="scroll"><m:mrow><m:msup><m:mi>x</m:mi><m:mo>'</m:mo></m:msup><m:mo>=</m:mo><m:mi>Δ</m:mi><m:mrow><m:mo>(</m:mo><m:mi>Φ</m:mi><m:msup><m:mi>x</m:mi><m:mo>'</m:mo></m:msup><m:mo>)</m:mo></m:mrow></m:mrow></m:math>. Moreover, since <m:math overflow="scroll"><m:mrow><m:mi>h</m:mi><m:mo>∈</m:mo><m:mi mathvariant="script">N</m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow></m:math>, we have</para>
+      <equation id="id173371">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:mi>Φ</m:mi>
+            <m:mi>h</m:mi>
+            <m:mo>=</m:mo>
+            <m:mi>Φ</m:mi>
+            <m:mfenced separators="" open="(" close=")">
+              <m:mi>x</m:mi>
+              <m:mo>-</m:mo>
+              <m:msup>
+                <m:mi>x</m:mi>
+                <m:mo>'</m:mo>
+              </m:msup>
+            </m:mfenced>
+            <m:mo>=</m:mo>
+            <m:mn>0</m:mn>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id173413">so that <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:msup><m:mi>x</m:mi><m:mo>'</m:mo></m:msup><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi></m:mrow></m:math>. Thus, <m:math overflow="scroll"><m:mrow><m:msup><m:mi>x</m:mi><m:mo>'</m:mo></m:msup><m:mo>=</m:mo><m:mi>Δ</m:mi><m:mrow><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow></m:mrow></m:math>. Finally, we have that</para>
+      <equation id="id173473">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:msub>
+              <m:mfenced separators="" open="∥" close="∥">
+                <m:msub>
+                  <m:mi>h</m:mi>
+                  <m:mi>Λ</m:mi>
+                </m:msub>
+              </m:mfenced>
+              <m:mn>2</m:mn>
+            </m:msub>
+            <m:mo>≤</m:mo>
+            <m:msub>
+              <m:mfenced open="∥" close="∥">
+                <m:mi>h</m:mi>
+              </m:mfenced>
+              <m:mn>2</m:mn>
+            </m:msub>
+            <m:mo>=</m:mo>
+            <m:msub>
+              <m:mfenced separators="" open="∥" close="∥">
+                <m:mi>x</m:mi>
+                <m:mo>-</m:mo>
+                <m:msup>
+                  <m:mi>x</m:mi>
+                  <m:mo>'</m:mo>
+                </m:msup>
+              </m:mfenced>
+              <m:mn>2</m:mn>
+            </m:msub>
+            <m:mo>=</m:mo>
+            <m:msub>
+              <m:mfenced separators="" open="∥" close="∥">
+                <m:mi>x</m:mi>
+                <m:mo>-</m:mo>
+                <m:mi>Δ</m:mi>
+                <m:mo>(</m:mo>
+                <m:mi>Φ</m:mi>
+                <m:mi>x</m:mi>
+                <m:mo>)</m:mo>
+              </m:mfenced>
+              <m:mn>2</m:mn>
+            </m:msub>
+            <m:mo>≤</m:mo>
+            <m:mi>C</m:mi>
+            <m:mfrac>
+              <m:mrow>
+                <m:msub>
+                  <m:mi>σ</m:mi>
+                  <m:mi>K</m:mi>
+                </m:msub>
+                <m:msub>
+                  <m:mrow>
+                    <m:mo>(</m:mo>
+                    <m:mi>x</m:mi>
+                    <m:mo>)</m:mo>
+                  </m:mrow>
+                  <m:mn>1</m:mn>
+                </m:msub>
+              </m:mrow>
+              <m:msqrt>
+                <m:mi>K</m:mi>
+              </m:msqrt>
+            </m:mfrac>
+            <m:mo>=</m:mo>
+            <m:msqrt>
+              <m:mn>2</m:mn>
+            </m:msqrt>
+            <m:mi>C</m:mi>
+            <m:mfrac>
+              <m:msub>
+                <m:mfenced separators="" open="∥" close="∥">
+                  <m:msub>
+                    <m:mi>h</m:mi>
+                    <m:msup>
+                      <m:mi>Λ</m:mi>
+                      <m:mi>c</m:mi>
+                    </m:msup>
+                  </m:msub>
+                </m:mfenced>
+                <m:mn>1</m:mn>
+              </m:msub>
+              <m:msqrt>
+                <m:mrow>
+                  <m:mn>2</m:mn>
+                  <m:mi>K</m:mi>
+                </m:mrow>
+              </m:msqrt>
+            </m:mfrac>
+            <m:mo>,</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id173653">where the last inequality follows from <link target-id="uid8"/>.</para>
+    </proof></rule></section>
+  </content>
+  <bib:file>
+    <bib:entry id="bid1">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Cohen, A. and Dahmen, W. and DeVore, R.</bib:author>
+        <bib:title>Compressed sensing and best k-term approximation</bib:title>
+        <bib:journal>J. Amer. Math. Soc.</bib:journal>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume>22</bib:volume>
+        <bib:number>1</bib:number>
+        <bib:pages>211–231</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid0">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Donoho, D. and Elad, M.</bib:author>
+        <bib:title>Optimally sparse representation in general (nonorthogonal) dictionaries via L1 minimization</bib:title>
+        <bib:journal>Proc. Natl. Acad. Sci.</bib:journal>
+        <bib:year>2003</bib:year>
+        <!--optional fields-->
+        <bib:volume>100</bib:volume>
+        <bib:number>5</bib:number>
+        <bib:pages>2197–2202</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+  </bib:file>
+</document>

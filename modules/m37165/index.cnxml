@@ -1,0 +1,152 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML">
+  <title>Bases and frames</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37165</md:content-id>
+  <md:title>Bases and frames</md:title>
+  <md:abstract>This module provides an overview of bases and frames in finite-dimensional Hilbert spaces.</md:abstract>
+  <md:uuid>a05a275c-b705-444f-8e1b-89861741bada</md:uuid>
+</metadata>
+
+<content>
+    <para id="id215994">A set <m:math overflow="scroll"><m:mrow><m:mi>Ψ</m:mi><m:mo>=</m:mo><m:msub><m:mrow><m:mo>{</m:mo><m:msub><m:mi>ψ</m:mi><m:mi>i</m:mi></m:msub><m:mo>}</m:mo></m:mrow><m:mrow><m:mi>i</m:mi><m:mo>∈</m:mo><m:mi mathvariant="script">I</m:mi></m:mrow></m:msub></m:mrow></m:math> is called a basis for a finite-dimensional <link document="m37167" version="latest">vector space</link> <m:math overflow="scroll"><m:mi mathvariant="script">V</m:mi></m:math> if the vectors in the set span <m:math overflow="scroll"><m:mi mathvariant="script">V</m:mi></m:math> and are linearly independent. This implies that each vector in the space can be represented as a linear combination of this (smaller, except in the trivial case) set of basis vectors in a unique fashion. Furthermore, the coefficients of this linear combination can be found by the inner product of the signal and a dual set of vectors. In discrete settings, we will only consider real finite-dimensional Hilbert spaces where <m:math overflow="scroll"><m:mrow><m:mi mathvariant="script">V</m:mi><m:mo>=</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:mrow></m:math> and <m:math overflow="scroll"><m:mrow><m:mi mathvariant="script">I</m:mi><m:mo>=</m:mo><m:mo>{</m:mo><m:mn>1</m:mn><m:mo>,</m:mo><m:mo>.</m:mo><m:mo>.</m:mo><m:mo>.</m:mo><m:mo>,</m:mo><m:mi>N</m:mi><m:mo>}</m:mo></m:mrow></m:math>.</para>
+    <para id="id216454">Mathematically, any signal <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>∈</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:mrow></m:math> may be expressed as,</para>
+    <equation id="uid1">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi>x</m:mi>
+          <m:mo>=</m:mo>
+          <m:munder>
+            <m:mo>∑</m:mo>
+            <m:mrow>
+              <m:mi>i</m:mi>
+              <m:mo>∈</m:mo>
+              <m:mi mathvariant="script">I</m:mi>
+            </m:mrow>
+          </m:munder>
+          <m:msub>
+            <m:mi>a</m:mi>
+            <m:mi>i</m:mi>
+          </m:msub>
+          <m:mover accent="true">
+            <m:msub>
+              <m:mi>ψ</m:mi>
+              <m:mi>i</m:mi>
+            </m:msub>
+            <m:mo>˜</m:mo>
+          </m:mover>
+          <m:mo>,</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id216533">where our coefficients are computed as <m:math overflow="scroll"><m:mrow><m:msub><m:mi>a</m:mi><m:mi>i</m:mi></m:msub><m:mo>=</m:mo><m:mrow><m:mo>〈</m:mo><m:mi>x</m:mi><m:mo>,</m:mo><m:msub><m:mi>ψ</m:mi><m:mi>i</m:mi></m:msub><m:mo>〉</m:mo></m:mrow></m:mrow></m:math> and <m:math overflow="scroll"><m:msub><m:mrow><m:mo>{</m:mo><m:mover accent="true"><m:msub><m:mi>ψ</m:mi><m:mi>i</m:mi></m:msub><m:mo>˜</m:mo></m:mover><m:mo>}</m:mo></m:mrow><m:mrow><m:mi>i</m:mi><m:mo>∈</m:mo><m:mi>I</m:mi></m:mrow></m:msub></m:math> are the vectors that constitute our dual basis. Another way to denote our basis and its dual is by how they operate on <m:math overflow="scroll"><m:mi>x</m:mi></m:math>. Here, we call our dual basis <m:math overflow="scroll"><m:mover accent="true"><m:mi>Ψ</m:mi><m:mo>˜</m:mo></m:mover></m:math> our <emphasis effect="italics">synthesis basis</emphasis> (used to reconstruct our signal by <link target-id="uid1"/>) and <m:math overflow="scroll"><m:mi>Ψ</m:mi></m:math> is our <emphasis effect="italics">analysis basis</emphasis>.</para>
+    <para id="id216655">An orthonormal basis (ONB) is defined as a set of vectors <m:math overflow="scroll"><m:mrow><m:mi>Ψ</m:mi><m:mo>=</m:mo><m:msub><m:mrow><m:mo>{</m:mo><m:msub><m:mi>ψ</m:mi><m:mi>i</m:mi></m:msub><m:mo>}</m:mo></m:mrow><m:mrow><m:mi>i</m:mi><m:mo>∈</m:mo><m:mi mathvariant="script">I</m:mi></m:mrow></m:msub></m:mrow></m:math> that form a basis and whose elements are orthogonal and unit norm. In other words, <m:math overflow="scroll"><m:mrow><m:mo>〈</m:mo><m:msub><m:mi>ψ</m:mi><m:mi>i</m:mi></m:msub><m:mo>,</m:mo><m:msub><m:mi>ψ</m:mi><m:mi>j</m:mi></m:msub><m:mo>〉</m:mo><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math> if <m:math overflow="scroll"><m:mrow><m:mi>i</m:mi><m:mo>≠</m:mo><m:mi>j</m:mi></m:mrow></m:math> and one otherwise. In the case of an ONB, the <emphasis effect="italics">synthesis basis</emphasis> is simply the Hermitian adjoint of <emphasis effect="italics">analysis basis</emphasis> (<m:math overflow="scroll"><m:mrow><m:mover accent="true"><m:mi>Ψ</m:mi><m:mo>˜</m:mo></m:mover><m:mo>=</m:mo><m:msup><m:mi>Ψ</m:mi><m:mi>T</m:mi></m:msup></m:mrow></m:math>).</para>
+    <para id="id216778">It is often useful to generalize the concept of a basis to allow for sets of possibly linearly dependent vectors, resulting in what is known as a <emphasis effect="italics">frame</emphasis>. More formally, a frame is a set of vectors <m:math overflow="scroll"><m:msubsup><m:mrow><m:mo>{</m:mo><m:msub><m:mi>Ψ</m:mi><m:mi>i</m:mi></m:msub><m:mo>}</m:mo></m:mrow><m:mrow><m:mi>i</m:mi><m:mo>=</m:mo><m:mn>1</m:mn></m:mrow><m:mi>n</m:mi></m:msubsup></m:math> in <m:math overflow="scroll"><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>d</m:mi></m:msup></m:math>, <m:math overflow="scroll"><m:mrow><m:mi>d</m:mi><m:mo>&lt;</m:mo><m:mi>n</m:mi></m:mrow></m:math> corresponding to a matrix <m:math overflow="scroll"><m:mrow><m:mi>Ψ</m:mi><m:mo>∈</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mrow><m:mi>d</m:mi><m:mo>×</m:mo><m:mi>n</m:mi></m:mrow></m:msup></m:mrow></m:math>, such that for all vectors <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>∈</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>d</m:mi></m:msup></m:mrow></m:math>,</para>
+    <equation id="id217080">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi>A</m:mi>
+          <m:msubsup>
+            <m:mfenced open="∥" close="∥">
+              <m:mi>x</m:mi>
+            </m:mfenced>
+            <m:mrow>
+              <m:mn>2</m:mn>
+            </m:mrow>
+            <m:mn>2</m:mn>
+          </m:msubsup>
+          <m:mo>≤</m:mo>
+          <m:msubsup>
+            <m:mfenced separators="" open="∥" close="∥">
+              <m:msup>
+                <m:mi>Ψ</m:mi>
+                <m:mi>T</m:mi>
+              </m:msup>
+              <m:mi>x</m:mi>
+            </m:mfenced>
+            <m:mrow>
+              <m:mn>2</m:mn>
+            </m:mrow>
+            <m:mn>2</m:mn>
+          </m:msubsup>
+          <m:mo>≤</m:mo>
+          <m:mi>B</m:mi>
+          <m:msubsup>
+            <m:mfenced open="∥" close="∥">
+              <m:mi>x</m:mi>
+            </m:mfenced>
+            <m:mrow>
+              <m:mn>2</m:mn>
+            </m:mrow>
+            <m:mn>2</m:mn>
+          </m:msubsup>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id217159">with <m:math overflow="scroll"><m:mrow><m:mn>0</m:mn><m:mo>&lt;</m:mo><m:mi>A</m:mi><m:mo>≤</m:mo><m:mi>B</m:mi><m:mo>&lt;</m:mo><m:mi>∞</m:mi></m:mrow></m:math>. Note that the condition <m:math overflow="scroll"><m:mrow><m:mi>A</m:mi><m:mo>&gt;</m:mo><m:mn>0</m:mn></m:mrow></m:math> implies that the rows of <m:math overflow="scroll"><m:mi>Ψ</m:mi></m:math> must be linearly independent. When <m:math overflow="scroll"><m:mi>A</m:mi></m:math> is chosen as the largest possible value and <m:math overflow="scroll"><m:mi>B</m:mi></m:math> as the smallest for these inequalities to hold, then we call them the <emphasis effect="italics">(optimal) frame bounds</emphasis>. If <m:math overflow="scroll"><m:mi>A</m:mi></m:math> and <m:math overflow="scroll"><m:mi>B</m:mi></m:math> can be chosen as <m:math overflow="scroll"><m:mrow><m:mi>A</m:mi><m:mo>=</m:mo><m:mi>B</m:mi></m:mrow></m:math>, then the frame is called <emphasis effect="italics"><m:math overflow="scroll"><m:mi>A</m:mi></m:math>-tight</emphasis>, and if <m:math overflow="scroll"><m:mrow><m:mi>A</m:mi><m:mo>=</m:mo><m:mi>B</m:mi><m:mo>=</m:mo><m:mn>1</m:mn></m:mrow></m:math>, then <m:math overflow="scroll"><m:mi>Ψ</m:mi></m:math> is a <emphasis effect="italics">Parseval frame</emphasis>. A frame is called <emphasis effect="italics">equal-norm</emphasis>, if there exists some <m:math overflow="scroll"><m:mrow><m:mi>λ</m:mi><m:mo>&gt;</m:mo><m:mn>0</m:mn></m:mrow></m:math> such that <m:math overflow="scroll"><m:mrow><m:msub><m:mfenced separators="" open="∥" close="∥"><m:msub><m:mi>Ψ</m:mi><m:mi>i</m:mi></m:msub></m:mfenced><m:mn>2</m:mn></m:msub><m:mo>=</m:mo><m:mi>λ</m:mi></m:mrow></m:math> for all <m:math overflow="scroll"><m:mrow><m:mi>i</m:mi><m:mo>=</m:mo><m:mn>1</m:mn><m:mo>,</m:mo><m:mo>...</m:mo><m:mo>,</m:mo><m:mi>N</m:mi></m:mrow></m:math>, and it is <emphasis effect="italics">unit-norm</emphasis> if <m:math overflow="scroll"><m:mrow><m:mi>λ</m:mi><m:mo>=</m:mo><m:mn>1</m:mn></m:mrow></m:math>. Note also that while the concept of a frame is very general and can be defined in infinite-dimensional spaces, in the case where <m:math overflow="scroll"><m:mi>Ψ</m:mi></m:math> is a <m:math overflow="scroll"><m:mrow><m:mi>d</m:mi><m:mo>×</m:mo><m:mi>N</m:mi></m:mrow></m:math> matrix <m:math overflow="scroll"><m:mi>A</m:mi></m:math> and <m:math overflow="scroll"><m:mi>B</m:mi></m:math> simply correspond to the smallest and largest eigenvalues of <m:math overflow="scroll"><m:mrow><m:mi>Ψ</m:mi><m:msup><m:mi>Ψ</m:mi><m:mi>T</m:mi></m:msup></m:mrow></m:math>, respectively.</para>
+    <para id="id217444">Frames can provide richer representations of data due to their redundancy: for a given signal <m:math overflow="scroll"><m:mi>x</m:mi></m:math>, there exist infinitely many coefficient vectors <m:math overflow="scroll"><m:mi>α</m:mi></m:math> such that <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>=</m:mo><m:mi>Ψ</m:mi><m:mi>α</m:mi></m:mrow></m:math>. In particular, each
+choice of a dual frame <m:math overflow="scroll"><m:mover accent="true"><m:mi>Ψ</m:mi><m:mo>˜</m:mo></m:mover></m:math> provides a different choice of
+a coefficient vector <m:math overflow="scroll"><m:mi>α</m:mi></m:math>. More formally, any frame satisfying</para>
+    <equation id="id217508">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi>Ψ</m:mi>
+          <m:msup>
+            <m:mover accent="true">
+              <m:mi>Ψ</m:mi>
+              <m:mo>˜</m:mo>
+            </m:mover>
+            <m:mi>T</m:mi>
+          </m:msup>
+          <m:mo>=</m:mo>
+          <m:mover accent="true">
+            <m:mi>Ψ</m:mi>
+            <m:mo>˜</m:mo>
+          </m:mover>
+          <m:msup>
+            <m:mi>Ψ</m:mi>
+            <m:mi>T</m:mi>
+          </m:msup>
+          <m:mo>=</m:mo>
+          <m:mi>I</m:mi>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id217555">is called an (alternate) dual frame. The particular choice <m:math overflow="scroll"><m:mrow><m:mover accent="true"><m:mi>Ψ</m:mi><m:mo>˜</m:mo></m:mover><m:mo>=</m:mo><m:msup><m:mrow><m:mo>(</m:mo><m:mi>Ψ</m:mi><m:msup><m:mi>Ψ</m:mi><m:mi>T</m:mi></m:msup><m:mo>)</m:mo></m:mrow><m:mrow><m:mo>-</m:mo><m:mn>1</m:mn></m:mrow></m:msup><m:mi>Ψ</m:mi></m:mrow></m:math> is referred to as the <emphasis effect="italics">canonical dual frame</emphasis>. It is also known as the Moore-Penrose pseudoinverse. Note that since <m:math overflow="scroll"><m:mrow><m:mi>A</m:mi><m:mo>&gt;</m:mo><m:mn>0</m:mn></m:mrow></m:math> requires <m:math overflow="scroll"><m:mi>Ψ</m:mi></m:math> to have linearly independent rows, we ensure that <m:math overflow="scroll"><m:mrow><m:mi>Ψ</m:mi><m:msup><m:mi>Ψ</m:mi><m:mi>T</m:mi></m:msup></m:mrow></m:math> is invertible, so that <m:math overflow="scroll"><m:mover accent="true"><m:mi>Ψ</m:mi><m:mo>˜</m:mo></m:mover></m:math> is well-defined. Thus, one way to obtain a set of feasible coefficients is via</para>
+    <equation id="id217667"><m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msub>
+            <m:mi>α</m:mi>
+            <m:mi>d</m:mi>
+          </m:msub>
+          <m:mo>=</m:mo>
+          <m:msup>
+            <m:mi>Ψ</m:mi>
+            <m:mi>T</m:mi>
+          </m:msup>
+          <m:msup>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>Ψ</m:mi>
+              <m:msup>
+                <m:mi>Ψ</m:mi>
+                <m:mi>T</m:mi>
+              </m:msup>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mrow>
+              <m:mo>-</m:mo>
+              <m:mn>1</m:mn>
+            </m:mrow>
+          </m:msup>
+          <m:mi>x</m:mi>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id217715">One can show that this sequence is the smallest coefficient sequence in <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>2</m:mn></m:msub></m:math> norm, i.e., <m:math overflow="scroll"><m:mrow><m:msub><m:mfenced separators="" open="∥" close="∥"><m:msub><m:mi>α</m:mi><m:mi>d</m:mi></m:msub></m:mfenced><m:mn>2</m:mn></m:msub><m:mo>≤</m:mo><m:msub><m:mfenced open="∥" close="∥"><m:mi>α</m:mi></m:mfenced><m:mn>2</m:mn></m:msub></m:mrow></m:math> for all <m:math overflow="scroll"><m:mi>α</m:mi></m:math> such that <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>=</m:mo><m:mi>Ψ</m:mi><m:mi>α</m:mi></m:mrow></m:math>.</para>
+    <para id="id217803">Finally, note that in the <link document="m37168" version="latest">sparse approximation</link> literature, it is also common for a basis or frame to be referred to as a <emphasis effect="italics">dictionary</emphasis> or <emphasis effect="italics">overcomplete dictionary</emphasis> respectively, with the dictionary elements being called <emphasis effect="italics">atoms</emphasis>.
+
+</para>
+  </content>
+
+</document>

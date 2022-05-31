@@ -1,0 +1,153 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:bib="http://bibtexml.sf.net/">
+  <title>Compressive sensor networks</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37373</md:content-id>
+  <md:title>Compressive sensor networks</md:title>
+  <md:abstract>This module provides an overview of applications of compressive sensing in the context of distributed sensor networks.</md:abstract>
+  <md:uuid>745ebdb1-7c14-48e2-9439-5eb776d0e42f</md:uuid>
+</metadata>
+
+<content>
+    <para id="id62155"><link document="m37168" version="latest">Sparse</link> and <link document="m37166" version="latest">compressible</link> signals are present in many sensor network applications, such as environmental monitoring, signal field recording and vehicle surveillance. <link document="m37172" version="latest">Compressive sensing</link> (CS) has many properties that make it attractive in this settings, such as its low complexity sensing and compression, its universality and its graceful degradation. CS is robust to noise, and allows querying more nodes to obey further detail on signals as they become interesting.
+Packet drops also do not harm the network nearly as much as many other protocols, only providing a marginal loss for each measurement not obtained by the receiver. As the network becomes more congested, data can be scaled back smoothly.</para>
+    <para id="id62164">Thus CS can enable the design of generic compressive sensors that perform random or incoherent projections.</para>
+    <para id="id62168">Several methods for using CS in sensor networks have been proposed. Decentralized methods pass data throughout the network, from neighbor to neighbor, and allow the decoder to probe any subset of nodes. In contrast, centralized methods require all information to be transmitted to a centralized data center, but reduce either the amount of information that must be transmitted or the power required to do so. We briefly summarize each class below.</para>
+    <section id="uid1">
+      <title>Decentralized algorithms</title>
+      <para id="id62187">Decentralized algorithms enable the calculation of compressive measurements at each sensor in the network, thus being useful for applications where monitoring agents traverse the network during operation.</para>
+      <section id="uid2">
+        <title>Randomized gossiping</title>
+        <para id="id62201">In randomized gossiping <link target-id="bid0"/>, each sensor communicates <m:math overflow="scroll"><m:mi>M</m:mi></m:math> random projection of its data sample to a random set of nodes, in each stage aggregating and forwarding the observations received to a new set of random nodes. In essence, a spatial dot product is being performed as each node collects and aggregates information, compiling a sum of the weighted samples to obtain <m:math overflow="scroll"><m:mi>M</m:mi></m:math> CS measurements which becomes more accurate as more rounds of random gossiping occur. To recover the data, a basis that provides data sparsity (or at least compressibility) is required, as well as the random projections used. However, this information does not need to be known while the data is being passed.</para>
+        <para id="id62569">The method can also be applied when each sensor observes a compressible signal. In this case, each sensor computes multiple random projections of the data and transmits them using randomized gossiping to the rest of the network.
+A potential drawback of this technique is the amount of storage required per sensor, as it could be considerable for large networks .
+In this case, each sensor can store the data from only a subset of the sensors, where each group of sensors of a certain size will be known to contain CS measurements for all the data in the network. To maintain a constant error as the network size grows, the number of transmissions becomes <m:math overflow="scroll"><m:mrow><m:mi>Θ</m:mi><m:mo>(</m:mo><m:mi>k</m:mi><m:mi>M</m:mi><m:msup><m:mi>n</m:mi><m:mn>2</m:mn></m:msup><m:mo>)</m:mo></m:mrow></m:math>, where <m:math overflow="scroll"><m:mi>k</m:mi></m:math> represents the number of groups in which the data is partitioned, <m:math overflow="scroll"><m:mi>M</m:mi></m:math> is the number of values desired from each sensor and n are the number of nodes in the network. The results can be improved by using geographic gossiping algorithms <link target-id="bid1"/>.</para>
+      </section>
+      <section id="uid3">
+        <title>Distributed sparse random projections</title>
+        <para id="id62636">A second method modifies the randomized gossiping approach by limiting the number of communications each node must perform, in order to reduce overall power consumption <link target-id="bid2"/>. Each data node takes <m:math overflow="scroll"><m:mi>M</m:mi></m:math> projections of its data, passing along information to a small set of <m:math overflow="scroll"><m:mi>L</m:mi></m:math> neighbors, and summing the observations; the resulting CS measurements are sparse, since <m:math overflow="scroll"><m:mrow><m:mi>N</m:mi><m:mo>-</m:mo><m:mi>L</m:mi></m:mrow></m:math> of each row's entries will be zero. Nonetheless, these projections can still be used as CS measurements with quality similar to that of full random projections. Since the CS measurement matrix formed by the data nodes is sparse, a relatively small amount of communication is performed by each encoding node and the overall power required for transmission is reduced.</para>
+      </section>
+    </section>
+    <section id="uid4">
+      <title>Centralized algorithms</title>
+      <para id="id62691">Decentralized algorithms are used when the sensed data must be routed to a single location; this architecture is common in sensor networks were low power, simple nodes perform sensing and a powerful central location performs data processing.</para>
+      <section id="uid5">
+        <title>Compressive wireless sensing</title>
+        <para id="id62704">Compressive wireless sensing (CWS) emphasizes the use of synchronous communication to reduce the transmission power of each sensor <link target-id="bid3"/>. In CWS, each sensor calculates a noisy projection of their data sample. Each sensor then transmits the calculated value by analog modulation and transmission of a communication waveform. The projections are aggregated at the central location by the receiving antenna, with further noise being added. In this way, the fusion center receives the CS measurements, from which it can perform reconstruction using knowledge of the random projections.</para>
+        <para id="id62719">A drawback of this method is the required accurate synchronization. Although CWS is constraining the power of each node, it is also relying on constructive interference to increase the power received by the data center. The nodes themselves must be accurately synchronized to know when to transmit their data. In addition, CWS assumes that the nodes are all at approximately equal distances from the fusion center, an assumption that is acceptable only when the receiver is far away from the sensor network.
+Mobile nodes could also increase the complexity of the transmission protocols. Interference or path issues also would have a large effect on CWS, limiting its applicability.</para>
+        <para id="id62728">If these limitations are addressed for a suitable application, CWS does offer great power benefits when very little is known about the data beyond sparsity in a fixed basis. Distortion will be proportional to <m:math overflow="scroll"><m:msup><m:mi>M</m:mi><m:mrow><m:mo>-</m:mo><m:mn>2</m:mn><m:mi>α</m:mi><m:mo>/</m:mo><m:mo>(</m:mo><m:mn>2</m:mn><m:mi>α</m:mi><m:mo>+</m:mo><m:mn>1</m:mn><m:mo>)</m:mo></m:mrow></m:msup></m:math>, where <m:math overflow="scroll"><m:mi>α</m:mi></m:math> is some positive constant based on the network structure. With much more a priori information about the sensed data, other methods will achieve distortions proportional to <m:math overflow="scroll"><m:msup><m:mi>M</m:mi><m:mrow><m:mo>-</m:mo><m:mn>2</m:mn><m:mi>α</m:mi></m:mrow></m:msup></m:math>.</para>
+      </section>
+      <section id="uid6">
+        <title>Distributed compressive sensing</title>
+        <para id="id62804">Distributed Compressive Sensing (DCS) provides several models for combining neighboring sparse signals, relying on the fact that such sparse signals may be similar to each other, a concept that is termed joint sparsity <link target-id="bid4"/>. In an example model, each signal has a common component and a local innovation, with the commonality only needing to be encoded once while each innovation can be encoded at a lower measurement rate. Three different joint sparsity models (JSMs) have been developed:</para>
+        <list id="id62818" display="block" list-type="enumerated">
+          <item id="uid7">Both common signal and innovations are sparse;
+</item>
+          <item id="uid8">Sparse innovations with shared sparsity structure;
+</item>
+          <item id="uid9">Sparse innovations and dense common signal.
+</item>
+        </list>
+        <para id="id62858">Although JSM 1 would seem preferable due to the relatively limited amount of data, only JSM 2 is computationally feasible for large sensor networks; it has been used in many applications <link target-id="bid4"/>. JSMs 1 and 3 can be solved using a linear program, which has cubic complexity on the number of sensors in the network.</para>
+        <para id="id62871">DCS, however, does not address the communication or networking necessary to transmit the measurements to a central location; it relies on standard communication and networking techniques for measurement transmission, which can be tailored to the specific network topology.</para>
+      </section>
+    </section>
+  </content>
+  <bib:file>
+    <bib:entry id="bid3">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Bajwa, W. and Haupt, J. and Sayeed, A. and Nowak, R.</bib:author>
+        <bib:title>Compressive Wireless Sensing</bib:title>
+        <bib:booktitle>Proc. Int. Symp. Inform. Processing in Sensor Networks (IPSN)</bib:booktitle>
+        <bib:year>2006</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Nashville, TN</bib:address>
+        <bib:month>Apr.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid1">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Dimakis, A. and Sarwate, A. and Wainwright, M.</bib:author>
+        <bib:title>Geographic gossip: Efficient aggregation for sensor networks</bib:title>
+        <bib:booktitle>Proc. Int. Symp. Inform. Processing in Sensor Networks (IPSN)</bib:booktitle>
+        <bib:year>2006</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Nashville, TN</bib:address>
+        <bib:month>Apr.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid4">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Duarte, M. F. and Wakin, M. B. and Baron, D. and Baraniuk, R. G.</bib:author>
+        <bib:title>Universal distributed sensing via random projections</bib:title>
+        <bib:booktitle>Int. Workshop on Inform. Processing in Sensor Networks (IPSN)</bib:booktitle>
+        <bib:year>2006</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages>177–185</bib:pages>
+        <bib:address>Nashville, TN</bib:address>
+        <bib:month>Apr.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid0">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Rabbat, M. and Haupt, J. and Singh, A. and Nowak, R.</bib:author>
+        <bib:title>Decentralized Compression and Predistribution via Randomized Gossiping</bib:title>
+        <bib:booktitle>Proc. Int. Symp. Inform. Processing in Sensor Networks (IPSN)</bib:booktitle>
+        <bib:year>2006</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Nashville, TN</bib:address>
+        <bib:month>Apr.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid2">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Wang, W. and Garofalakis, M. and Ramchandran, K.</bib:author>
+        <bib:title>Distributed Sparse Random Projections for Refinable Approximation</bib:title>
+        <bib:booktitle>Proc. Int. Symp. Inform. Processing in Sensor Networks (IPSN)</bib:booktitle>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Cambridge, MA</bib:address>
+        <bib:month>Apr.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+  </bib:file>
+</document>

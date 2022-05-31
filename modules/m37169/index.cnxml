@@ -1,0 +1,30 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML">
+  <title>Sensing matrix design</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37169</md:content-id>
+  <md:title>Sensing matrix design</md:title>
+  <md:abstract>This module provides an overview of the sensing matrix design problem in compressive sensing.</md:abstract>
+  <md:uuid>26b822cf-81cb-48a8-8502-d602375f5316</md:uuid>
+</metadata>
+
+<content>
+    <para id="id273406">In order to make the discussion more concrete, we will restrict our attention to the standard finite-dimensional <link document="m37172" version="latest">compressive sensing</link> (CS) model. Specifically, given a signal <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>∈</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:mrow></m:math>, we consider measurement systems that acquire <m:math overflow="scroll"><m:mi>M</m:mi></m:math> linear measurements. We can represent this process mathematically as</para>
+    <equation id="uid1">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi>y</m:mi>
+          <m:mo>=</m:mo>
+          <m:mi>Φ</m:mi>
+          <m:mi>x</m:mi>
+          <m:mo>,</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id273806">where <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> is an <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>×</m:mo><m:mi>N</m:mi></m:mrow></m:math>  matrix and <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>∈</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>M</m:mi></m:msup></m:mrow></m:math>. The matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> represents a <emphasis effect="italics">dimensionality reduction</emphasis>, i.e., it maps <m:math overflow="scroll"><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:math>, where <m:math overflow="scroll"><m:mi>N</m:mi></m:math> is generally large, into <m:math overflow="scroll"><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>M</m:mi></m:msup></m:math>, where <m:math overflow="scroll"><m:mi>M</m:mi></m:math> is typically much smaller than <m:math overflow="scroll"><m:mi>N</m:mi></m:math>. Note that in the standard CS framework we assume that the measurements are <emphasis effect="italics">non-adaptive</emphasis>, meaning that the rows of <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> are fixed in advance and do not depend on the previously acquired measurements. In certain settings adaptive measurement schemes can lead to significant performance gains.</para>
+    <para id="id273934">Note that although the standard CS framework assumes that <m:math overflow="scroll"><m:mi>x</m:mi></m:math> is a finite-length vector with a discrete-valued index (such as time or space), in practice we will often be interested in designing measurement systems for acquiring continuously-indexed signals such as continuous-time signals or images. For now we will simply think of <m:math overflow="scroll"><m:mi>x</m:mi></m:math> as a finite-length window of Nyquist-rate samples, and we temporarily ignore the issue of how to directly acquire compressive measurements without first sampling at the Nyquist rate.</para>
+    <para id="id273958">There are two main theoretical questions in CS. First, how should we design the sensing matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> to ensure that it preserves the information in the signal <m:math overflow="scroll"><m:mi>x</m:mi></m:math>? Second, how can we recover the original signal <m:math overflow="scroll"><m:mi>x</m:mi></m:math> from measurements <m:math overflow="scroll"><m:mi>y</m:mi></m:math>? In the case where our data is <link document="m37168" version="latest">sparse</link> or <link document="m37166" version="latest">compressible</link>, we will see that we can design matrices <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> with <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>≪</m:mo><m:mi>N</m:mi></m:mrow></m:math> that ensure that we will be able to <link document="m37179" version="latest">recover</link> the original signal accurately and efficiently using a variety of <link document="m37292" version="latest">practical algorithms</link>.</para>
+    <para id="id274026">We begin in this part of the <link document="col11133" version="latest">course</link> by first addressing the question of how to design the sensing matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>. Rather than directly proposing a design procedure, we instead consider a number of desirable properties that we might wish <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> to have (including the <link document="m37170" version="latest">null space property</link>, the <link document="m37171" version="latest">restricted isometry property</link>, and bounded <link document="m37178" version="latest">coherence</link>). We then provide some important examples of <link document="m37177" version="latest">matrix constructions</link> that satisfy these properties.
+
+</para>
+  </content>
+</document>

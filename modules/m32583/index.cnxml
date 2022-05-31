@@ -1,0 +1,1521 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:bib="http://bibtexml.sf.net/" xmlns:m="http://www.w3.org/1998/Math/MathML">
+
+<title>Concentration of measure for sub-Gaussian random variables</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m32583</md:content-id>
+  <md:title>Concentration of measure for sub-Gaussian random variables</md:title>
+  <md:abstract>This module establishes concentration bounds for sub-Gaussian vectors and matrices.</md:abstract>
+  <md:uuid>7bbb21e1-bd85-498e-ae89-fda6f5a9a877</md:uuid>
+</metadata>
+
+<content>
+     <para id="id261220"><link document="m37185" version="latest">Sub-Gaussian distributions</link> have a close relationship to the concentration of measure phenomenon <link target-id="bid0"/>. To illustrate this, we note that we can combine Lemma 2 and Theorem 1 from <link document="m37185" version="latest">"Sub-Gaussian random variables"</link> to obtain deviation bounds for weighted sums of sub-Gaussian random variables. For our purposes, however, it will be more enlightening to study the <emphasis effect="italics">norm</emphasis> of a vector of sub-Gaussian random variables. In particular, if <m:math overflow="scroll"><m:mi>X</m:mi></m:math> is a vector where each <m:math overflow="scroll"><m:msub><m:mi>X</m:mi><m:mi>i</m:mi></m:msub></m:math> is i.i.d. with <m:math overflow="scroll"><m:mrow><m:msub><m:mi>X</m:mi><m:mi>i</m:mi></m:msub><m:mo>∼</m:mo><m:mi> Sub </m:mi><m:mrow><m:mo>(</m:mo><m:mi>c</m:mi><m:mo>)</m:mo></m:mrow></m:mrow></m:math>, then we would like to know how <m:math overflow="scroll"><m:msub><m:mrow><m:mo>∥</m:mo><m:mi>X</m:mi><m:mo>∥</m:mo></m:mrow><m:mn>2</m:mn></m:msub></m:math> deviates from its mean.</para>
+    <para id="id261655">In order to establish the result, we will make use of Markov's inequality for nonnegative random variables.</para>
+<rule id="fs-id1172567979736" type="lemma"><title>(Markov's Inequality)</title>
+<statement id="fs-id1172570243736">    
+<para id="id261659"> 
+For any nonnegative random variable <m:math overflow="scroll"><m:mi>X</m:mi></m:math> and <m:math overflow="scroll"><m:mrow><m:mi>t</m:mi><m:mo>&gt;</m:mo><m:mn>0</m:mn></m:mrow></m:math>,</para>
+    <equation id="id261169">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">P</m:mi>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>X</m:mi>
+            <m:mo>≥</m:mo>
+            <m:mi>t</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mo>≤</m:mo>
+          <m:mfrac>
+            <m:mrow>
+              <m:mi mathvariant="double-struck">E</m:mi>
+              <m:mo>(</m:mo>
+              <m:mi>X</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mi>t</m:mi>
+          </m:mfrac>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+</statement>
+<proof id="fs-id1172574515236">
+    <para id="id261923">Let <m:math overflow="scroll"><m:mrow><m:mi>f</m:mi><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow></m:math> denote the probability density function for <m:math overflow="scroll"><m:mi>X</m:mi></m:math>.</para>
+    <equation id="id261950">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">E</m:mi>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>X</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mo>=</m:mo>
+          <m:msubsup>
+            <m:mo>∫</m:mo>
+            <m:mn>0</m:mn>
+            <m:mi>∞</m:mi>
+          </m:msubsup>
+          <m:mi>x</m:mi>
+          <m:mi>f</m:mi>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>x</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mspace width="0.166667em"/>
+          <m:mi>d</m:mi>
+          <m:mi>x</m:mi>
+          <m:mo>≥</m:mo>
+          <m:msubsup>
+            <m:mo>∫</m:mo>
+            <m:mi>t</m:mi>
+            <m:mi>∞</m:mi>
+          </m:msubsup>
+          <m:mi>x</m:mi>
+          <m:mi>f</m:mi>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>x</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mspace width="0.166667em"/>
+          <m:mi>d</m:mi>
+          <m:mi>x</m:mi>
+          <m:mo>≥</m:mo>
+          <m:msubsup>
+            <m:mo>∫</m:mo>
+            <m:mi>t</m:mi>
+            <m:mi>∞</m:mi>
+          </m:msubsup>
+          <m:mi>t</m:mi>
+          <m:mi>f</m:mi>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>x</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mspace width="0.166667em"/>
+          <m:mi>d</m:mi>
+          <m:mi>x</m:mi>
+          <m:mo>=</m:mo>
+          <m:mi>t</m:mi>
+          <m:mi mathvariant="double-struck">P</m:mi>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>X</m:mi>
+            <m:mo>≥</m:mo>
+            <m:mi>t</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+</proof>
+</rule>
+    <para id="id262088">In addition, we will require the following bound on the exponential moment of a sub-Gaussian random variable.</para>
+<rule id="uid2" type="lemma">
+<statement id="fs-id1172567962218">
+    <para id="id262092">
+Suppose <m:math overflow="scroll"><m:mrow><m:mi>X</m:mi><m:mo>∼</m:mo><m:mi> Sub </m:mi><m:mo>(</m:mo><m:msup><m:mi>c</m:mi><m:mn>2</m:mn></m:msup><m:mo>)</m:mo></m:mrow></m:math>. Then</para>
+    <equation id="uid3">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">E</m:mi>
+          <m:mfenced separators="" open="(" close=")">
+            <m:mo form="prefix">exp</m:mo>
+            <m:mo>(</m:mo>
+            <m:mi>λ</m:mi>
+            <m:msup>
+              <m:mi>X</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+            <m:mo>/</m:mo>
+            <m:mn>2</m:mn>
+            <m:msup>
+              <m:mi>c</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+            <m:mo>)</m:mo>
+          </m:mfenced>
+          <m:mo>≤</m:mo>
+          <m:mfrac>
+            <m:mn>1</m:mn>
+            <m:msqrt>
+              <m:mrow>
+                <m:mn>1</m:mn>
+                <m:mo>-</m:mo>
+                <m:mi>λ</m:mi>
+              </m:mrow>
+            </m:msqrt>
+          </m:mfrac>
+          <m:mo>,</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id262199">for any <m:math overflow="scroll"><m:mrow><m:mi>λ</m:mi><m:mo>∈</m:mo><m:mo>[</m:mo><m:mn>0</m:mn><m:mo>,</m:mo><m:mn>1</m:mn><m:mo>)</m:mo></m:mrow></m:math>.</para>
+</statement>
+<proof id="fs-id1172575272087">
+    <para id="id262233">First, observe that if <m:math overflow="scroll"><m:mrow><m:mi>λ</m:mi><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math>, then the lemma holds trivially. Thus, suppose that <m:math overflow="scroll"><m:mrow><m:mi>λ</m:mi><m:mo>∈</m:mo><m:mo>(</m:mo><m:mn>0</m:mn><m:mo>,</m:mo><m:mn>1</m:mn><m:mo>)</m:mo></m:mrow></m:math>. Let <m:math overflow="scroll"><m:mrow><m:mi>f</m:mi><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow></m:math> denote the probability density function for <m:math overflow="scroll"><m:mi>X</m:mi></m:math>. Since <m:math overflow="scroll"><m:mi>X</m:mi></m:math> is sub-Gaussian, we have by definition that</para>
+    <equation id="id262304">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msubsup>
+            <m:mo>∫</m:mo>
+            <m:mrow>
+              <m:mo>-</m:mo>
+              <m:mi>∞</m:mi>
+            </m:mrow>
+            <m:mi>∞</m:mi>
+          </m:msubsup>
+          <m:mo form="prefix">exp</m:mo>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>t</m:mi>
+            <m:mi>x</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mi>f</m:mi>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>x</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mspace width="0.166667em"/>
+          <m:mi>d</m:mi>
+          <m:mi>x</m:mi>
+          <m:mo>≤</m:mo>
+          <m:mo form="prefix">exp</m:mo>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:msup>
+              <m:mi>c</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+            <m:msup>
+              <m:mi>t</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+            <m:mo>/</m:mo>
+            <m:mn>2</m:mn>
+            <m:mo>)</m:mo>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id262388">for any <m:math overflow="scroll"><m:mrow><m:mi>t</m:mi><m:mo>∈</m:mo><m:mi mathvariant="double-struck">R</m:mi></m:mrow></m:math>. If we multiply by <m:math overflow="scroll"><m:mrow><m:mo form="prefix">exp</m:mo><m:mo>(</m:mo><m:mo>-</m:mo><m:msup><m:mi>c</m:mi><m:mn>2</m:mn></m:msup><m:msup><m:mi>t</m:mi><m:mn>2</m:mn></m:msup><m:mo>/</m:mo><m:mn>2</m:mn><m:mi>λ</m:mi><m:mo>)</m:mo></m:mrow></m:math>, then we obtain</para>
+    <equation id="id262447">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msubsup>
+            <m:mo>∫</m:mo>
+            <m:mrow>
+              <m:mo>-</m:mo>
+              <m:mi>∞</m:mi>
+            </m:mrow>
+            <m:mi>∞</m:mi>
+          </m:msubsup>
+          <m:mo form="prefix">exp</m:mo>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>t</m:mi>
+            <m:mi>x</m:mi>
+            <m:mo>-</m:mo>
+            <m:msup>
+              <m:mi>c</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+            <m:msup>
+              <m:mi>t</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+            <m:mo>/</m:mo>
+            <m:mn>2</m:mn>
+            <m:mi>λ</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mi>f</m:mi>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>x</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mspace width="0.166667em"/>
+          <m:mi>d</m:mi>
+          <m:mi>x</m:mi>
+          <m:mo>≤</m:mo>
+          <m:mo form="prefix">exp</m:mo>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:msup>
+              <m:mi>c</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+            <m:msup>
+              <m:mi>t</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>λ</m:mi>
+              <m:mo>-</m:mo>
+              <m:mn>1</m:mn>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mo>/</m:mo>
+            <m:mn>2</m:mn>
+            <m:mi>λ</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id262571">Now, integrating both sides with respect to <m:math overflow="scroll"><m:mi>t</m:mi></m:math>, we obtain</para>
+    <equation id="id262584">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msubsup>
+            <m:mo>∫</m:mo>
+            <m:mrow>
+              <m:mo>-</m:mo>
+              <m:mi>∞</m:mi>
+            </m:mrow>
+            <m:mi>∞</m:mi>
+          </m:msubsup>
+          <m:mfenced separators="" open="(" close=")">
+            <m:msubsup>
+              <m:mo>∫</m:mo>
+              <m:mrow>
+                <m:mo>-</m:mo>
+                <m:mi>∞</m:mi>
+              </m:mrow>
+              <m:mi>∞</m:mi>
+            </m:msubsup>
+            <m:mo form="prefix">exp</m:mo>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>t</m:mi>
+              <m:mi>x</m:mi>
+              <m:mo>-</m:mo>
+              <m:msup>
+                <m:mi>c</m:mi>
+                <m:mn>2</m:mn>
+              </m:msup>
+              <m:msup>
+                <m:mi>t</m:mi>
+                <m:mn>2</m:mn>
+              </m:msup>
+              <m:mo>/</m:mo>
+              <m:mn>2</m:mn>
+              <m:mi>λ</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mspace width="0.166667em"/>
+            <m:mi>d</m:mi>
+            <m:mi>t</m:mi>
+          </m:mfenced>
+          <m:mi>f</m:mi>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>x</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mspace width="0.166667em"/>
+          <m:mi>d</m:mi>
+          <m:mi>x</m:mi>
+          <m:mo>≤</m:mo>
+          <m:msubsup>
+            <m:mo>∫</m:mo>
+            <m:mrow>
+              <m:mo>-</m:mo>
+              <m:mi>∞</m:mi>
+            </m:mrow>
+            <m:mi>∞</m:mi>
+          </m:msubsup>
+          <m:mo form="prefix">exp</m:mo>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:msup>
+              <m:mi>c</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+            <m:msup>
+              <m:mi>t</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>λ</m:mi>
+              <m:mo>-</m:mo>
+              <m:mn>1</m:mn>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mo>/</m:mo>
+            <m:mn>2</m:mn>
+            <m:mi>λ</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mspace width="0.166667em"/>
+          <m:mi>d</m:mi>
+          <m:mi>t</m:mi>
+          <m:mo>,</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id262757">which reduces to</para>
+    <equation id="id262763">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mfrac>
+            <m:mn>1</m:mn>
+            <m:mi>c</m:mi>
+          </m:mfrac>
+          <m:msqrt>
+            <m:mrow>
+              <m:mn>2</m:mn>
+              <m:mi>π</m:mi>
+              <m:mi>λ</m:mi>
+            </m:mrow>
+          </m:msqrt>
+          <m:msubsup>
+            <m:mo>∫</m:mo>
+            <m:mrow>
+              <m:mo>-</m:mo>
+              <m:mi>∞</m:mi>
+            </m:mrow>
+            <m:mi>∞</m:mi>
+          </m:msubsup>
+          <m:mo form="prefix">exp</m:mo>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>λ</m:mi>
+            <m:msup>
+              <m:mi>x</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+            <m:mo>/</m:mo>
+            <m:mn>2</m:mn>
+            <m:msup>
+              <m:mi>c</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mi>f</m:mi>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>x</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mspace width="0.166667em"/>
+          <m:mi>d</m:mi>
+          <m:mi>x</m:mi>
+          <m:mo>≤</m:mo>
+          <m:mfrac>
+            <m:mn>1</m:mn>
+            <m:mi>c</m:mi>
+          </m:mfrac>
+          <m:msqrt>
+            <m:mfrac>
+              <m:mrow>
+                <m:mn>2</m:mn>
+                <m:mi>π</m:mi>
+                <m:mi>λ</m:mi>
+              </m:mrow>
+              <m:mrow>
+                <m:mn>1</m:mn>
+                <m:mo>-</m:mo>
+                <m:mi>λ</m:mi>
+              </m:mrow>
+            </m:mfrac>
+          </m:msqrt>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id262877">This simplifies to prove the lemma.</para>
+</proof>
+</rule>
+    <para id="id262882">We now state our main theorem, which generalizes the results of <link target-id="bid1"/> and uses substantially the same proof technique.</para>
+<rule id="uid4" type="theorem">
+<statement id="fs-id1505445">
+    <para id="id262892">
+Suppose that <m:math overflow="scroll"><m:mrow><m:mi>X</m:mi><m:mo>=</m:mo><m:mo>[</m:mo><m:msub><m:mi>X</m:mi><m:mn>1</m:mn></m:msub><m:mo>,</m:mo><m:msub><m:mi>X</m:mi><m:mn>2</m:mn></m:msub><m:mo>,</m:mo><m:mo>...</m:mo><m:mo>,</m:mo><m:msub><m:mi>X</m:mi><m:mi>M</m:mi></m:msub><m:mo>]</m:mo></m:mrow></m:math>, where each <m:math overflow="scroll"><m:msub><m:mi>X</m:mi><m:mi>i</m:mi></m:msub></m:math> is i.i.d. with <m:math overflow="scroll"><m:mrow><m:msub><m:mi>X</m:mi><m:mi>i</m:mi></m:msub><m:mo>∼</m:mo><m:mi> Sub </m:mi><m:mrow><m:mo>(</m:mo><m:msup><m:mi>c</m:mi><m:mn>2</m:mn></m:msup><m:mo>)</m:mo></m:mrow></m:mrow></m:math> and <m:math overflow="scroll"><m:mrow><m:mi mathvariant="double-struck">E</m:mi><m:mrow><m:mo>(</m:mo><m:msubsup><m:mi>X</m:mi><m:mi>i</m:mi><m:mn>2</m:mn></m:msubsup><m:mo>)</m:mo></m:mrow><m:mo>=</m:mo><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup></m:mrow></m:math>. Then</para>
+    <equation id="uid5">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">E</m:mi>
+          <m:mfenced separators="" open="(" close=")">
+            <m:msubsup>
+              <m:mrow>
+                <m:mo>∥</m:mo>
+                <m:mi>X</m:mi>
+                <m:mo>∥</m:mo>
+              </m:mrow>
+              <m:mn>2</m:mn>
+              <m:mn>2</m:mn>
+            </m:msubsup>
+          </m:mfenced>
+          <m:mo>=</m:mo>
+          <m:mi>M</m:mi>
+          <m:msup>
+            <m:mi>σ</m:mi>
+            <m:mn>2</m:mn>
+          </m:msup>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id263085">Moreover, for any <m:math overflow="scroll"><m:mrow><m:mi>α</m:mi><m:mo>∈</m:mo><m:mo>(</m:mo><m:mn>0</m:mn><m:mo>,</m:mo><m:mn>1</m:mn><m:mo>)</m:mo></m:mrow></m:math> and for any <m:math overflow="scroll"><m:mrow><m:mi>β</m:mi><m:mo>∈</m:mo><m:mo>[</m:mo><m:msup><m:mi>c</m:mi><m:mn>2</m:mn></m:msup><m:mo>/</m:mo><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup><m:mo>,</m:mo><m:msub><m:mi>β</m:mi><m:mi> max </m:mi></m:msub><m:mo>]</m:mo></m:mrow></m:math>, there exists a constant <m:math overflow="scroll"><m:mrow><m:msup><m:mi>κ</m:mi><m:mo>*</m:mo></m:msup><m:mo>≥</m:mo><m:mn>4</m:mn></m:mrow></m:math> depending only on <m:math overflow="scroll"><m:msub><m:mi>β</m:mi><m:mi> max </m:mi></m:msub></m:math> and the ratio <m:math overflow="scroll"><m:mrow><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup><m:mo>/</m:mo><m:msup><m:mi>c</m:mi><m:mn>2</m:mn></m:msup></m:mrow></m:math> such that</para>
+    <equation id="uid6">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">P</m:mi>
+          <m:mfenced separators="" open="(" close=")">
+            <m:msubsup>
+              <m:mrow>
+                <m:mo>∥</m:mo>
+                <m:mi>X</m:mi>
+                <m:mo>∥</m:mo>
+              </m:mrow>
+              <m:mn>2</m:mn>
+              <m:mn>2</m:mn>
+            </m:msubsup>
+            <m:mo>≤</m:mo>
+            <m:mi>α</m:mi>
+            <m:mi>M</m:mi>
+            <m:msup>
+              <m:mi>σ</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+          </m:mfenced>
+          <m:mo>≤</m:mo>
+          <m:mo form="prefix">exp</m:mo>
+          <m:mfenced separators="" open="(" close=")">
+            <m:mo>-</m:mo>
+            <m:mi>M</m:mi>
+            <m:msup>
+              <m:mrow>
+                <m:mo>(</m:mo>
+                <m:mn>1</m:mn>
+                <m:mo>-</m:mo>
+                <m:mi>α</m:mi>
+                <m:mo>)</m:mo>
+              </m:mrow>
+              <m:mn>2</m:mn>
+            </m:msup>
+            <m:mo>/</m:mo>
+            <m:msup>
+              <m:mi>κ</m:mi>
+              <m:mo>*</m:mo>
+            </m:msup>
+          </m:mfenced>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id263307">and</para>
+    <equation id="uid7">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">P</m:mi>
+          <m:mfenced separators="" open="(" close=")">
+            <m:msubsup>
+              <m:mrow>
+                <m:mo>∥</m:mo>
+                <m:mi>X</m:mi>
+                <m:mo>∥</m:mo>
+              </m:mrow>
+              <m:mn>2</m:mn>
+              <m:mn>2</m:mn>
+            </m:msubsup>
+            <m:mo>≥</m:mo>
+            <m:mi>β</m:mi>
+            <m:mi>M</m:mi>
+            <m:msup>
+              <m:mi>σ</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+          </m:mfenced>
+          <m:mo>≤</m:mo>
+          <m:mo form="prefix">exp</m:mo>
+          <m:mfenced separators="" open="(" close=")">
+            <m:mo>-</m:mo>
+            <m:mi>M</m:mi>
+            <m:msup>
+              <m:mrow>
+                <m:mo>(</m:mo>
+                <m:mi>β</m:mi>
+                <m:mo>-</m:mo>
+                <m:mn>1</m:mn>
+                <m:mo>)</m:mo>
+              </m:mrow>
+              <m:mn>2</m:mn>
+            </m:msup>
+            <m:mo>/</m:mo>
+            <m:msup>
+              <m:mi>κ</m:mi>
+              <m:mo>*</m:mo>
+            </m:msup>
+          </m:mfenced>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+</statement>
+<proof id="fs-id1172571420270">
+    <para id="id263420">Since the <m:math overflow="scroll"><m:msub><m:mi>X</m:mi><m:mi>i</m:mi></m:msub></m:math> are independent, we obtain</para>
+    <equation id="id263436">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">E</m:mi>
+          <m:mfenced separators="" open="(" close=")">
+            <m:msubsup>
+              <m:mrow>
+                <m:mo>∥</m:mo>
+                <m:mi>X</m:mi>
+                <m:mo>∥</m:mo>
+              </m:mrow>
+              <m:mn>2</m:mn>
+              <m:mn>2</m:mn>
+            </m:msubsup>
+          </m:mfenced>
+          <m:mo>=</m:mo>
+          <m:munderover>
+            <m:mo>∑</m:mo>
+            <m:mrow>
+              <m:mi>i</m:mi>
+              <m:mo>=</m:mo>
+              <m:mn>1</m:mn>
+            </m:mrow>
+            <m:mi>M</m:mi>
+          </m:munderover>
+          <m:mi mathvariant="double-struck">E</m:mi>
+          <m:mfenced separators="" open="(" close=")">
+            <m:msubsup>
+              <m:mi>X</m:mi>
+              <m:mi>i</m:mi>
+              <m:mn>2</m:mn>
+            </m:msubsup>
+          </m:mfenced>
+          <m:mo>=</m:mo>
+          <m:munderover>
+            <m:mo>∑</m:mo>
+            <m:mrow>
+              <m:mi>i</m:mi>
+              <m:mo>=</m:mo>
+              <m:mn>1</m:mn>
+            </m:mrow>
+            <m:mi>M</m:mi>
+          </m:munderover>
+          <m:msup>
+            <m:mi>σ</m:mi>
+            <m:mn>2</m:mn>
+          </m:msup>
+          <m:mo>=</m:mo>
+          <m:mi>M</m:mi>
+          <m:msup>
+            <m:mi>σ</m:mi>
+            <m:mn>2</m:mn>
+          </m:msup>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id263551">and hence <link target-id="uid5"/> holds. We now turn to <link target-id="uid6"/> and <link target-id="uid7"/>. Let us first consider <link target-id="uid7"/>. We begin by applying Markov's inequality:</para>
+    <equation id="uid8"><m:math overflow="scroll" mode="display">
+        <m:mtable displaystyle="true">
+          <m:mtr>
+            <m:mtd columnalign="right">
+              <m:mrow>
+                <m:mi mathvariant="double-struck">P</m:mi>
+                <m:mfenced separators="" open="(" close=")">
+                  <m:msubsup>
+                    <m:mrow>
+                      <m:mo>∥</m:mo>
+                      <m:mi>X</m:mi>
+                      <m:mo>∥</m:mo>
+                    </m:mrow>
+                    <m:mn>2</m:mn>
+                    <m:mn>2</m:mn>
+                  </m:msubsup>
+                  <m:mo>≥</m:mo>
+                  <m:mi>β</m:mi>
+                  <m:mi>M</m:mi>
+                  <m:msup>
+                    <m:mi>σ</m:mi>
+                    <m:mn>2</m:mn>
+                  </m:msup>
+                </m:mfenced>
+              </m:mrow>
+            </m:mtd>
+            <m:mtd columnalign="left">
+              <m:mrow>
+                <m:mo>=</m:mo>
+                <m:mi mathvariant="double-struck">P</m:mi>
+                <m:mfenced separators="" open="(" close=")">
+                  <m:msubsup>
+                    <m:mrow>
+                      <m:mo form="prefix">exp</m:mo>
+                      <m:mo>(</m:mo>
+                      <m:mi>λ</m:mi>
+                      <m:mo>∥</m:mo>
+                      <m:mi>X</m:mi>
+                      <m:mo>∥</m:mo>
+                    </m:mrow>
+                    <m:mn>2</m:mn>
+                    <m:mn>2</m:mn>
+                  </m:msubsup>
+                  <m:mrow>
+                    <m:mo>)</m:mo>
+                    <m:mo>≥</m:mo>
+                    <m:mo form="prefix">exp</m:mo>
+                  </m:mrow>
+                  <m:mfenced separators="" open="(" close=")">
+                    <m:mi>λ</m:mi>
+                    <m:mi>β</m:mi>
+                    <m:mi>M</m:mi>
+                    <m:msup>
+                      <m:mi>σ</m:mi>
+                      <m:mn>2</m:mn>
+                    </m:msup>
+                  </m:mfenced>
+                </m:mfenced>
+              </m:mrow>
+            </m:mtd>
+          </m:mtr>
+          <m:mtr>
+            <m:mtd/>
+            <m:mtd columnalign="left">
+              <m:mrow>
+                <m:mo>≤</m:mo>
+                <m:mfrac>
+                  <m:mrow>
+                    <m:mi mathvariant="double-struck">E</m:mi>
+                    <m:mfenced separators="" open="(" close=")">
+                      <m:mo form="prefix">exp</m:mo>
+                      <m:mo>(</m:mo>
+                      <m:mi>λ</m:mi>
+                      <m:mo>∥</m:mo>
+                      <m:mi>X</m:mi>
+                      <m:msubsup>
+                        <m:mo>∥</m:mo>
+                        <m:mn>2</m:mn>
+                        <m:mn>2</m:mn>
+                      </m:msubsup>
+                      <m:mo>)</m:mo>
+                    </m:mfenced>
+                  </m:mrow>
+                  <m:mrow>
+                    <m:mo form="prefix">exp</m:mo>
+                    <m:mfenced separators="" open="(" close=")">
+                      <m:mi>λ</m:mi>
+                      <m:mi>β</m:mi>
+                      <m:mi>M</m:mi>
+                      <m:msup>
+                        <m:mi>σ</m:mi>
+                        <m:mn>2</m:mn>
+                      </m:msup>
+                    </m:mfenced>
+                  </m:mrow>
+                </m:mfrac>
+              </m:mrow>
+            </m:mtd>
+          </m:mtr>
+          <m:mtr>
+            <m:mtd/>
+            <m:mtd columnalign="left">
+              <m:mrow>
+                <m:mo>=</m:mo>
+                <m:mfrac>
+                  <m:mrow>
+                   <m:msubsup>
+                    <m:mrow><m:mi>∏</m:mi></m:mrow>
+                      <m:mrow>
+                        <m:mi>i</m:mi>
+                        <m:mo>=</m:mo>
+                        <m:mn>1</m:mn>
+                      </m:mrow>
+                      <m:mi>M</m:mi>
+                    </m:msubsup>
+                    <m:mi mathvariant="double-struck">E</m:mi>
+                    <m:mfenced separators="" open="(" close=")">
+                      <m:mo form="prefix">exp</m:mo>
+                      <m:mo>(</m:mo>
+                      <m:mi>λ</m:mi>
+                      <m:msubsup>
+                        <m:mi>X</m:mi>
+                        <m:mi>i</m:mi>
+                        <m:mn>2</m:mn>
+                      </m:msubsup>
+                      <m:mo>)</m:mo>
+                    </m:mfenced>
+                  </m:mrow>
+                  <m:mrow>
+                    <m:mo form="prefix">exp</m:mo>
+                    <m:mfenced separators="" open="(" close=")">
+                      <m:mi>λ</m:mi>
+                      <m:mi>β</m:mi>
+                      <m:mi>M</m:mi>
+                      <m:msup>
+                        <m:mi>σ</m:mi>
+                        <m:mn>2</m:mn>
+                      </m:msup>
+                    </m:mfenced>
+                  </m:mrow>
+                </m:mfrac>
+                <m:mo>.</m:mo>
+              </m:mrow>
+            </m:mtd>
+          </m:mtr>
+        </m:mtable>
+      </m:math>
+    </equation>
+    <para id="id263892">Since <m:math overflow="scroll"><m:mrow><m:msub><m:mi>X</m:mi><m:mi>i</m:mi></m:msub><m:mo>∼</m:mo><m:mi> Sub </m:mi><m:mrow><m:mo>(</m:mo><m:msup><m:mi>c</m:mi><m:mn>2</m:mn></m:msup><m:mo>)</m:mo></m:mrow></m:mrow></m:math>, we have from <link target-id="uid2"/> that</para>
+    <equation id="id263935">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">E</m:mi>
+          <m:mfenced separators="" open="(" close=")">
+            <m:mo form="prefix">exp</m:mo>
+            <m:mo>(</m:mo>
+            <m:mi>λ</m:mi>
+            <m:msubsup>
+              <m:mi>X</m:mi>
+              <m:mi>i</m:mi>
+              <m:mn>2</m:mn>
+            </m:msubsup>
+            <m:mo>)</m:mo>
+          </m:mfenced>
+          <m:mo>=</m:mo>
+          <m:mi mathvariant="double-struck">E</m:mi>
+          <m:mfenced separators="" open="(" close=")">
+            <m:mo form="prefix">exp</m:mo>
+            <m:mo>(</m:mo>
+            <m:mn>2</m:mn>
+            <m:msup>
+              <m:mi>c</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+            <m:mi>λ</m:mi>
+            <m:msubsup>
+              <m:mi>X</m:mi>
+              <m:mi>i</m:mi>
+              <m:mn>2</m:mn>
+            </m:msubsup>
+            <m:mo>/</m:mo>
+            <m:mn>2</m:mn>
+            <m:msup>
+              <m:mi>c</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+            <m:mo>)</m:mo>
+          </m:mfenced>
+          <m:mo>≤</m:mo>
+          <m:mfrac>
+            <m:mn>1</m:mn>
+            <m:msqrt>
+              <m:mrow>
+                <m:mn>1</m:mn>
+                <m:mo>-</m:mo>
+                <m:mn>2</m:mn>
+                <m:msup>
+                  <m:mi>c</m:mi>
+                  <m:mn>2</m:mn>
+                </m:msup>
+                <m:mi>λ</m:mi>
+              </m:mrow>
+            </m:msqrt>
+          </m:mfrac>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id264062">Thus,</para>
+    <equation id="id264068"><m:math overflow="scroll" mode="display">
+        <m:mrow>
+<m:munderover>
+         <m:mrow> <m:mi>∏</m:mi></m:mrow>
+          
+          
+            
+            <m:mrow>
+              <m:mi>i</m:mi>
+              <m:mo>=</m:mo>
+              <m:mn>1</m:mn>
+            </m:mrow>
+            <m:mi>M</m:mi>
+          </m:munderover>
+          <m:mi mathvariant="double-struck">E</m:mi>
+          <m:mfenced separators="" open="(" close=")">
+            <m:mo form="prefix">exp</m:mo>
+            <m:mfenced separators="" open="(" close=")">
+              <m:mi>λ</m:mi>
+              <m:msubsup>
+                <m:mi>X</m:mi>
+                <m:mi>i</m:mi>
+                <m:mn>2</m:mn>
+              </m:msubsup>
+            </m:mfenced>
+          </m:mfenced>
+          <m:mo>≤</m:mo>
+          <m:msup>
+            <m:mfenced separators="" open="(" close=")">
+              <m:mfrac>
+                <m:mn>1</m:mn>
+                <m:mrow>
+                  <m:mn>1</m:mn>
+                  <m:mo>-</m:mo>
+                  <m:mn>2</m:mn>
+                  <m:msup>
+                    <m:mi>c</m:mi>
+                    <m:mn>2</m:mn>
+                  </m:msup>
+                  <m:mi>λ</m:mi>
+                </m:mrow>
+              </m:mfrac>
+            </m:mfenced>
+            <m:mrow>
+              <m:mi>M</m:mi>
+              <m:mo>/</m:mo>
+              <m:mn>2</m:mn>
+            </m:mrow>
+          </m:msup>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id264178">and hence</para>
+    <equation id="id264183">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">P</m:mi>
+          <m:mfenced separators="" open="(" close=")">
+            <m:msubsup>
+              <m:mrow>
+                <m:mo>∥</m:mo>
+                <m:mi>X</m:mi>
+                <m:mo>∥</m:mo>
+              </m:mrow>
+              <m:mn>2</m:mn>
+              <m:mn>2</m:mn>
+            </m:msubsup>
+            <m:mo>≥</m:mo>
+            <m:mi>β</m:mi>
+            <m:mi>M</m:mi>
+            <m:msup>
+              <m:mi>σ</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+          </m:mfenced>
+          <m:mo>≤</m:mo>
+          <m:msup>
+            <m:mfenced separators="" open="(" close=")">
+              <m:mfrac>
+                <m:mrow>
+                  <m:mo form="prefix">exp</m:mo>
+                  <m:mfenced separators="" open="(" close=")">
+                    <m:mo>-</m:mo>
+                    <m:mn>2</m:mn>
+                    <m:mi>λ</m:mi>
+                    <m:mi>β</m:mi>
+                    <m:msup>
+                      <m:mi>σ</m:mi>
+                      <m:mn>2</m:mn>
+                    </m:msup>
+                  </m:mfenced>
+                </m:mrow>
+                <m:mrow>
+                  <m:mn>1</m:mn>
+                  <m:mo>-</m:mo>
+                  <m:mn>2</m:mn>
+                  <m:msup>
+                    <m:mi>c</m:mi>
+                    <m:mn>2</m:mn>
+                  </m:msup>
+                  <m:mi>λ</m:mi>
+                </m:mrow>
+              </m:mfrac>
+            </m:mfenced>
+            <m:mrow>
+              <m:mi>M</m:mi>
+              <m:mo>/</m:mo>
+              <m:mn>2</m:mn>
+            </m:mrow>
+          </m:msup>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id264307">By setting the derivative to zero and solving for <m:math overflow="scroll"><m:mi>λ</m:mi></m:math>, one can show that the optimal <m:math overflow="scroll"><m:mi>λ</m:mi></m:math> is</para>
+    <equation id="id264332">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi>λ</m:mi>
+          <m:mo>=</m:mo>
+          <m:mfrac>
+            <m:mrow>
+              <m:mi>β</m:mi>
+              <m:msup>
+                <m:mi>σ</m:mi>
+                <m:mn>2</m:mn>
+              </m:msup>
+              <m:mo>-</m:mo>
+              <m:msup>
+                <m:mi>c</m:mi>
+                <m:mn>2</m:mn>
+              </m:msup>
+            </m:mrow>
+            <m:mrow>
+              <m:mn>2</m:mn>
+              <m:msup>
+                <m:mi>c</m:mi>
+                <m:mn>2</m:mn>
+              </m:msup>
+              <m:msup>
+                <m:mi>σ</m:mi>
+                <m:mn>2</m:mn>
+              </m:msup>
+              <m:mrow>
+                <m:mo>(</m:mo>
+                <m:mn>1</m:mn>
+                <m:mo>+</m:mo>
+                <m:mi>β</m:mi>
+                <m:mo>)</m:mo>
+              </m:mrow>
+            </m:mrow>
+          </m:mfrac>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id264401">Plugging this in we obtain</para>
+    <equation id="uid9">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">P</m:mi>
+          <m:mfenced separators="" open="(" close=")">
+            <m:msubsup>
+              <m:mrow>
+                <m:mo>∥</m:mo>
+                <m:mi>X</m:mi>
+                <m:mo>∥</m:mo>
+              </m:mrow>
+              <m:mn>2</m:mn>
+              <m:mn>2</m:mn>
+            </m:msubsup>
+            <m:mo>≥</m:mo>
+            <m:mi>β</m:mi>
+            <m:mi>M</m:mi>
+            <m:msup>
+              <m:mi>σ</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+          </m:mfenced>
+          <m:mo>≤</m:mo>
+          <m:msup>
+            <m:mfenced separators="" open="(" close=")">
+              <m:mi>β</m:mi>
+              <m:mfrac>
+                <m:msup>
+                  <m:mi>σ</m:mi>
+                  <m:mn>2</m:mn>
+                </m:msup>
+                <m:msup>
+                  <m:mi>c</m:mi>
+                  <m:mn>2</m:mn>
+                </m:msup>
+              </m:mfrac>
+              <m:mo form="prefix">exp</m:mo>
+              <m:mfenced separators="" open="(" close=")">
+                <m:mn>1</m:mn>
+                <m:mo>-</m:mo>
+                <m:mi>β</m:mi>
+                <m:mfrac>
+                  <m:msup>
+                    <m:mi>σ</m:mi>
+                    <m:mn>2</m:mn>
+                  </m:msup>
+                  <m:msup>
+                    <m:mi>c</m:mi>
+                    <m:mn>2</m:mn>
+                  </m:msup>
+                </m:mfrac>
+              </m:mfenced>
+            </m:mfenced>
+            <m:mrow>
+              <m:mi>M</m:mi>
+              <m:mo>/</m:mo>
+              <m:mn>2</m:mn>
+            </m:mrow>
+          </m:msup>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id264541">Similarly,</para>
+    <equation id="uid10">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">P</m:mi>
+          <m:mfenced separators="" open="(" close=")">
+            <m:msubsup>
+              <m:mrow>
+                <m:mo>∥</m:mo>
+                <m:mi>X</m:mi>
+                <m:mo>∥</m:mo>
+              </m:mrow>
+              <m:mn>2</m:mn>
+              <m:mn>2</m:mn>
+            </m:msubsup>
+            <m:mo>≤</m:mo>
+            <m:mi>α</m:mi>
+            <m:mi>M</m:mi>
+            <m:msup>
+              <m:mi>σ</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+          </m:mfenced>
+          <m:mo>≤</m:mo>
+          <m:msup>
+            <m:mfenced separators="" open="(" close=")">
+              <m:mi>α</m:mi>
+              <m:mfrac>
+                <m:msup>
+                  <m:mi>σ</m:mi>
+                  <m:mn>2</m:mn>
+                </m:msup>
+                <m:msup>
+                  <m:mi>c</m:mi>
+                  <m:mn>2</m:mn>
+                </m:msup>
+              </m:mfrac>
+              <m:mo form="prefix">exp</m:mo>
+              <m:mfenced separators="" open="(" close=")">
+                <m:mn>1</m:mn>
+                <m:mo>-</m:mo>
+                <m:mi>α</m:mi>
+                <m:mfrac>
+                  <m:msup>
+                    <m:mi>σ</m:mi>
+                    <m:mn>2</m:mn>
+                  </m:msup>
+                  <m:msup>
+                    <m:mi>c</m:mi>
+                    <m:mn>2</m:mn>
+                  </m:msup>
+                </m:mfrac>
+              </m:mfenced>
+            </m:mfenced>
+            <m:mrow>
+              <m:mi>M</m:mi>
+              <m:mo>/</m:mo>
+              <m:mn>2</m:mn>
+            </m:mrow>
+          </m:msup>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id264680">In order to combine and simplify these inequalities, note that if we define</para>
+    <equation id="id264687">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msup>
+            <m:mi>κ</m:mi>
+            <m:mo>*</m:mo>
+          </m:msup>
+          <m:mo>=</m:mo>
+          <m:mo movablelimits="true" form="prefix">max</m:mo>
+          <m:mfenced separators="" open="(" close=")">
+            <m:mn>4</m:mn>
+            <m:mo>,</m:mo>
+            <m:mn>2</m:mn>
+            <m:mfrac>
+              <m:msup>
+                <m:mrow>
+                  <m:mo>(</m:mo>
+                  <m:msub>
+                    <m:mi>β</m:mi>
+                    <m:mi> max </m:mi>
+                  </m:msub>
+                  <m:msup>
+                    <m:mi>σ</m:mi>
+                    <m:mn>2</m:mn>
+                  </m:msup>
+                  <m:mo>/</m:mo>
+                  <m:mi>c</m:mi>
+                  <m:mo>-</m:mo>
+                  <m:mn>1</m:mn>
+                  <m:mo>)</m:mo>
+                </m:mrow>
+                <m:mn>2</m:mn>
+              </m:msup>
+              <m:mrow>
+                <m:mrow>
+                  <m:mo>(</m:mo>
+                  <m:msub>
+                    <m:mi>β</m:mi>
+                    <m:mi> max </m:mi>
+                  </m:msub>
+                  <m:msup>
+                    <m:mi>σ</m:mi>
+                    <m:mn>2</m:mn>
+                  </m:msup>
+                  <m:mo>/</m:mo>
+                  <m:mi>c</m:mi>
+                  <m:mo>-</m:mo>
+                  <m:mn>1</m:mn>
+                  <m:mo>)</m:mo>
+                </m:mrow>
+                <m:mo>-</m:mo>
+                <m:mo form="prefix">log</m:mo>
+                <m:mrow>
+                  <m:mo>(</m:mo>
+                  <m:msub>
+                    <m:mi>β</m:mi>
+                    <m:mi> max </m:mi>
+                  </m:msub>
+                  <m:msup>
+                    <m:mi>σ</m:mi>
+                    <m:mn>2</m:mn>
+                  </m:msup>
+                  <m:mo>/</m:mo>
+                  <m:mi>c</m:mi>
+                  <m:mo>)</m:mo>
+                </m:mrow>
+              </m:mrow>
+            </m:mfrac>
+          </m:mfenced>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id264826">then we have that for any <m:math overflow="scroll"><m:mrow><m:mi>γ</m:mi><m:mo>∈</m:mo><m:mo>[</m:mo><m:mn>0</m:mn><m:mo>,</m:mo><m:msub><m:mi>β</m:mi><m:mi> max </m:mi></m:msub><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup><m:mo>/</m:mo><m:mi>c</m:mi><m:mo>]</m:mo></m:mrow></m:math> we have the bound</para>
+    <equation id="uid11">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mo form="prefix">log</m:mo>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>γ</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mo>≤</m:mo>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>γ</m:mi>
+            <m:mo>-</m:mo>
+            <m:mn>1</m:mn>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mo>-</m:mo>
+          <m:mfrac>
+            <m:mrow>
+              <m:mn>2</m:mn>
+              <m:msup>
+                <m:mrow>
+                  <m:mo>(</m:mo>
+                  <m:mi>γ</m:mi>
+                  <m:mo>-</m:mo>
+                  <m:mn>1</m:mn>
+                  <m:mo>)</m:mo>
+                </m:mrow>
+                <m:mn>2</m:mn>
+              </m:msup>
+            </m:mrow>
+            <m:msup>
+              <m:mi>κ</m:mi>
+              <m:mo>*</m:mo>
+            </m:msup>
+          </m:mfrac>
+          <m:mo>,</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id264948">and hence</para>
+    <equation id="id264954">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi>γ</m:mi>
+          <m:mo>≤</m:mo>
+          <m:mo form="prefix">exp</m:mo>
+          <m:mfenced separators="" open="(" close=")">
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>γ</m:mi>
+              <m:mo>-</m:mo>
+              <m:mn>1</m:mn>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mo>-</m:mo>
+            <m:mfrac>
+              <m:mrow>
+                <m:mn>2</m:mn>
+                <m:msup>
+                  <m:mrow>
+                    <m:mo>(</m:mo>
+                    <m:mi>γ</m:mi>
+                    <m:mo>-</m:mo>
+                    <m:mn>1</m:mn>
+                    <m:mo>)</m:mo>
+                  </m:mrow>
+                  <m:mn>2</m:mn>
+                </m:msup>
+              </m:mrow>
+              <m:msup>
+                <m:mi>κ</m:mi>
+                <m:mo>*</m:mo>
+              </m:msup>
+            </m:mfrac>
+          </m:mfenced>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id265027">By setting <m:math overflow="scroll"><m:mrow><m:mi>γ</m:mi><m:mo>=</m:mo><m:mi>α</m:mi><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup><m:mo>/</m:mo><m:msup><m:mi>c</m:mi><m:mn>2</m:mn></m:msup></m:mrow></m:math>, <link target-id="uid10"/> reduces to yield <link target-id="uid6"/>. Similarly, setting <m:math overflow="scroll"><m:mrow><m:mi>γ</m:mi><m:mo>=</m:mo><m:mi>β</m:mi><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup><m:mo>/</m:mo><m:msup><m:mi>c</m:mi><m:mn>2</m:mn></m:msup></m:mrow></m:math> establishes <link target-id="uid7"/>.</para>
+</proof>
+</rule>
+    <para id="id265110">This result tells us that given a vector with entries drawn according to a sub-Gaussian distribution, we can expect the norm of the vector to concentrate around its expected value of <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup></m:mrow></m:math> with exponentially high probability as <m:math overflow="scroll"><m:mi>M</m:mi></m:math> grows. Note, however, that the range of allowable choices for <m:math overflow="scroll"><m:mi>β</m:mi></m:math> in <link target-id="uid7"/> is limited to <m:math overflow="scroll"><m:mrow><m:mi>β</m:mi><m:mo>≥</m:mo><m:msup><m:mi>c</m:mi><m:mn>2</m:mn></m:msup><m:mo>/</m:mo><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup><m:mo>≥</m:mo><m:mn>1</m:mn></m:mrow></m:math>. Thus, for a general sub-Gaussian distribution, we may be unable to achieve an arbitrarily tight concentration. However, recall that for strictly sub-Gaussian distributions we have that <m:math overflow="scroll"><m:mrow><m:msup><m:mi>c</m:mi><m:mn>2</m:mn></m:msup><m:mo>=</m:mo><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup></m:mrow></m:math>, in which there is no such restriction. Moreover, for strictly sub-Gaussian distributions we also have the following useful corollary.<footnote id="uid12"><link target-id="uid13"/> exploits the strictness in the strictly sub-Gaussian distribution twice — first to ensure that <m:math overflow="scroll"><m:mrow><m:mi>β</m:mi><m:mo>∈</m:mo><m:mo>(</m:mo><m:mn>1</m:mn><m:mo>,</m:mo><m:mn>2</m:mn><m:mo>]</m:mo></m:mrow></m:math> is an admissible range for <m:math overflow="scroll"><m:mi>β</m:mi></m:math> and then to simplify the computation of <m:math overflow="scroll"><m:msup><m:mi>κ</m:mi><m:mo>*</m:mo></m:msup></m:math>. One could easily establish a different version of this corollary for non-strictly sub-Gaussian vectors but for which we consider a more restricted range of <m:math overflow="scroll"><m:mi>ϵ</m:mi></m:math> provided that <m:math overflow="scroll"><m:mrow><m:msup><m:mi>c</m:mi><m:mn>2</m:mn></m:msup><m:mo>/</m:mo><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup><m:mo>&lt;</m:mo><m:mn>2</m:mn></m:mrow></m:math>. However, since most of the distributions of interest in this thesis are indeed strictly sub-Gaussian, we do not pursue this route. Note also that if one is interested in very small <m:math overflow="scroll"><m:mi>ϵ</m:mi></m:math>, then there is considerable room for improvement in the constant <m:math overflow="scroll"><m:msup><m:mi>C</m:mi><m:mo>*</m:mo></m:msup></m:math>.</footnote></para>
+<rule id="uid13" type="corollary">
+<statement id="fs-id1686405">
+    <para id="id265345"> 
+Suppose that <m:math overflow="scroll"><m:mrow><m:mi>X</m:mi><m:mo>=</m:mo><m:mo>[</m:mo><m:msub><m:mi>X</m:mi><m:mn>1</m:mn></m:msub><m:mo>,</m:mo><m:msub><m:mi>X</m:mi><m:mn>2</m:mn></m:msub><m:mo>,</m:mo><m:mo>...</m:mo><m:mo>,</m:mo><m:msub><m:mi>X</m:mi><m:mi>M</m:mi></m:msub><m:mo>]</m:mo></m:mrow></m:math>, where each <m:math overflow="scroll"><m:msub><m:mi>X</m:mi><m:mi>i</m:mi></m:msub></m:math> is i.i.d. with <m:math overflow="scroll"><m:mrow><m:msub><m:mi>X</m:mi><m:mi>i</m:mi></m:msub><m:mo>∼</m:mo><m:mi> SSub </m:mi><m:mrow><m:mo>(</m:mo><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup><m:mo>)</m:mo></m:mrow></m:mrow></m:math>. Then</para>
+    <equation id="uid14">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">E</m:mi>
+          <m:mfenced separators="" open="(" close=")">
+            <m:msubsup>
+              <m:mrow>
+                <m:mo>∥</m:mo>
+                <m:mi>X</m:mi>
+                <m:mo>∥</m:mo>
+              </m:mrow>
+              <m:mn>2</m:mn>
+              <m:mn>2</m:mn>
+            </m:msubsup>
+          </m:mfenced>
+          <m:mo>=</m:mo>
+          <m:mi>M</m:mi>
+          <m:msup>
+            <m:mi>σ</m:mi>
+            <m:mn>2</m:mn>
+          </m:msup>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id265505">and for any <m:math overflow="scroll"><m:mrow><m:mi>ϵ</m:mi><m:mo>&gt;</m:mo><m:mn>0</m:mn></m:mrow></m:math>,</para>
+    <equation id="uid15">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">P</m:mi>
+          <m:mfenced separators="" open="(" close=")">
+            <m:mfenced separators="" open="|" close="|">
+              <m:msubsup>
+                <m:mrow>
+                  <m:mo>∥</m:mo>
+                  <m:mi>X</m:mi>
+                  <m:mo>∥</m:mo>
+                </m:mrow>
+                <m:mn>2</m:mn>
+                <m:mn>2</m:mn>
+              </m:msubsup>
+              <m:mo>-</m:mo>
+              <m:mi>M</m:mi>
+              <m:msup>
+                <m:mi>σ</m:mi>
+                <m:mn>2</m:mn>
+              </m:msup>
+            </m:mfenced>
+            <m:mo>≥</m:mo>
+            <m:mi>ϵ</m:mi>
+            <m:mi>M</m:mi>
+            <m:msup>
+              <m:mi>σ</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+          </m:mfenced>
+          <m:mo>≤</m:mo>
+          <m:mn>2</m:mn>
+          <m:mo form="prefix">exp</m:mo>
+          <m:mfenced separators="" open="(" close=")">
+            <m:mo>-</m:mo>
+            <m:mfrac>
+              <m:mrow>
+                <m:mi>M</m:mi>
+                <m:msup>
+                  <m:mi>ϵ</m:mi>
+                  <m:mn>2</m:mn>
+                </m:msup>
+              </m:mrow>
+              <m:msup>
+                <m:mi>κ</m:mi>
+                <m:mo>*</m:mo>
+              </m:msup>
+            </m:mfrac>
+          </m:mfenced>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id265641">with <m:math overflow="scroll"><m:mrow><m:msup><m:mi>κ</m:mi><m:mo>*</m:mo></m:msup><m:mo>=</m:mo><m:mn>2</m:mn><m:mo>/</m:mo><m:mrow><m:mo>(</m:mo><m:mn>1</m:mn><m:mo>-</m:mo><m:mo form="prefix">log</m:mo><m:mrow><m:mo>(</m:mo><m:mn>2</m:mn><m:mo>)</m:mo></m:mrow><m:mo>)</m:mo></m:mrow><m:mo>≈</m:mo><m:mn>6</m:mn><m:mo>.</m:mo><m:mn>52</m:mn></m:mrow></m:math>.</para>
+</statement>
+<proof id="fs-id1172571354970">
+    <para id="id265706">Since each <m:math overflow="scroll"><m:mrow><m:msub><m:mi>X</m:mi><m:mi>i</m:mi></m:msub><m:mo>∼</m:mo><m:mi> SSub </m:mi><m:mrow><m:mo>(</m:mo><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup><m:mo>)</m:mo></m:mrow></m:mrow></m:math>, we have that <m:math overflow="scroll"><m:mrow><m:msub><m:mi>X</m:mi><m:mi>i</m:mi></m:msub><m:mo>∼</m:mo><m:mi> Sub </m:mi><m:mrow><m:mo>(</m:mo><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup><m:mo>)</m:mo></m:mrow></m:mrow></m:math> and <m:math overflow="scroll"><m:mrow><m:mi mathvariant="double-struck">E</m:mi><m:mrow><m:mo>(</m:mo><m:msubsup><m:mi>X</m:mi><m:mi>i</m:mi><m:mn>2</m:mn></m:msubsup><m:mo>)</m:mo></m:mrow><m:mo>=</m:mo><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup></m:mrow></m:math>, in which case we may apply <link target-id="uid4"/> with <m:math overflow="scroll"><m:mrow><m:mi>α</m:mi><m:mo>=</m:mo><m:mn>1</m:mn><m:mo>-</m:mo><m:mi>ϵ</m:mi></m:mrow></m:math> and <m:math overflow="scroll"><m:mrow><m:mi>β</m:mi><m:mo>=</m:mo><m:mn>1</m:mn><m:mo>+</m:mo><m:mi>ϵ</m:mi></m:mrow></m:math>. This allows us to simplify and combine the bounds in <link target-id="uid6"/> and <link target-id="uid7"/> to obtain <link target-id="uid15"/>. The value of <m:math overflow="scroll"><m:msup><m:mi>κ</m:mi><m:mo>*</m:mo></m:msup></m:math> follows from the observation that <m:math overflow="scroll"><m:mrow><m:mn>1</m:mn><m:mo>+</m:mo><m:mi>ϵ</m:mi><m:mo>≤</m:mo><m:mn>2</m:mn></m:mrow></m:math> so that we can set <m:math overflow="scroll"><m:mrow><m:msub><m:mi>β</m:mi><m:mi> max </m:mi></m:msub><m:mo>=</m:mo><m:mn>2</m:mn></m:mrow></m:math>.</para>
+</proof>
+</rule>
+    <para id="id265925">Finally, from <link target-id="uid13"/> we also have the following additional useful corollary. This result generalizes the main results of <link target-id="bid2"/> to the broader family of general strictly sub-Gaussian distributions via a much simpler proof.</para>
+<rule id="fs-id1172575699444" type="corollary">
+<statement id="fs-id1172567559716">
+    <para id="id265941"> 
+Suppose that <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> is an <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>×</m:mo><m:mi>N</m:mi></m:mrow></m:math> matrix whose entries <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mrow><m:mi>i</m:mi><m:mi>j</m:mi></m:mrow></m:msub></m:math> are i.i.d. with <m:math overflow="scroll"><m:mrow><m:msub><m:mi>φ</m:mi><m:mrow><m:mi>i</m:mi><m:mi>j</m:mi></m:mrow></m:msub><m:mo>∼</m:mo><m:mi> SSub </m:mi><m:mrow><m:mo>(</m:mo><m:mn>1</m:mn><m:mo>/</m:mo><m:mi>M</m:mi><m:mo>)</m:mo></m:mrow></m:mrow></m:math>. Let <m:math overflow="scroll"><m:mrow><m:mi>Y</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi></m:mrow></m:math> for <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>∈</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:mrow></m:math>. Then for any <m:math overflow="scroll"><m:mrow><m:mi>ϵ</m:mi><m:mo>&gt;</m:mo><m:mn>0</m:mn></m:mrow></m:math>, and any <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>∈</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:mrow></m:math>,</para>
+    <equation id="uid17"><m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">E</m:mi>
+          <m:mfenced separators="" open="(" close=")">
+            <m:msubsup>
+              <m:mrow>
+                <m:mo>∥</m:mo>
+                <m:mi>Y</m:mi>
+                <m:mo>∥</m:mo>
+              </m:mrow>
+              <m:mn>2</m:mn>
+              <m:mn>2</m:mn>
+            </m:msubsup>
+          </m:mfenced>
+          <m:mo>=</m:mo>
+          <m:msubsup>
+            <m:mrow>
+              <m:mo>∥</m:mo>
+              <m:mi>x</m:mi>
+              <m:mo>∥</m:mo>
+            </m:mrow>
+            <m:mn>2</m:mn>
+            <m:mn>2</m:mn>
+          </m:msubsup>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id266166">and</para>
+    <equation id="uid18">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">P</m:mi>
+          <m:mfenced separators="" open="(" close=")">
+            <m:mfenced separators="" open="|" close="|">
+              <m:msubsup>
+                <m:mrow>
+                  <m:mo>∥</m:mo>
+                  <m:mi>Y</m:mi>
+                  <m:mo>∥</m:mo>
+                </m:mrow>
+                <m:mn>2</m:mn>
+                <m:mn>2</m:mn>
+              </m:msubsup>
+              <m:mo>-</m:mo>
+              <m:msubsup>
+                <m:mrow>
+                  <m:mo>∥</m:mo>
+                  <m:mi>x</m:mi>
+                  <m:mo>∥</m:mo>
+                </m:mrow>
+                <m:mn>2</m:mn>
+                <m:mn>2</m:mn>
+              </m:msubsup>
+            </m:mfenced>
+            <m:mo>≥</m:mo>
+            <m:mi>ϵ</m:mi>
+            <m:msubsup>
+              <m:mrow>
+                <m:mo>∥</m:mo>
+                <m:mi>x</m:mi>
+                <m:mo>∥</m:mo>
+              </m:mrow>
+              <m:mn>2</m:mn>
+              <m:mn>2</m:mn>
+            </m:msubsup>
+          </m:mfenced>
+          <m:mo>≤</m:mo>
+          <m:mn>2</m:mn>
+          <m:mo form="prefix">exp</m:mo>
+          <m:mfenced separators="" open="(" close=")">
+            <m:mo>-</m:mo>
+            <m:mfrac>
+              <m:mrow>
+                <m:mi>M</m:mi>
+                <m:msup>
+                  <m:mi>ϵ</m:mi>
+                  <m:mn>2</m:mn>
+                </m:msup>
+              </m:mrow>
+              <m:msup>
+                <m:mi>κ</m:mi>
+                <m:mo>*</m:mo>
+              </m:msup>
+            </m:mfrac>
+          </m:mfenced>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id266300">with <m:math overflow="scroll"><m:mrow><m:msup><m:mi>κ</m:mi><m:mo>*</m:mo></m:msup><m:mo>=</m:mo><m:mn>2</m:mn><m:mo>/</m:mo><m:mrow><m:mo>(</m:mo><m:mn>1</m:mn><m:mo>-</m:mo><m:mo form="prefix">log</m:mo><m:mrow><m:mo>(</m:mo><m:mn>2</m:mn><m:mo>)</m:mo></m:mrow><m:mo>)</m:mo></m:mrow><m:mo>≈</m:mo><m:mn>6</m:mn><m:mo>.</m:mo><m:mn>52</m:mn></m:mrow></m:math>.</para>
+</statement>
+<proof id="fs-id1172574670896">
+    <para id="id266365">Let <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mi>i</m:mi></m:msub></m:math> denote the <m:math overflow="scroll"><m:msup><m:mi>i</m:mi><m:mi> th </m:mi></m:msup></m:math> row of <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>. Observe that if <m:math overflow="scroll"><m:msub><m:mi>Y</m:mi><m:mi>i</m:mi></m:msub></m:math> denotes the first element of <m:math overflow="scroll"><m:mi>Y</m:mi></m:math>, then <m:math overflow="scroll"><m:mrow><m:msub><m:mi>Y</m:mi><m:mi>i</m:mi></m:msub><m:mo>=</m:mo><m:mrow><m:mo>〈</m:mo><m:msub><m:mi>φ</m:mi><m:mi>i</m:mi></m:msub><m:mo>,</m:mo><m:mi>x</m:mi><m:mo>〉</m:mo></m:mrow></m:mrow></m:math>, and thus by Lemma 2 from <link document="m37185" version="latest">"Sub-Gaussian random variables"</link>, <m:math overflow="scroll"><m:mrow><m:msub><m:mi>Y</m:mi><m:mi>i</m:mi></m:msub><m:mo>∼</m:mo><m:mi> SSub </m:mi><m:mfenced separators="" open="(" close=")"><m:msubsup><m:mrow><m:mo>∥</m:mo><m:mi>x</m:mi><m:mo>∥</m:mo></m:mrow><m:mn>2</m:mn><m:mn>2</m:mn></m:msubsup><m:mo>/</m:mo><m:mi>M</m:mi></m:mfenced></m:mrow></m:math>. Applying <link target-id="uid13"/> to the <m:math overflow="scroll"><m:mi>M</m:mi></m:math>-dimensional random vector <m:math overflow="scroll"><m:mi>Y</m:mi></m:math>, we obtain <link target-id="uid18"/>.
+</para>
+</proof>
+</rule>
+
+  </content>
+  <bib:file>
+    <bib:entry id="bid2">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Achlioptas, D.</bib:author>
+        <bib:title>Database-friendly random projections</bib:title>
+        <bib:booktitle>Proc. Symp. Principles of Database Systems (PODS)</bib:booktitle>
+        <bib:year>2001</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Santa Barbara, CA</bib:address>
+        <bib:month>May</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid1">
+      <bib:techreport>
+        <!--required fields-->
+        <bib:author>Dasgupta, S. and Gupta, A.</bib:author>
+        <bib:title>An elementary proof of the Johnson-Lindenstrauss Lemma</bib:title>
+        <bib:institution>Univ. of Cal. Berkeley, Comput. Science Division</bib:institution>
+        <bib:year>1999</bib:year>
+        <!--optional fields-->
+        <bib:type>Technical report</bib:type>
+        <bib:number>TR-99-006</bib:number>
+        <bib:address/>
+        <bib:month>Mar.</bib:month>
+        <bib:note/>
+      </bib:techreport>
+    </bib:entry>
+    <bib:entry id="bid0">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Ledoux, M.</bib:author>
+        <bib:title>The Concentration of Measure Phenomenon</bib:title>
+        <bib:publisher>American Mathematical Society</bib:publisher>
+        <bib:year>2001</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address>Providence, RI</bib:address>
+        <bib:edition/>
+        <bib:month/>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+  </bib:file>
+</document>

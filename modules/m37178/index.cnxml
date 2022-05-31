@@ -1,0 +1,368 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:bib="http://bibtexml.sf.net/">
+  <title>Coherence</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37178</md:content-id>
+  <md:title>Coherence</md:title>
+  <md:abstract>In this module we introduce coherence, which provides a more computationally friendly alternative to conditions such as the spark, NSP, or RIP.  We briefly describe the theoretical relationship between these conditions.</md:abstract>
+  <md:uuid>61c09cf9-9559-4983-bff1-074a60e42ec3</md:uuid>
+</metadata>
+
+<content>
+    <para id="id161995">While the <link document="m37170" version="latest">spark</link>, <link document="m37170" version="latest">null space property</link> (NSP), and <link document="m37171" version="latest">restricted isometry property</link> (RIP) all provide guarantees for the recovery of <link document="m37168" version="latest">sparse</link> signals, verifying that a general matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> satisfies any of these properties has a combinatorial computational complexity, since in each case one must essentially consider <m:math overflow="scroll"><m:mfenced separators="" open="(" close=")"><m:mfrac linethickness="0pt"><m:mi>N</m:mi><m:mi>K</m:mi></m:mfrac></m:mfenced></m:math> submatrices. In many settings it is preferable to use properties of <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> that are easily computable to provide more concrete recovery guarantees. The <emphasis effect="italics">coherence</emphasis> of a matrix is one such property <link target-id="bid0"/>, <link target-id="bid1"/>.</para>
+<definition id="fs-id1168819836675"><term/><meaning id="fs-id1168819814167">
+    <para id="id162404"> The coherence of a matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>, <m:math overflow="scroll"><m:mrow><m:mi>μ</m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow></m:math>, is the largest absolute inner product between any two columns <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mi>i</m:mi></m:msub></m:math>, <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mi>j</m:mi></m:msub></m:math> of
+<m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>:</para>
+    <equation id="id162474">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi>μ</m:mi>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>Φ</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mo>=</m:mo>
+          <m:munder>
+            <m:mo movablelimits="true" form="prefix">max</m:mo>
+            <m:mrow>
+              <m:mn>1</m:mn>
+              <m:mo>≤</m:mo>
+              <m:mi>i</m:mi>
+              <m:mo>&lt;</m:mo>
+              <m:mi>j</m:mi>
+              <m:mo>≤</m:mo>
+              <m:mi>N</m:mi>
+            </m:mrow>
+          </m:munder>
+          <m:mfrac>
+            <m:mfenced separators="" open="|" close="|">
+              <m:mfenced separators="" open="〈" close="〉">
+                <m:msub>
+                  <m:mi>φ</m:mi>
+                  <m:mi>i</m:mi>
+                </m:msub>
+                <m:mo>,</m:mo>
+                <m:msub>
+                  <m:mi>φ</m:mi>
+                  <m:mi>j</m:mi>
+                </m:msub>
+              </m:mfenced>
+            </m:mfenced>
+            <m:mrow>
+              <m:mrow>
+                <m:mo>∥</m:mo>
+              </m:mrow>
+              <m:msub>
+                <m:mi>φ</m:mi>
+                <m:mi>i</m:mi>
+              </m:msub>
+              <m:msub>
+                <m:mrow>
+                  <m:mo>∥</m:mo>
+                </m:mrow>
+                <m:mn>2</m:mn>
+              </m:msub>
+              <m:msub>
+                <m:mrow>
+                  <m:mo>∥</m:mo>
+                  <m:msub>
+                    <m:mi>φ</m:mi>
+                    <m:mi>j</m:mi>
+                  </m:msub>
+                  <m:mo>∥</m:mo>
+                </m:mrow>
+                <m:mn>2</m:mn>
+              </m:msub>
+            </m:mrow>
+          </m:mfrac>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+</meaning></definition>
+    <para id="id162594">It is possible to show that the coherence of a matrix is always in the range <m:math overflow="scroll"><m:mrow><m:mi>μ</m:mi><m:mrow><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow><m:mo>∈</m:mo><m:mfenced separators="" open="[" close="]"><m:msqrt><m:mfrac><m:mrow><m:mi>N</m:mi><m:mo>-</m:mo><m:mi>M</m:mi></m:mrow><m:mrow><m:mi>M</m:mi><m:mo>(</m:mo><m:mi>N</m:mi><m:mo>-</m:mo><m:mn>1</m:mn><m:mo>)</m:mo></m:mrow></m:mfrac></m:msqrt><m:mo>,</m:mo><m:mn>1</m:mn></m:mfenced></m:mrow></m:math>; the lower bound is known as the Welch bound <link target-id="bid4"/>, <link target-id="bid3"/>, <link target-id="bid2"/>. Note that when <m:math overflow="scroll"><m:mrow><m:mi>N</m:mi><m:mo>≫</m:mo><m:mi>M</m:mi></m:mrow></m:math>, the lower bound is approximately <m:math overflow="scroll"><m:mrow><m:mi>μ</m:mi><m:mrow><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow><m:mo>≥</m:mo><m:mn>1</m:mn><m:mo>/</m:mo><m:msqrt><m:mi>M</m:mi></m:msqrt></m:mrow></m:math>. </para>
+    <para id="id162906">One can sometimes relate coherence to the spark, NSP, and RIP. For example, the coherence and spark properties of a matrix can be related by employing the Gershgorin circle theorem <link target-id="bid8"/>, <link target-id="bid9"/>.</para>
+<rule id="uid2" type="theorem"><title>(Theorem 2 of <link target-id="bid8"/>)</title><statement id="fs-id1168815256023">
+    <para id="id162923">  
+The eigenvalues of an <m:math overflow="scroll"><m:mrow><m:mi>N</m:mi><m:mo>×</m:mo><m:mi>N</m:mi></m:mrow></m:math> matrix <m:math overflow="scroll"><m:mi>M</m:mi></m:math> with entries <m:math overflow="scroll"><m:msub><m:mi>m</m:mi><m:mrow><m:mi>i</m:mi><m:mi>j</m:mi></m:mrow></m:msub></m:math>, <m:math overflow="scroll"><m:mrow><m:mn>1</m:mn><m:mo>≤</m:mo><m:mi>i</m:mi><m:mo>,</m:mo><m:mi>j</m:mi><m:mo>≤</m:mo><m:mi>N</m:mi></m:mrow></m:math>, lie in the union of <m:math overflow="scroll"><m:mi>N</m:mi></m:math> discs <m:math overflow="scroll"><m:mrow><m:msub><m:mi>d</m:mi><m:mi>i</m:mi></m:msub><m:mo>=</m:mo><m:msub><m:mi>d</m:mi><m:mi>i</m:mi></m:msub><m:mrow><m:mo>(</m:mo><m:msub><m:mi>c</m:mi><m:mi>i</m:mi></m:msub><m:mo>,</m:mo><m:msub><m:mi>r</m:mi><m:mi>i</m:mi></m:msub><m:mo>)</m:mo></m:mrow></m:mrow></m:math>, <m:math overflow="scroll"><m:mrow><m:mn>1</m:mn><m:mo>≤</m:mo><m:mi>i</m:mi><m:mo>≤</m:mo><m:mi>N</m:mi></m:mrow></m:math>, centered at <m:math overflow="scroll"><m:mrow><m:msub><m:mi>c</m:mi><m:mi>i</m:mi></m:msub><m:mo>=</m:mo><m:msub><m:mi>m</m:mi><m:mrow><m:mi>i</m:mi><m:mi>i</m:mi></m:mrow></m:msub></m:mrow></m:math> and with radius <m:math overflow="scroll"><m:mrow><m:msub><m:mi>r</m:mi><m:mi>i</m:mi></m:msub><m:mo>=</m:mo><m:msub><m:mo>∑</m:mo><m:mrow><m:mi>j</m:mi><m:mo>≠</m:mo><m:mi>i</m:mi></m:mrow></m:msub><m:mrow><m:mo>|</m:mo><m:msub><m:mi>m</m:mi><m:mrow><m:mi>i</m:mi><m:mi>j</m:mi></m:mrow></m:msub><m:mo>|</m:mo></m:mrow></m:mrow></m:math>.</para>
+</statement></rule>
+    <para id="id163143">Applying this theorem on the Gram matrix <m:math overflow="scroll"><m:mrow><m:mi>G</m:mi><m:mo>=</m:mo><m:msubsup><m:mi>Φ</m:mi><m:mi>Λ</m:mi><m:mi>T</m:mi></m:msubsup><m:msub><m:mi>Φ</m:mi><m:mi>Λ</m:mi></m:msub></m:mrow></m:math> leads to the following straightforward result.</para>
+<rule id="uid3" type="lemma"><statement id="fs-id1168821837695">
+    <para id="id163176"> 
+For any matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>,</para>
+    <equation id="id163196">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi> spark </m:mi>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>Φ</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mo>≥</m:mo>
+          <m:mn>1</m:mn>
+          <m:mo>+</m:mo>
+          <m:mfrac>
+            <m:mn>1</m:mn>
+            <m:mrow>
+              <m:mi>μ</m:mi>
+              <m:mo>(</m:mo>
+              <m:mi>Φ</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+          </m:mfrac>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+</statement>
+<proof id="fs-id1168819812701">
+    <para id="id163243">Since <m:math overflow="scroll"><m:mrow><m:mi> spark </m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow></m:math> does not depend on the scaling of the columns, we can assume without loss of generality that <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> has unit-norm columns. Let <m:math overflow="scroll"><m:mrow><m:mi>Λ</m:mi><m:mo>⊆</m:mo><m:mo>{</m:mo><m:mn>1</m:mn><m:mo>,</m:mo><m:mo>...</m:mo><m:mo>,</m:mo><m:mi>N</m:mi><m:mo>}</m:mo></m:mrow></m:math> with <m:math overflow="scroll"><m:mrow><m:mo>|</m:mo><m:mi>Λ</m:mi><m:mo>|</m:mo><m:mo>=</m:mo><m:mi>p</m:mi></m:mrow></m:math> determine a set of indices. We consider the restricted Gram matrix <m:math overflow="scroll"><m:mrow><m:mi>G</m:mi><m:mo>=</m:mo><m:msubsup><m:mi>Φ</m:mi><m:mi>Λ</m:mi><m:mi>T</m:mi></m:msubsup><m:msub><m:mi>Φ</m:mi><m:mi>Λ</m:mi></m:msub></m:mrow></m:math>, which satisfies the following properties:</para>
+    <list id="id163345" display="block" list-type="bulleted">
+      <item id="uid4"><m:math overflow="scroll"><m:mrow><m:msub><m:mi>g</m:mi><m:mrow><m:mi>i</m:mi><m:mi>i</m:mi></m:mrow></m:msub><m:mo>=</m:mo><m:mn>1</m:mn></m:mrow></m:math>, <m:math overflow="scroll"><m:mrow><m:mn>1</m:mn><m:mo>≤</m:mo><m:mi>i</m:mi><m:mo>≤</m:mo><m:mi>p</m:mi></m:mrow></m:math>;
+</item>
+      <item id="uid5"><m:math overflow="scroll"><m:mrow><m:mrow><m:mo>|</m:mo></m:mrow><m:msub><m:mi>g</m:mi><m:mrow><m:mi>i</m:mi><m:mi>j</m:mi></m:mrow></m:msub><m:mrow><m:mo>|</m:mo><m:mo>≤</m:mo><m:mi>μ</m:mi><m:mrow><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow></m:mrow></m:mrow></m:math>, <m:math overflow="scroll"><m:mrow><m:mn>1</m:mn><m:mo>≤</m:mo><m:mi>i</m:mi><m:mo>,</m:mo><m:mi>j</m:mi><m:mo>≤</m:mo><m:mi>p</m:mi></m:mrow></m:math>, <m:math overflow="scroll"><m:mrow><m:mi>i</m:mi><m:mo>≠</m:mo><m:mi>j</m:mi></m:mrow></m:math>.
+</item>
+    </list>
+    <para id="id163479">From <link target-id="uid2"/>, if <m:math overflow="scroll"><m:mrow><m:msub><m:mo>∑</m:mo><m:mrow><m:mi>j</m:mi><m:mo>≠</m:mo><m:mi>i</m:mi></m:mrow></m:msub><m:mrow><m:mo>|</m:mo></m:mrow><m:msub><m:mi>g</m:mi><m:mrow><m:mi>i</m:mi><m:mi>j</m:mi></m:mrow></m:msub><m:mrow><m:mo>|</m:mo><m:mo>&lt;</m:mo><m:mo>|</m:mo></m:mrow><m:msub><m:mi>g</m:mi><m:mrow><m:mi>i</m:mi><m:mi>i</m:mi></m:mrow></m:msub><m:mrow><m:mo>|</m:mo></m:mrow></m:mrow></m:math> then the matrix <m:math overflow="scroll"><m:mi>G</m:mi></m:math> is positive definite, so that the columns of <m:math overflow="scroll"><m:msub><m:mi>Φ</m:mi><m:mi>Λ</m:mi></m:msub></m:math> are linearly independent. Thus, the spark condition implies <m:math overflow="scroll"><m:mrow><m:mo>(</m:mo><m:mi>p</m:mi><m:mo>-</m:mo><m:mn>1</m:mn><m:mo>)</m:mo><m:mi>μ</m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo><m:mo>&lt;</m:mo><m:mn>1</m:mn></m:mrow></m:math> or, equivalently, <m:math overflow="scroll"><m:mrow><m:mi>p</m:mi><m:mo>&lt;</m:mo><m:mn>1</m:mn><m:mo>+</m:mo><m:mn>1</m:mn><m:mo>/</m:mo><m:mi>μ</m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow></m:math> for all <m:math overflow="scroll"><m:mrow><m:mi>p</m:mi><m:mo>&lt;</m:mo><m:mi> spark </m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow></m:math>, yielding <m:math overflow="scroll"><m:mrow><m:mi> spark </m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo><m:mo>≥</m:mo><m:mn>1</m:mn><m:mo>+</m:mo><m:mn>1</m:mn><m:mo>/</m:mo><m:mi>μ</m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow></m:math>.</para>
+</proof></rule>
+    <para id="id163676">By merging Theorem 1 from <link document="m37170" version="latest">"Null space conditions"</link> with <link target-id="uid3"/>, we can pose the following condition on <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> that guarantees uniqueness.</para>
+<rule id="uid6" type="theorem"><title>(Theorem 12 of <link target-id="bid0"/>)</title><statement id="fs-id1168815499120">
+    <para id="id163694">
+If</para>
+    <equation id="uid7">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi>K</m:mi>
+          <m:mo>&lt;</m:mo>
+          <m:mfrac>
+            <m:mn>1</m:mn>
+            <m:mn>2</m:mn>
+          </m:mfrac>
+          <m:mfenced separators="" open="(" close=")">
+            <m:mn>1</m:mn>
+            <m:mo>+</m:mo>
+            <m:mfrac>
+              <m:mn>1</m:mn>
+              <m:mrow>
+                <m:mi>μ</m:mi>
+                <m:mo>(</m:mo>
+                <m:mi>Φ</m:mi>
+                <m:mo>)</m:mo>
+              </m:mrow>
+            </m:mfrac>
+          </m:mfenced>
+          <m:mo>,</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id163762">then for each measurement vector <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>∈</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>M</m:mi></m:msup></m:mrow></m:math> there exists at most one signal <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>∈</m:mo><m:msub><m:mi>Σ</m:mi><m:mi>K</m:mi></m:msub></m:mrow></m:math> such that <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi></m:mrow></m:math>.</para>
+</statement></rule>
+    <para id="id163835"><link target-id="uid6"/>, together with the Welch bound, provides an upper bound on the level of sparsity <m:math overflow="scroll"><m:mi>K</m:mi></m:math> that guarantees uniqueness using coherence: <m:math overflow="scroll"><m:mrow><m:mi>K</m:mi><m:mo>=</m:mo><m:mi>O</m:mi><m:mo>(</m:mo><m:msqrt><m:mi>M</m:mi></m:msqrt><m:mo>)</m:mo></m:mrow></m:math>. Another straightforward application of the Gershgorin circle theorem (<link target-id="uid2"/>) connects the RIP to the coherence property.</para>
+<rule id="fs-id1168825707227" type="lemma"><statement id="fs-id1168832596047">
+    <para id="id163880">If <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> has unit-norm columns and coherence <m:math overflow="scroll"><m:mrow><m:mi>μ</m:mi><m:mo>=</m:mo><m:mi>μ</m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow></m:math>, then <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> satisfies the RIP of order <m:math overflow="scroll"><m:mi>K</m:mi></m:math> with <m:math overflow="scroll"><m:mrow><m:mi>δ</m:mi><m:mo>=</m:mo><m:mo>(</m:mo><m:mi>K</m:mi><m:mo>-</m:mo><m:mn>1</m:mn><m:mo>)</m:mo><m:mi>μ</m:mi></m:mrow></m:math> for all <m:math overflow="scroll"><m:mrow><m:mi>K</m:mi><m:mo>&lt;</m:mo><m:mn>1</m:mn><m:mo>/</m:mo><m:mi>μ</m:mi></m:mrow></m:math>.</para>
+</statement></rule>
+    <para id="id163973">The proof of this lemma is similar to that of <link target-id="uid3"/>.</para>
+    <para id="id163984">The results given here emphasize the need for small coherence <m:math overflow="scroll"><m:mrow><m:mi>μ</m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow></m:math> for the matrices used in CS. Coherence bounds have been studied both for deterministic and randomized matrices. For example, there are known matrices <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> of size <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>×</m:mo><m:msup><m:mi>M</m:mi><m:mn>2</m:mn></m:msup></m:mrow></m:math> that achieve the coherence lower bound <m:math overflow="scroll"><m:mrow><m:mi>μ</m:mi><m:mrow><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow><m:mo>=</m:mo><m:mn>1</m:mn><m:mo>/</m:mo><m:msqrt><m:mi>M</m:mi></m:msqrt></m:mrow></m:math>, such as the Gabor frame generated from the Alltop sequence <link target-id="bid10"/> and more general equiangular tight frames <link target-id="bid3"/>. These constructions restrict the number of measurements needed to recover a <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-sparse signal to be <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>=</m:mo><m:mi>O</m:mi><m:mo>(</m:mo><m:msup><m:mi>K</m:mi><m:mn>2</m:mn></m:msup><m:mo form="prefix">log</m:mo><m:mi>N</m:mi><m:mo>)</m:mo></m:mrow></m:math>. Furthermore, it can be shown that when the distribution used has zero mean and finite variance, then in the asymptotic regime (as <m:math overflow="scroll"><m:mi>M</m:mi></m:math> and <m:math overflow="scroll"><m:mi>N</m:mi></m:math> grow) the coherence converges to <m:math overflow="scroll"><m:mrow><m:mi>μ</m:mi><m:mrow><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow><m:mo>=</m:mo><m:msqrt><m:mrow><m:mo>(</m:mo><m:mn>2</m:mn><m:mo form="prefix">log</m:mo><m:mi>N</m:mi><m:mo>)</m:mo><m:mo>/</m:mo><m:mi>M</m:mi></m:mrow></m:msqrt></m:mrow></m:math> <link target-id="bid12"/>, <link target-id="bid13"/>, <link target-id="bid11"/>. Such constructions would allow <m:math overflow="scroll"><m:mi>K</m:mi></m:math> to grow asymptotically as <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>=</m:mo><m:mi>O</m:mi><m:mo>(</m:mo><m:msup><m:mi>K</m:mi><m:mn>2</m:mn></m:msup><m:mo form="prefix">log</m:mo><m:mi>N</m:mi><m:mo>)</m:mo></m:mrow></m:math>, matching the known finite-dimensional bounds.</para>
+    <para id="id164233">The measurement bounds dependent on coherence are handicapped by the squared dependence on the sparsity <m:math overflow="scroll"><m:mi>K</m:mi></m:math>, but it is possible to overcome this bottleneck by shifting the types of guarantees from worst-case/deterministic behavior, to average-case/probabilistic behavior <link target-id="bid14"/>, <link target-id="bid15"/>. In this setting, we pose a probabilistic prior on the set of <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-sparse signals <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>∈</m:mo><m:msub><m:mi>Σ</m:mi><m:mi>K</m:mi></m:msub></m:mrow></m:math>. It is then possible to show that if <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> has low coherence <m:math overflow="scroll"><m:mrow><m:mi>μ</m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow></m:math> and spectral norm <m:math overflow="scroll"><m:msub><m:mrow><m:mo>∥</m:mo><m:mi>Φ</m:mi><m:mo>∥</m:mo></m:mrow><m:mn>2</m:mn></m:msub></m:math>, and if <m:math overflow="scroll"><m:mrow><m:mi>K</m:mi><m:mo>=</m:mo><m:mi>O</m:mi><m:mo>(</m:mo><m:msup><m:mi>μ</m:mi><m:mrow><m:mo>-</m:mo><m:mn>2</m:mn></m:mrow></m:msup><m:mrow><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow><m:mo form="prefix">log</m:mo><m:mi>N</m:mi><m:mo>)</m:mo></m:mrow></m:math>, then the signal <m:math overflow="scroll"><m:mi>x</m:mi></m:math> can be recovered from its CS measurements <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi></m:mrow></m:math> with high probability. Note that if we replace the Welch bound, then we obtain <m:math overflow="scroll"><m:mrow><m:mi>K</m:mi><m:mo>=</m:mo><m:mi>O</m:mi><m:mo>(</m:mo><m:mi>M</m:mi><m:mo form="prefix">log</m:mo><m:mi>N</m:mi><m:mo>)</m:mo></m:mrow></m:math>, which returns to the linear dependence of the measurement bound on the signal sparsity that appears in RIP-based results.
+
+</para>
+  </content>
+  <bib:file>
+    <bib:entry id="bid12">
+      <bib:unpublished>
+        <!--required fields-->
+        <bib:author>Cai, T. and Jiang, T.</bib:author>
+        <bib:title>Limiting Laws of Coherence of Random Matrices with Applications to Testing Covariance Structure and Construction of Compressed Sensing Matrices</bib:title>
+        <bib:note>Preprint</bib:note>
+        <!--optional fields-->
+        <bib:month/>
+        <bib:year>2010</bib:year>
+      </bib:unpublished>
+    </bib:entry>
+    <bib:entry id="bid13">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Candès, E. and Plan, Y.</bib:author>
+        <bib:title>Near-Ideal Model Selection by <!--no math allowed in bib entries--> minimization</bib:title>
+        <bib:journal>Ann. Stat.</bib:journal>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume>37</bib:volume>
+        <bib:number>5A</bib:number>
+        <bib:pages>2145–2177</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid0">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Donoho, D. and Elad, M.</bib:author>
+        <bib:title>Optimally sparse representation in general (nonorthogonal) dictionaries via <!--no math allowed in bib entries--> minimization</bib:title>
+        <bib:journal>Proc. Natl. Acad. Sci.</bib:journal>
+        <bib:year>2003</bib:year>
+        <!--optional fields-->
+        <bib:volume>100</bib:volume>
+        <bib:number>5</bib:number>
+        <bib:pages>2197–2202</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid11">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Donoho, D.</bib:author>
+        <bib:title>For most large underdetermined systems of linear equations, the minimal <!--no math allowed in bib entries-->-norm solution is also the sparsest solution</bib:title>
+        <bib:journal>Comm. Pure Appl. Math.</bib:journal>
+        <bib:year>2006</bib:year>
+        <!--optional fields-->
+        <bib:volume>59</bib:volume>
+        <bib:number>6</bib:number>
+        <bib:pages>797–829</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid8">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Gervsgorin, S.</bib:author>
+        <bib:title>Über die Abgrenzung der Eigenwerte einer Matrix</bib:title>
+        <bib:journal>Izv. Akad. Nauk SSSR Ser. Fiz.-Mat.</bib:journal>
+        <bib:year>1931</bib:year>
+        <!--optional fields-->
+        <bib:volume>6</bib:volume>
+        <bib:number/>
+        <bib:pages>749–754</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid10">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Herman, M. and Strohmer, T.</bib:author>
+        <bib:title>High-Resolution Radar via Compressed Sensing</bib:title>
+        <bib:journal>IEEE Trans. Signal Processing</bib:journal>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume>57</bib:volume>
+        <bib:number>6</bib:number>
+        <bib:pages>2275–2284</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid4">
+      <bib:inbook>
+        <!--required fields-->
+        <bib:author>Rosenfeld, M.</bib:author>
+        <bib:title>The Mathematics of Paul Erdős II</bib:title>
+        <bib:chapter>In praise of the Gram matrix</bib:chapter>
+        <bib:pages>318–323</bib:pages>
+        <bib:publisher>Springer</bib:publisher>
+        <bib:year>1996</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address>Berlin, Germany</bib:address>
+        <bib:edition/>
+        <bib:month/>
+        <bib:note/>
+      </bib:inbook>
+    </bib:entry>
+    <bib:entry id="bid3">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Strohmer, T. and Heath, R.</bib:author>
+        <bib:title>Grassmanian frames with applications to coding and communication</bib:title>
+        <bib:journal>Appl. Comput. Harmon. Anal.</bib:journal>
+        <bib:year>2003</bib:year>
+        <!--optional fields-->
+        <bib:volume>14</bib:volume>
+        <bib:number>3</bib:number>
+        <bib:pages>257–275</bib:pages>
+        <bib:month>Nov.</bib:month>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid1">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Tropp, J. and Gilbert, A.</bib:author>
+        <bib:title>Signal recovery from partial information via orthogonal matching pursuit</bib:title>
+        <bib:journal>IEEE Trans. Inform. Theory</bib:journal>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:volume>53</bib:volume>
+        <bib:number>12</bib:number>
+        <bib:pages>4655–4666</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid14">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Tropp, J. A.</bib:author>
+        <bib:title>Norms of random submatrices and sparse approximation</bib:title>
+        <bib:journal>C. R. Acad. Sci. Paris, Ser. I</bib:journal>
+        <bib:year>2008</bib:year>
+        <!--optional fields-->
+        <bib:volume>346</bib:volume>
+        <bib:number>23–24</bib:number>
+        <bib:pages>1271–1274</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid15">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Tropp, J. A.</bib:author>
+        <bib:title>On the conditioning of random subdictionaries</bib:title>
+        <bib:journal>Appl. Comput. Harmon. Anal.</bib:journal>
+        <bib:year>2008</bib:year>
+        <!--optional fields-->
+        <bib:volume>25</bib:volume>
+        <bib:number/>
+        <bib:pages>1-24</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid9">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Varga, R.</bib:author>
+        <bib:title>Geršgorin and His Circles</bib:title>
+        <bib:publisher>Springer</bib:publisher>
+        <bib:year>2004</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address>Berlin, Germany</bib:address>
+        <bib:edition/>
+        <bib:month/>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid2">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Welch, L.</bib:author>
+        <bib:title>Lower bounds on the maximum cross correlation of signals</bib:title>
+        <bib:journal>IEEE Trans. Inform. Theory</bib:journal>
+        <bib:year>1974</bib:year>
+        <!--optional fields-->
+        <bib:volume>20</bib:volume>
+        <bib:number>3</bib:number>
+        <bib:pages>397–399</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+  </bib:file>
+</document>

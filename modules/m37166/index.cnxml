@@ -1,0 +1,270 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:bib="http://bibtexml.sf.net/">
+  <title>Compressible signals</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37166</md:content-id>
+  <md:title>Compressible signals</md:title>
+  <md:abstract>This module describes compressible signals, i.e., signals that can be well-approximated by sparse signals.</md:abstract>
+  <md:uuid>53884b3c-6403-47a7-a7f3-0f39202b3d79</md:uuid>
+</metadata>
+
+<content>
+    <section id="uid1">
+      <title>Compressibility and <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-term approximation</title>
+      <para id="id237689">An important assumption used in the context of <link document="m37172" version="latest">compressive sensing</link> (CS) is that signals exhibit a degree of structure. So far the only structure we have considered is <link document="m37168" version="latest">sparsity</link>, i.e., the number of non-zero values the signal has when representation in an <link document="m37165" version="latest">orthonormal basis</link> <m:math overflow="scroll"><m:mi>Ψ</m:mi></m:math>. The signal is considered sparse if it has only a few nonzero values in comparison with its overall length.</para>
+      <para id="id237703">Few structured signals are truly sparse; rather they are compressible. A signal is <emphasis effect="italics">compressible</emphasis> if its sorted coefficient magnitudes in <m:math overflow="scroll"><m:mi>Ψ</m:mi></m:math> decay rapidly. To consider this mathematically, let <m:math overflow="scroll"><m:mi>x</m:mi></m:math> be a signal which is compressible in the basis <m:math overflow="scroll"><m:mi>Ψ</m:mi></m:math>:</para>
+      <equation id="uid2">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:mi>x</m:mi>
+            <m:mo>=</m:mo>
+            <m:mi>Ψ</m:mi>
+            <m:mi>α</m:mi>
+            <m:mo>,</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id238099">where <m:math overflow="scroll"><m:mi>α</m:mi></m:math> are the coefficients of <m:math overflow="scroll"><m:mi>x</m:mi></m:math> in the basis <m:math overflow="scroll"><m:mi>Ψ</m:mi></m:math>. If <m:math overflow="scroll"><m:mi>x</m:mi></m:math> is compressible, then the magnitudes of the sorted coefficients <m:math overflow="scroll"><m:msub><m:mi>α</m:mi><m:mi>s</m:mi></m:msub></m:math> observe a power law decay:</para>
+      <equation id="uid3">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:mrow>
+              <m:mo>|</m:mo>
+            </m:mrow>
+            <m:msub>
+              <m:mi>α</m:mi>
+              <m:mi>s</m:mi>
+            </m:msub>
+            <m:mrow>
+              <m:mo>|</m:mo>
+              <m:mo>≤</m:mo>
+            </m:mrow>
+            <m:msub>
+              <m:mi>C</m:mi>
+              <m:mn>1</m:mn>
+            </m:msub>
+            <m:msup>
+              <m:mi>s</m:mi>
+              <m:mrow>
+                <m:mo>-</m:mo>
+                <m:mi>q</m:mi>
+              </m:mrow>
+            </m:msup>
+            <m:mo>,</m:mo>
+            <m:mi>s</m:mi>
+            <m:mo>=</m:mo>
+            <m:mn>1</m:mn>
+            <m:mo>,</m:mo>
+            <m:mn>2</m:mn>
+            <m:mo>,</m:mo>
+            <m:mo>.</m:mo>
+            <m:mo>.</m:mo>
+            <m:mo>.</m:mo>
+            <m:mo>.</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id238219">We define a signal as being compressible if it obeys this power law decay. The larger <m:math overflow="scroll"><m:mi>q</m:mi></m:math> is, the faster the magnitudes decay, and the more compressible a signal is. <link target-id="uid4"/> shows images that are compressible in different bases.</para>
+      <figure id="uid4" orient="horizontal"><subfigure id="id238267">
+          <media id="id238267_media" alt="">
+            <image mime-type="image/png" src="../../media/bigdipper-ba35.png" id="id238267_onlineimage" height="250" width="250"><!-- NOTE: attribute width changes image size online (pixels). original width is 448. --></image>
+            <image mime-type="application/postscript" for="pdf" src="../../media/bigdipper-53fb.eps" id="id238267_printimage" print-width="3in">
+              <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+            </image>
+          </media>
+        </subfigure>
+        <subfigure id="id238278">
+          <media id="id238278_media" alt="">
+            <image mime-type="image/png" src="../../media/bigdippersorted-5be2.png" id="id238278_onlineimage" height="250" width="250"><!-- NOTE: attribute width changes image size online (pixels). original width is 483. --></image>
+            <image mime-type="application/postscript" for="pdf" src="../../media/bigdippersorted-7ea8.eps" id="id238278_printimage" print-width="3in">
+              <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+            </image>
+          </media>
+        </subfigure>
+        <subfigure id="id238290">
+          <media id="id238290_media" alt="">
+            <image mime-type="image/png" src="../../media/cman-0eb3.png" id="id238290_onlineimage" height="250" width="250"><!-- NOTE: attribute width changes image size online (pixels). original width is 353. --></image>
+            <image mime-type="application/postscript" for="pdf" src="../../media/cman-5ad5.eps" id="id238290_printimage" print-width="3in">
+              <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+            </image>
+          </media>
+        </subfigure>
+        <subfigure id="id238302">
+          <media id="id238302_media" alt="">
+            <image mime-type="image/png" src="../../media/cmansorted-e42c.png" id="id238302_onlineimage" height="250" width="250"><!-- NOTE: attribute width changes image size online (pixels). original width is 478. --></image>
+            <image mime-type="application/postscript" for="pdf" src="../../media/cmansorted-61e5.eps" id="id238302_printimage" print-width="3in">
+              <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+            </image>
+          </media>
+        </subfigure>
+        
+      <caption><emphasis effect="italics">The image in the upper left is a signal that is compressible in space. When the pixel values are sorted from largest to smallest, there is a sharp descent. The image in the lower left is not compressible in space, but it is compressible in wavelets since its wavelet coefficients exhibit a power law decay.</emphasis>
+        </caption></figure>
+      <para id="id238311">Because the magnitudes of their coefficients decay so rapidly, compressible signals can be represented well by <m:math overflow="scroll"><m:mrow><m:mi>K</m:mi><m:mo>≪</m:mo><m:mi>N</m:mi></m:mrow></m:math> coefficients. The best <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-term approximation of a signal is the one in which the <m:math overflow="scroll"><m:mi>K</m:mi></m:math> largest coefficients are kept, with the rest being zero. The error between the true signal and its <m:math overflow="scroll"><m:mi>K</m:mi></m:math> term approximation is denoted the <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-term approximation error <m:math overflow="scroll"><m:mrow><m:msub><m:mi>σ</m:mi><m:mi>K</m:mi></m:msub><m:mrow><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow></m:mrow></m:math>, defined as</para>
+      <equation id="uid5">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:msub>
+              <m:mi>σ</m:mi>
+              <m:mi>K</m:mi>
+            </m:msub>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>x</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mo>=</m:mo>
+            <m:mo form="prefix">arg</m:mo>
+            <m:munder>
+              <m:mo movablelimits="true" form="prefix">min</m:mo>
+              <m:mrow>
+                <m:mi>α</m:mi>
+                <m:mo>∈</m:mo>
+                <m:msub>
+                  <m:mi>Σ</m:mi>
+                  <m:mi>K</m:mi>
+                </m:msub>
+              </m:mrow>
+            </m:munder>
+            <m:msub>
+              <m:mrow>
+                <m:mo>∥</m:mo>
+                <m:mi>x</m:mi>
+                <m:mo>-</m:mo>
+                <m:mi>Ψ</m:mi>
+                <m:mi>α</m:mi>
+                <m:mo>∥</m:mo>
+              </m:mrow>
+              <m:mn>2</m:mn>
+            </m:msub>
+            <m:mo>.</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id238460">For compressible signals, we can establish a bound with power law decay as follows:</para>
+      <equation id="uid6">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:msub>
+              <m:mi>σ</m:mi>
+              <m:mi>K</m:mi>
+            </m:msub>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>x</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mo>≤</m:mo>
+            <m:msub>
+              <m:mi>C</m:mi>
+              <m:mn>2</m:mn>
+            </m:msub>
+            <m:msup>
+              <m:mi>K</m:mi>
+              <m:mrow>
+                <m:mn>1</m:mn>
+                <m:mo>/</m:mo>
+                <m:mn>2</m:mn>
+                <m:mo>-</m:mo>
+                <m:mi>s</m:mi>
+              </m:mrow>
+            </m:msup>
+            <m:mo>.</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id238702">In fact, one can show that <m:math overflow="scroll"><m:mrow><m:msub><m:mi>σ</m:mi><m:mi>K</m:mi></m:msub><m:msub><m:mrow><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow><m:mn>2</m:mn></m:msub></m:mrow></m:math> will decay as <m:math overflow="scroll"><m:msup><m:mi>K</m:mi><m:mrow><m:mo>-</m:mo><m:mi>r</m:mi></m:mrow></m:msup></m:math> if and only if the sorted coefficients <m:math overflow="scroll"><m:msub><m:mi>α</m:mi><m:mi>i</m:mi></m:msub></m:math> decay as <m:math overflow="scroll"><m:msup><m:mi>i</m:mi><m:mrow><m:mo>-</m:mo><m:mi>r</m:mi><m:mo>+</m:mo><m:mn>1</m:mn><m:mo>/</m:mo><m:mn>2</m:mn></m:mrow></m:msup></m:math> <link target-id="bid0"/>.
+<link target-id="uid7"/> shows an image and its <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-term approximation.</para>
+      <figure id="uid7" orient="horizontal"><subfigure id="id238831">
+          <media id="id238831_media" alt="">
+            <image mime-type="image/png" src="../../media/Cameraman-584d.png" id="id238831_onlineimage" width="350"><!-- NOTE: attribute width changes image size online (pixels). original width is 410. --></image>
+            <image mime-type="application/postscript" for="pdf" src="../../media/Cameraman-be6c.eps" id="id238831_printimage" print-width="3in">
+              <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+            </image>
+          </media>
+        </subfigure>
+        <subfigure id="id238842">
+          <media id="id238842_media" alt="">
+            <image mime-type="image/png" src="../../media/cman10per-58bb.png" id="id238842_onlineimage" width="320"><!-- NOTE: attribute width changes image size online (pixels). original width is 353. --></image>
+            <image mime-type="application/postscript" for="pdf" src="../../media/cman10per-3726.eps" id="id238842_printimage" print-width="3in">
+              <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+            </image>
+          </media>
+        </subfigure>
+        
+      <caption>Sparse approximation of a natural image. (a) Original image. (b) Approximation of image obtained by keeping only the largest 10% of the wavelet coefficients. Because natural images are compressible in a wavelet domain, approximating this image it in terms of its largest wavelet coefficients maintains good fidelity.</caption></figure>
+    </section>
+    <section id="uid8">
+      <title>Compressibility and <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> spaces</title>
+      <para id="id238885">A signal's compressibility is related to the <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> space to which the signal belongs. An infinite sequence <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>(</m:mo><m:mi>n</m:mi><m:mo>)</m:mo></m:mrow></m:math> is an element of an <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> space for a particular value of <m:math overflow="scroll"><m:mi>p</m:mi></m:math> if and only if its <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> norm is finite:</para>
+      <equation id="uid9">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:msub>
+              <m:mrow>
+                <m:mo>∥</m:mo>
+                <m:mi>x</m:mi>
+                <m:mo>∥</m:mo>
+              </m:mrow>
+              <m:mi>p</m:mi>
+            </m:msub>
+            <m:mo>=</m:mo>
+            <m:msup>
+              <m:mfenced separators="" open="(" close=")">
+                <m:munder>
+                  <m:mo>∑</m:mo>
+                  <m:mi>i</m:mi>
+                </m:munder>
+                <m:msup>
+                  <m:mrow>
+                    <m:mo>|</m:mo>
+                    <m:msub>
+                      <m:mi>x</m:mi>
+                      <m:mi>i</m:mi>
+                    </m:msub>
+                    <m:mo>|</m:mo>
+                  </m:mrow>
+                  <m:mi>p</m:mi>
+                </m:msup>
+              </m:mfenced>
+              <m:mfrac>
+                <m:mn>1</m:mn>
+                <m:mi>p</m:mi>
+              </m:mfrac>
+            </m:msup>
+            <m:mo>&lt;</m:mo>
+            <m:mi>∞</m:mi>
+            <m:mo>.</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id239031">The smaller <m:math overflow="scroll"><m:mi>p</m:mi></m:math> is, the faster the sequence's values must decay in order to converge so that the norm is bounded. In the limiting case of <m:math overflow="scroll"><m:mrow><m:mi>p</m:mi><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math>, the “norm” is actually a pseudo-norm and counts the number of non-zero values. As <m:math overflow="scroll"><m:mi>p</m:mi></m:math> decreases, the size of its corresponding <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> space also decreases. <link target-id="uid10"/> shows various <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> unit balls (all sequences whose <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> norm is 1) in 3 dimensions.</para>
+      <figure id="uid10"><media id="uid10_media" alt="">
+          <image mime-type="image/png" src="../../media/pballs-c798.png" id="uid10_onlineimage" width="650"><!-- NOTE: attribute width changes image size online (pixels). original width is 447. --></image>
+          <image mime-type="application/postscript" for="pdf" src="../../media/pballs-54f4.eps" id="uid10_printimage" print-width="5in">
+            <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+          </image>
+        </media>
+        
+      <caption><emphasis effect="italics">As the value of <m:math overflow="scroll"><m:mi>p</m:mi></m:math> decreases, the size of the corresponding <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> space also decreases. This can be seen visually when comparing the the size of the spaces of signals, in three dimensions, for which the <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> norm is less than or equal to one. The volume of these <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> “balls” decreases with <m:math overflow="scroll"><m:mi>p</m:mi></m:math>.</emphasis>
+        </caption></figure>
+      <para id="id239191">Suppose that a signal is sampled infinitely finely, and call it <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>[</m:mo><m:mi>n</m:mi><m:mo>]</m:mo></m:mrow></m:math>. In order for this sequence to have a bounded <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> norm, its coefficients must have a power-law rate of decay with <m:math overflow="scroll"><m:mrow><m:mi>q</m:mi><m:mo>&gt;</m:mo><m:mn>1</m:mn><m:mo>/</m:mo><m:mi>p</m:mi></m:mrow></m:math>. Therefore a signal which is in an <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> space with <m:math overflow="scroll"><m:mrow><m:mi>p</m:mi><m:mo>≤</m:mo><m:mn>1</m:mn></m:mrow></m:math> obeys a power law decay, and is therefore compressible.</para>
+    </section>
+  </content>
+  <bib:file>
+    <bib:entry id="bid0">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>DeVore, R.</bib:author>
+        <bib:title>Nonlinear Approximation</bib:title>
+        <bib:journal>Acta Numerica</bib:journal>
+        <bib:year>1998</bib:year>
+        <!--optional fields-->
+        <bib:volume>7</bib:volume>
+        <bib:number/>
+        <bib:pages>51–150</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+  </bib:file>
+</document>

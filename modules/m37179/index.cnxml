@@ -1,0 +1,279 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:bib="http://bibtexml.sf.net/">
+  <title>Signal recovery via ℓ_1 minimization</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37179</md:content-id>
+  <md:title>Signal recovery via ℓ_1 minimization</md:title>
+  <md:abstract>This module introduces and motivates ℓ_1 minimization as a framework for sparse recovery.</md:abstract>
+  <md:uuid>f8fdffaa-3a0c-4b02-8d6f-0c0a7436e927</md:uuid>
+</metadata>
+
+<content>
+    <para id="id307676">As we will see later in this <link document="col11133" version="latest">course</link>, there now exist a wide variety of approaches to recover a <link document="m37168" version="latest">sparse</link> signal <m:math overflow="scroll"><m:mi>x</m:mi></m:math> from a small number of linear measurements. We begin by considering a natural first approach to the problem of sparse recovery.</para>
+    <para id="id307693">Given measurements <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi></m:mrow></m:math> and the knowledge that our original signal <m:math overflow="scroll"><m:mi>x</m:mi></m:math> is sparse or <link document="m37166" version="latest">compressible</link>, it is natural to attempt to recover <m:math overflow="scroll"><m:mi>x</m:mi></m:math> by solving an optimization problem of the form</para>
+    <equation id="uid1"><m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mover accent="true">
+            <m:mi>x</m:mi>
+            <m:mo>^</m:mo>
+          </m:mover>
+          <m:mo>=</m:mo>
+          <m:mo form="prefix">arg</m:mo>
+          <m:munder>
+            <m:mo movablelimits="true" form="prefix">min</m:mo>
+            <m:mi>z</m:mi>
+          </m:munder>
+          <m:mspace width="4pt"/>
+          <m:msub>
+            <m:mfenced open="∥" close="∥">
+              <m:mi>z</m:mi>
+            </m:mfenced>
+            <m:mn>0</m:mn>
+          </m:msub>
+          <m:mspace width="1.em"/>
+          <m:mi> subject to </m:mi>
+          <m:mspace width="1.em"/>
+          <m:mi>z</m:mi>
+          <m:mo>∈</m:mo>
+          <m:mi mathvariant="script">B</m:mi>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>y</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mo>,</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id308148">where <m:math overflow="scroll"><m:mrow><m:mi mathvariant="script">B</m:mi><m:mo>(</m:mo><m:mi>y</m:mi><m:mo>)</m:mo></m:mrow></m:math> ensures that <m:math overflow="scroll"><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover></m:math> is consistent with the measurements <m:math overflow="scroll"><m:mi>y</m:mi></m:math>. Recall that <m:math overflow="scroll"><m:mrow><m:msub><m:mfenced open="∥" close="∥"><m:mi>z</m:mi></m:mfenced><m:mn>0</m:mn></m:msub><m:mo>=</m:mo><m:mrow><m:mo>|</m:mo><m:mi> supp </m:mi><m:mrow><m:mo>(</m:mo><m:mi>z</m:mi><m:mo>)</m:mo></m:mrow><m:mo>|</m:mo></m:mrow></m:mrow></m:math> simply counts the number of nonzero entries in <m:math overflow="scroll"><m:mi>z</m:mi></m:math>, so <link target-id="uid1"/> simply seeks out the sparsest signal consistent with the observed measurements. For example, if our measurements are exact and noise-free, then we can set <m:math overflow="scroll"><m:mrow><m:mi mathvariant="script">B</m:mi><m:mo>(</m:mo><m:mi>y</m:mi><m:mo>)</m:mo><m:mo>=</m:mo><m:mo>{</m:mo><m:mi>z</m:mi><m:mo>:</m:mo><m:mi>Φ</m:mi><m:mi>z</m:mi><m:mo>=</m:mo><m:mi>y</m:mi><m:mo>}</m:mo></m:mrow></m:math>. When the measurements have been contaminated with a small amount of bounded noise, we could instead set <m:math overflow="scroll"><m:mrow><m:mi mathvariant="script">B</m:mi><m:mrow><m:mo>(</m:mo><m:mi>y</m:mi><m:mo>)</m:mo></m:mrow><m:mo>=</m:mo><m:mrow><m:mo>{</m:mo><m:mi>z</m:mi><m:mo>:</m:mo><m:msub><m:mfenced separators="" open="∥" close="∥"><m:mi>Φ</m:mi><m:mi>z</m:mi><m:mo>-</m:mo><m:mi>y</m:mi></m:mfenced><m:mn>2</m:mn></m:msub><m:mo>≤</m:mo><m:mi>ϵ</m:mi><m:mo>}</m:mo></m:mrow></m:mrow></m:math>. In both cases, <link target-id="uid1"/> finds the sparsest <m:math overflow="scroll"><m:mi>x</m:mi></m:math> that is consistent with the measurements <m:math overflow="scroll"><m:mi>y</m:mi></m:math>.</para>
+    <para id="id308536">Note that in <link target-id="uid1"/> we are inherently assuming that <m:math overflow="scroll"><m:mi>x</m:mi></m:math> itself is sparse. In the more common setting where <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>=</m:mo><m:mi>Ψ</m:mi><m:mi>α</m:mi></m:mrow></m:math>, we can easily modify the approach and instead consider</para>
+    <equation id="uid2"><m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mover accent="true">
+            <m:mi>α</m:mi>
+            <m:mo>^</m:mo>
+          </m:mover>
+          <m:mo>=</m:mo>
+          <m:mo form="prefix">arg</m:mo>
+          <m:munder>
+            <m:mo movablelimits="true" form="prefix">min</m:mo>
+            <m:mi>z</m:mi>
+          </m:munder>
+          <m:mspace width="4pt"/>
+          <m:msub>
+            <m:mfenced open="∥" close="∥">
+              <m:mi>z</m:mi>
+            </m:mfenced>
+            <m:mn>0</m:mn>
+          </m:msub>
+          <m:mspace width="1.em"/>
+          <m:mi> subject to </m:mi>
+          <m:mspace width="1.em"/>
+          <m:mi>z</m:mi>
+          <m:mo>∈</m:mo>
+          <m:mi mathvariant="script">B</m:mi>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>y</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id308648">where <m:math overflow="scroll"><m:mrow><m:mi mathvariant="script">B</m:mi><m:mo>(</m:mo><m:mi>y</m:mi><m:mo>)</m:mo><m:mo>=</m:mo><m:mo>{</m:mo><m:mi>z</m:mi><m:mo>:</m:mo><m:mi>Φ</m:mi><m:mi>Ψ</m:mi><m:mi>z</m:mi><m:mo>=</m:mo><m:mi>y</m:mi><m:mo>}</m:mo></m:mrow></m:math> or <m:math overflow="scroll"><m:mrow><m:mi mathvariant="script">B</m:mi><m:mrow><m:mo>(</m:mo><m:mi>y</m:mi><m:mo>)</m:mo></m:mrow><m:mo>=</m:mo><m:mrow><m:mo>{</m:mo><m:mi>z</m:mi><m:mo>:</m:mo><m:msub><m:mfenced separators="" open="∥" close="∥"><m:mi>Φ</m:mi><m:mi>Ψ</m:mi><m:mi>z</m:mi><m:mo>-</m:mo><m:mi>y</m:mi></m:mfenced><m:mn>2</m:mn></m:msub><m:mo>≤</m:mo><m:mi>ϵ</m:mi><m:mo>}</m:mo></m:mrow></m:mrow></m:math>. By setting <m:math overflow="scroll"><m:mrow><m:mover accent="true"><m:mi>Φ</m:mi><m:mo>˜</m:mo></m:mover><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>Ψ</m:mi></m:mrow></m:math> we see that <link target-id="uid1"/> and <link target-id="uid2"/> are essentially identical. Moreover, as noted in <link document="m37177" version="latest">"Matrices that satisfy the RIP"</link>, in many cases the introduction of <m:math overflow="scroll"><m:mi>Ψ</m:mi></m:math> does not significantly complicate the construction of matrices <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> such that <m:math overflow="scroll"><m:mover accent="true"><m:mi>Φ</m:mi><m:mo>˜</m:mo></m:mover></m:math> will satisfy the desired properties. Thus, for most of the remainder of this course we will restrict our attention to the case where <m:math overflow="scroll"><m:mrow><m:mi>Ψ</m:mi><m:mo>=</m:mo><m:mi>I</m:mi></m:mrow></m:math>. It is important to note, however, that this restriction does impose certain limits in our analysis when <m:math overflow="scroll"><m:mi>Ψ</m:mi></m:math> is a general dictionary and not an orthonormal basis. For example, in this case <m:math overflow="scroll"><m:mrow><m:msub><m:mfenced separators="" open="∥" close="∥"><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mo>-</m:mo><m:mi>x</m:mi></m:mfenced><m:mn>2</m:mn></m:msub><m:mo>=</m:mo><m:msub><m:mfenced separators="" open="∥" close="∥"><m:mi>Ψ</m:mi><m:mover accent="true"><m:mi>c</m:mi><m:mo>^</m:mo></m:mover><m:mo>-</m:mo><m:mi>Ψ</m:mi><m:mi>c</m:mi></m:mfenced><m:mn>2</m:mn></m:msub><m:mo>≠</m:mo><m:msub><m:mfenced separators="" open="∥" close="∥"><m:mover accent="true"><m:mi>α</m:mi><m:mo>^</m:mo></m:mover><m:mo>-</m:mo><m:mi>α</m:mi></m:mfenced><m:mn>2</m:mn></m:msub></m:mrow></m:math>, and thus a bound on <m:math overflow="scroll"><m:msub><m:mfenced separators="" open="∥" close="∥"><m:mover accent="true"><m:mi>c</m:mi><m:mo>^</m:mo></m:mover><m:mo>-</m:mo><m:mi>c</m:mi></m:mfenced><m:mn>2</m:mn></m:msub></m:math> cannot directly be translated into a bound on <m:math overflow="scroll"><m:mfenced separators="" open="∥" close="∥"><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mo>-</m:mo><m:mi>x</m:mi></m:mfenced></m:math>, which is often the metric of interest.</para>
+    <para id="id308984">Although it is possible to analyze the performance of <link target-id="uid1"/> under the appropriate assumptions on <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>, we do not pursue this strategy since the objective function <m:math overflow="scroll"><m:msub><m:mfenced open="∥" close="∥"><m:mo>·</m:mo></m:mfenced><m:mn>0</m:mn></m:msub></m:math> is nonconvex, and hence <link target-id="uid1"/> is potentially very difficult to solve. In fact, one can show that for a general matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>, even finding a solution that approximates the true minimum is NP-hard. One avenue for translating this problem into something more tractable is to replace <m:math overflow="scroll"><m:msub><m:mfenced open="∥" close="∥"><m:mo>·</m:mo></m:mfenced><m:mn>0</m:mn></m:msub></m:math> with its convex approximation <m:math overflow="scroll"><m:msub><m:mfenced open="∥" close="∥"><m:mo>·</m:mo></m:mfenced><m:mn>1</m:mn></m:msub></m:math>. Specifically, we consider</para>
+    <equation id="uid3"><m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mover accent="true">
+            <m:mi>x</m:mi>
+            <m:mo>^</m:mo>
+          </m:mover>
+          <m:mo>=</m:mo>
+          <m:mo form="prefix">arg</m:mo>
+          <m:munder>
+            <m:mo movablelimits="true" form="prefix">min</m:mo>
+            <m:mi>z</m:mi>
+          </m:munder>
+          <m:mspace width="4pt"/>
+          <m:msub>
+            <m:mfenced open="∥" close="∥">
+              <m:mi>z</m:mi>
+            </m:mfenced>
+            <m:mn>1</m:mn>
+          </m:msub>
+          <m:mspace width="1.em"/>
+          <m:mi> subject to </m:mi>
+          <m:mspace width="1.em"/>
+          <m:mi>z</m:mi>
+          <m:mo>∈</m:mo>
+          <m:mi mathvariant="script">B</m:mi>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>y</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id309151">Provided that <m:math overflow="scroll"><m:mrow><m:mi mathvariant="script">B</m:mi><m:mo>(</m:mo><m:mi>y</m:mi><m:mo>)</m:mo></m:mrow></m:math> is convex, <link target-id="uid3"/> is computationally feasible. In fact, when <m:math overflow="scroll"><m:mrow><m:mi mathvariant="script">B</m:mi><m:mo>(</m:mo><m:mi>y</m:mi><m:mo>)</m:mo><m:mo>=</m:mo><m:mo>{</m:mo><m:mi>z</m:mi><m:mo>:</m:mo><m:mi>Φ</m:mi><m:mi>z</m:mi><m:mo>=</m:mo><m:mi>y</m:mi><m:mo>}</m:mo></m:mrow></m:math>, the resulting problem can be posed as a linear program <link target-id="bid0"/>.</para>
+    <figure id="uid4" orient="horizontal"><subfigure id="id309300">
+        <media id="id309300_media" alt="">
+          <image mime-type="image/png" src="../../media/10_6-3e45.png" id="id309300_onlineimage" width="200"><!-- NOTE: attribute width changes image size online (pixels). original width is 147. --></image>
+          <image mime-type="application/postscript" for="pdf" src="../../media/10_6-78df.eps" id="id309300_printimage" print-width="6.0cm">
+            <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+          </image>
+        </media>
+        <caption>
+          Approximation in <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> norm
+        </caption>
+      </subfigure>
+      <subfigure id="id309311">
+        <media id="id309311_media" alt="">
+          <image mime-type="image/png" src="../../media/10_6a-ed89.png" id="id309311_onlineimage" width="200"><!-- NOTE: attribute width changes image size online (pixels). original width is 146. --></image>
+          <image mime-type="application/postscript" for="pdf" src="../../media/10_6a-bd8c.eps" id="id309311_printimage" print-width="6.0cm">
+            <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+          </image>
+        </media>
+<caption>
+          Approximation in <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> quasinorm 
+        </caption>
+      </subfigure>
+      
+    <caption>Best approximation of a point in <m:math overflow="scroll"><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mn>2</m:mn></m:msup></m:math> by a a one-dimensional subspace using the <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> norm and the <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> quasinorm with <m:math overflow="scroll"><m:mrow><m:mi>p</m:mi><m:mo>=</m:mo><m:mfrac><m:mn>1</m:mn><m:mn>2</m:mn></m:mfrac></m:mrow></m:math>.</caption></figure>
+    <para id="id309362">It is clear that replacing <link target-id="uid1"/> with <link target-id="uid3"/> transforms a computationally intractable problem into a tractable one, but it may not be immediately obvious that the solution to <link target-id="uid3"/> will be at all similar to the solution to <link target-id="uid1"/>. However, there are certainly intuitive reasons to expect that the use of <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> minimization will indeed promote sparsity. As an example, recall the example we discussed earlier shown in <link target-id="uid4"/>. In this case the solutions to the <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> minimization problem coincided exactly with the solution to the <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> minimization problem for any <m:math overflow="scroll"><m:mrow><m:mi>p</m:mi><m:mo>&lt;</m:mo><m:mn>1</m:mn></m:mrow></m:math>, and notably, is sparse. Moreover, the use of <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> minimization to promote or exploit sparsity has a long history, dating back at least to the work of Beurling on Fourier transform extrapolation from partial observations <link target-id="bid1"/>.</para>
+    <para id="id309465">Additionally, in a somewhat different context, in 1965 Logan <link target-id="bid2"/>
+showed that a bandlimited signal can be perfectly recovered in the presence of <emphasis effect="italics">arbitrary</emphasis> corruptions on a small interval. Again, the recovery method consists of searching for the bandlimited signal that is closest to the observed signal in the <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> norm. This can be viewed as further validation of the intuition gained from <link target-id="uid4"/> — the <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> norm is well-suited to sparse errors.</para>
+    <para id="id309516">Historically, the use of <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> minimization on large problems finally became practical with the explosion of computing power in the late 1970's and early 1980's. In one of its first applications, it was demonstrated that geophysical signals consisting of spike trains could be recovered from only the high-frequency components of these signals by exploiting <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> minimization <link target-id="bid4"/>, <link target-id="bid3"/>, <link target-id="bid5"/>.
+Finally, in the 1990's there was renewed interest in these approaches within the signal processing community for the purpose of finding <link document="m37166" version="latest">sparse approximations</link> to signals and images when represented in overcomplete dictionaries or unions of bases <link target-id="bid0"/>, <link target-id="bid6"/>.
+Separately, <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> minimization received significant attention in the statistics literature as a method for <link document="m37360" version="latest">variable selection in linear regression</link>, known as the Lasso <link target-id="bid7"/>.</para>
+    <para id="id309605">Thus, there are a variety of reasons to suspect that <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> minimization will provide an accurate method for sparse signal recovery. More importantly, this also provides a computationally tractable approach to the sparse signal recovery problem. We now provide an overview of <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> minimization in both the <link document="m37181" version="latest">noise-free</link> and <link document="m37182" version="latest">noisy</link> settings from a theoretical perspective. We will then further discuss <link document="m37293" version="latest">algorithms for performing <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> minimization</link> later in this <link document="col11133" version="latest">course</link>.
+
+</para>
+  </content>
+  <bib:file>
+    <bib:entry id="bid1">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Beurling, A.</bib:author>
+        <bib:title>Sur les intégrales de Fourier absolument convergentes et leur application à une transformation fonctionelle</bib:title>
+        <bib:booktitle>Proc. Scandinavian Math. Congress</bib:booktitle>
+        <bib:year>1938</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Helsinki, Finland</bib:address>
+        <bib:month/>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid0">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Chen, S. and Donoho, D. and Saunders, M.</bib:author>
+        <bib:title>Atomic decomposition by basis pursuit</bib:title>
+        <bib:journal>SIAM J. Sci. Comp.</bib:journal>
+        <bib:year>1998</bib:year>
+        <!--optional fields-->
+        <bib:volume>20</bib:volume>
+        <bib:number>1</bib:number>
+        <bib:pages>33–61</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid4">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Levy, S. and Fullagar, P.</bib:author>
+        <bib:title>Reconstruction of a sparse spike train from a portion of its spectrum and application to high-resolution deconvolution</bib:title>
+        <bib:journal>Geophysics</bib:journal>
+        <bib:year>1981</bib:year>
+        <!--optional fields-->
+        <bib:volume>46</bib:volume>
+        <bib:number>9</bib:number>
+        <bib:pages>1235–1243</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid2">
+      <bib:phdthesis>
+        <!--required fields-->
+        <bib:author>Logan, B.</bib:author>
+        <bib:title>Properties of High-Pass Signals</bib:title>
+        <bib:school>Columbia Universuty</bib:school>
+        <bib:year>1965</bib:year>
+        <!--optional fields-->
+        <bib:type>Ph. D. Thesis</bib:type>
+        <bib:address/>
+        <bib:month/>
+        <bib:note/>
+      </bib:phdthesis>
+    </bib:entry>
+    <bib:entry id="bid6">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Mallat, S.</bib:author>
+        <bib:title>A Wavelet Tour of Signal Processing</bib:title>
+        <bib:publisher>Academic Press</bib:publisher>
+        <bib:year>1999</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address>San Diego, CA</bib:address>
+        <bib:edition/>
+        <bib:month/>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid3">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Taylor, H. and Banks, S. and McCoy, J.</bib:author>
+        <bib:title>Deconvolution with the <!--no math allowed in bib entries--> norm</bib:title>
+        <bib:journal>Geophysics</bib:journal>
+        <bib:year>1979</bib:year>
+        <!--optional fields-->
+        <bib:volume>44</bib:volume>
+        <bib:number>1</bib:number>
+        <bib:pages>39–52</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid7">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Tibshirani, R.</bib:author>
+        <bib:title>Regression shrinkage and selection via the Lasso</bib:title>
+        <bib:journal>J. Royal Statist. Soc B</bib:journal>
+        <bib:year>1996</bib:year>
+        <!--optional fields-->
+        <bib:volume>58</bib:volume>
+        <bib:number>1</bib:number>
+        <bib:pages>267–288</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid5">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Walker, C. and Ulrych, T.</bib:author>
+        <bib:title>Autoregressive recovery of the acoustic impedance</bib:title>
+        <bib:journal>Geophysics</bib:journal>
+        <bib:year>1983</bib:year>
+        <!--optional fields-->
+        <bib:volume>48</bib:volume>
+        <bib:number>10</bib:number>
+        <bib:pages>1338–1350</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+  </bib:file>
+</document>

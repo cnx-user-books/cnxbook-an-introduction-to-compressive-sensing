@@ -1,0 +1,484 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:bib="http://bibtexml.sf.net/">
+  <title>Single-pixel camera</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37369</md:content-id>
+  <md:title>Single-pixel camera</md:title>
+  <md:abstract>This module describes the application of compressive sensing to the design of a novel imaging architecture called the "single-pixel camera".</md:abstract>
+  <md:uuid>fd2e709a-dcd8-4336-9865-0cb2e944a8e6</md:uuid>
+</metadata>
+
+<content>
+    <section id="uid1">
+      <title>Architecture</title>
+      <para id="id234745">Several hardware architectures have been proposed that apply the theory of <link document="m37172" version="latest">compressive sensing</link> (CS) in an imaging setting <link target-id="bid0"/>, <link target-id="bid2"/>, <link target-id="bid1"/>. We will focus on the so-called <emphasis effect="italics">single-pixel camera</emphasis> <link target-id="bid0"/>, <link target-id="bid4"/>, <link target-id="bid3"/>, <link target-id="bid6"/>, <link target-id="bid5"/>. The single-pixel camera is an optical computer that sequentially measures the inner products <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mrow><m:mo>[</m:mo><m:mi>j</m:mi><m:mo>]</m:mo></m:mrow><m:mo>=</m:mo><m:mrow><m:mo>〈</m:mo><m:mi>x</m:mi><m:mo>,</m:mo><m:msub><m:mi>φ</m:mi><m:mi>j</m:mi></m:msub><m:mo>〉</m:mo></m:mrow></m:mrow></m:math> between an <m:math overflow="scroll"><m:mi>N</m:mi></m:math>-pixel sampled version of the incident light-field from the scene under view (denoted by <m:math overflow="scroll"><m:mi>x</m:mi></m:math>) and a set of <m:math overflow="scroll"><m:mi>N</m:mi></m:math>-pixel test functions <m:math overflow="scroll"><m:msubsup><m:mrow><m:mo>{</m:mo><m:msub><m:mi>φ</m:mi><m:mi>j</m:mi></m:msub><m:mo>}</m:mo></m:mrow><m:mrow><m:mi>j</m:mi><m:mo>=</m:mo><m:mn>1</m:mn></m:mrow><m:mi>M</m:mi></m:msubsup></m:math>. The architecture is illustrated in <link target-id="uid2"/>, and an aerial view of the camera in the lab is shown in <link target-id="uid3"/>. As shown in these figures, the light-field is focused by a lens (Lens 1 in <link target-id="uid3"/>) not onto a CCD or CMOS sampling array but rather onto a spatial light modulator (SLM). An SLM modulates the intensity of a light beam according to a control signal. A simple example of a transmissive SLM that either passes or blocks parts of the beam is an overhead transparency. Another example is a liquid crystal display (LCD) projector.</para>
+      <figure id="uid2"><media id="uid2_media" alt="">
+          <image mime-type="image/png" src="../../media/BlockDiagram2.png" id="uid2_onlineimage" width="550"><!-- NOTE: attribute width changes image size online (pixels). original width is 510. --></image>
+          <image mime-type="application/postscript" for="pdf" src="../../media/BlockDiagram2.eps" id="uid2_printimage" print-width="4in">
+            <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+          </image>
+        </media>
+        
+      <caption>Single-pixel camera block diagram. Incident light-field (corresponding to the desired image <m:math overflow="scroll"><m:mi>x</m:mi></m:math>) is reflected off a digital micromirror device (DMD) array whose mirror orientations are modulated according to the pseudorandom pattern <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mi>j</m:mi></m:msub></m:math> supplied by a random number generator. Each different mirror pattern produces a voltage at the single photodiode that corresponds to one measurement <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>[</m:mo><m:mi>j</m:mi><m:mo>]</m:mo></m:mrow></m:math>.</caption></figure>
+      <para id="id235301">The Texas Instruments (TI) digital micromirror device (DMD) is a reflective SLM that selectively redirects parts of the light beam. The DMD consists of an array of bacterium-sized, electrostatically actuated micro-mirrors, where each mirror in the array is suspended above an individual static random access memory (SRAM) cell. Each mirror rotates about a hinge and can be positioned in one of two states (<m:math overflow="scroll"><m:mrow><m:mo>±</m:mo><m:mn>10</m:mn></m:mrow></m:math> degrees from horizontal) according to which bit is loaded into the SRAM cell; thus light falling on the DMD can be reflected in two directions depending on the orientation of the mirrors.</para>
+      <para id="id235320">Each element of the SLM corresponds to a particular element of <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mi>j</m:mi></m:msub></m:math> (and its corresponding pixel in <m:math overflow="scroll"><m:mi>x</m:mi></m:math>). For a given <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mi>j</m:mi></m:msub></m:math>, we can orient the corresponding element of the SLM either towards (corresponding to a 1 at that element of <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mi>j</m:mi></m:msub></m:math>) or away from (corresponding to a 0 at that element of <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mi>j</m:mi></m:msub></m:math>) a second lens (Lens 2 in <link target-id="uid3"/>). This second lens collects the reflected light and focuses it onto a single photon detector (the single pixel) that integrates the product of <m:math overflow="scroll"><m:mi>x</m:mi></m:math> and <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mi>j</m:mi></m:msub></m:math> to compute the measurement <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mrow><m:mo>[</m:mo><m:mi>j</m:mi><m:mo>]</m:mo></m:mrow><m:mo>=</m:mo><m:mrow><m:mo>〈</m:mo><m:mi>x</m:mi><m:mo>,</m:mo><m:msub><m:mi>φ</m:mi><m:mi>j</m:mi></m:msub><m:mo>〉</m:mo></m:mrow></m:mrow></m:math> as its output voltage. This voltage is then digitized by an A/D converter. Values of <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mi>j</m:mi></m:msub></m:math> between 0 and 1 can be obtained by dithering the mirrors back and forth during the photodiode integration time. By reshaping <m:math overflow="scroll"><m:mi>x</m:mi></m:math> into a column vector and the <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mi>j</m:mi></m:msub></m:math> into row vectors, we can thus model this system as computing the product <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi></m:mrow></m:math>, where each row of <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> corresponds to a <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mi>j</m:mi></m:msub></m:math>. To compute randomized measurements, we set the mirror orientations <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mi>j</m:mi></m:msub></m:math> randomly using a pseudorandom number generator, measure <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>[</m:mo><m:mi>j</m:mi><m:mo>]</m:mo></m:mrow></m:math>, and then repeat the process <m:math overflow="scroll"><m:mi>M</m:mi></m:math> times to obtain the measurement vector <m:math overflow="scroll"><m:mi>y</m:mi></m:math>.</para>
+      <figure id="uid3"><media id="uid3_media" alt="">
+          <image mime-type="image/png" src="../../media/fig1.png" id="uid3_onlineimage" width="550"><!-- NOTE: attribute width changes image size online (pixels). original width is 568. --></image>
+          <image mime-type="application/postscript" for="pdf" src="../../media/fig1.eps" id="uid3_printimage" print-width="4in">
+            <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+          </image>
+        </media>
+        
+      <caption>Aerial view of the single-pixel camera in the lab.</caption></figure>
+      <para id="id235583">The single-pixel design reduces the required size, complexity, and cost of the photon detector array down to a single unit, which enables the use of exotic detectors that would be impossible in a conventional digital camera. Example detectors include a photomultiplier tube or an avalanche photodiode for low-light (photon-limited) imaging, a sandwich of several photodiodes sensitive to different light wavelengths for multimodal sensing, a spectrometer for hyperspectral imaging, and so on.</para>
+      <para id="id235052">In addition to sensing flexibility, the practical advantages of the single-pixel design include the facts that the quantum efficiency of a photodiode is higher than that of the pixel sensors in a typical CCD or CMOS array and that the fill factor of a DMD can reach 90% whereas that of a CCD/CMOS array is only about 50%. An important advantage to highlight is that each CS measurement receives about <m:math overflow="scroll"><m:mrow><m:mi>N</m:mi><m:mo>/</m:mo><m:mn>2</m:mn></m:mrow></m:math> times more photons than an average pixel sensor, which significantly reduces image distortion from dark noise and read-out noise.</para>
+      <para id="id235073">The single-pixel design falls into the class of multiplex cameras. The baseline standard for multiplexing is classical raster scanning, where the test functions <m:math overflow="scroll"><m:mrow><m:mo>{</m:mo><m:msub><m:mi>φ</m:mi><m:mi>j</m:mi></m:msub><m:mo>}</m:mo></m:mrow></m:math> are a sequence of delta functions <m:math overflow="scroll"><m:mrow><m:mi>δ</m:mi><m:mo>[</m:mo><m:mi>n</m:mi><m:mo>-</m:mo><m:mi>j</m:mi><m:mo>]</m:mo></m:mrow></m:math> that turn on each mirror in turn. There are substantial advantages to operating in a CS rather than raster scan mode, including fewer total measurements (<m:math overflow="scroll"><m:mi>M</m:mi></m:math> for CS rather than <m:math overflow="scroll"><m:mi>N</m:mi></m:math> for raster scan) and significantly reduced dark noise. See <link target-id="bid0"/> for a more detailed discussion of these issues.</para>
+      <para id="id234701"><link target-id="uid4"/> (a) and (b) illustrates a target object (a black-and-white printout of an “R”) <m:math overflow="scroll"><m:mi>x</m:mi></m:math> and reconstructed image <m:math overflow="scroll"><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover></m:math> taken by the single-pixel camera prototype in <link target-id="uid3"/> using <m:math overflow="scroll"><m:mrow><m:mi>N</m:mi><m:mo>=</m:mo><m:mn>256</m:mn><m:mo>×</m:mo><m:mn>256</m:mn></m:mrow></m:math> and <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>=</m:mo><m:mi>N</m:mi><m:mo>/</m:mo><m:mn>50</m:mn></m:mrow></m:math><link target-id="bid0"/>. <link target-id="uid4"/>(c) illustrates an <m:math overflow="scroll"><m:mrow><m:mi>N</m:mi><m:mo>=</m:mo><m:mn>256</m:mn><m:mo>×</m:mo><m:mn>256</m:mn></m:mrow></m:math> color single-pixel photograph of a printout of the Mandrill test image taken under low-light conditions using RGB color filters and a photomultiplier tube with <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>=</m:mo><m:mi>N</m:mi><m:mo>/</m:mo><m:mn>10</m:mn></m:mrow></m:math>. In both cases, the images were reconstructed using total variation minimization, which is closely related to wavelet coefficient <link document="m37179" version="latest"><m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> minimization</link> <link target-id="bid7"/>.</para>
+      <figure id="uid4" orient="horizontal"><subfigure id="id236148">
+          <media id="id236148_media" alt="">
+            <image mime-type="image/png" src="../../media/fig2a.png" id="id236148_onlineimage" width="256"><!-- NOTE: attribute width changes image size online (pixels). original width is 119. --></image>
+            <image mime-type="application/postscript" for="pdf" src="../../media/fig2a.eps" id="id236148_printimage" print-width="1.5in">
+              <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+            </image>
+          </media>
+        </subfigure>
+        <subfigure id="id236159">
+          <media id="id236159_media" alt="">
+            <image mime-type="image/png" src="../../media/fig2b.png" id="id236159_onlineimage" width="256"><!-- NOTE: attribute width changes image size online (pixels). original width is 128. --></image>
+            <image mime-type="application/postscript" for="pdf" src="../../media/fig2b.eps" id="id236159_printimage" print-width="1.5in">
+              <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+            </image>
+          </media>
+        </subfigure>
+        <subfigure id="id236171">
+          <media id="id236171_media" alt="">
+            <image mime-type="image/png" src="../../media/fig2c.png" id="id236171_onlineimage" width="256"><!-- NOTE: attribute width changes image size online (pixels). original width is 256. --></image>
+            <image mime-type="application/postscript" for="pdf" src="../../media/fig2c.eps" id="id236171_printimage" print-width="2.5in">
+              <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+            </image>
+          </media>
+        </subfigure>
+        
+      <caption>Sample image reconstructions from single-pixel camera. (a) <m:math overflow="scroll"><m:mrow><m:mn>256</m:mn><m:mo>×</m:mo><m:mn>256</m:mn></m:mrow></m:math> conventional image of a black-and-white “R”. (b) Image reconstructed from <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>=</m:mo><m:mn>1300</m:mn></m:mrow></m:math> single-pixel camera measurements (<m:math overflow="scroll"><m:mrow><m:mn>50</m:mn><m:mo>×</m:mo></m:mrow></m:math> sub-Nyquist). (c) <m:math overflow="scroll"><m:mrow><m:mn>256</m:mn><m:mo>×</m:mo><m:mn>256</m:mn></m:mrow></m:math> pixel color reconstruction of a printout of the Mandrill test image imaged in a low-light setting using a single photomultiplier tube sensor, RGB color filters, and <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>=</m:mo><m:mn>6500</m:mn></m:mrow></m:math> random measurements.</caption></figure>
+    </section>
+    <section id="uid5">
+      <title>Discrete formulation</title>
+      <para id="id236206">Since the DMD array is programmable, we can employ arbitrary test functions <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mi>j</m:mi></m:msub></m:math>. However, even when we restrict the <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mi>j</m:mi></m:msub></m:math> to be <m:math overflow="scroll"><m:mrow><m:mo>{</m:mo><m:mn>0</m:mn><m:mo>,</m:mo><m:mn>1</m:mn><m:mo>}</m:mo></m:mrow></m:math>-valued, storing these patterns for large values of <m:math overflow="scroll"><m:mi>N</m:mi></m:math> is impractical. Furthermore, as noted above, even pseudorandom <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> can be computationally problematic during recovery. Thus, rather than purely random <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>, we can also consider <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> that admit a fast transform-based implementation by taking random submatrices of a Walsh, Hadamard, or noiselet transform <link target-id="bid8"/>, <link target-id="bid9"/>. We will describe the Walsh transform for the purpose of illustration.</para>
+      <para id="id236300">We will suppose that <m:math overflow="scroll"><m:mi>N</m:mi></m:math> is a power of 2 and let <m:math overflow="scroll"><m:msub><m:mi>W</m:mi><m:mrow><m:msub><m:mo form="prefix">log</m:mo><m:mn>2</m:mn></m:msub><m:mi>N</m:mi></m:mrow></m:msub></m:math> denote the <m:math overflow="scroll"><m:mrow><m:mi>N</m:mi><m:mo>×</m:mo><m:mi>N</m:mi></m:mrow></m:math> Walsh transform matrix. We begin by setting <m:math overflow="scroll"><m:mrow><m:msub><m:mi>W</m:mi><m:mn>0</m:mn></m:msub><m:mo>=</m:mo><m:mn>1</m:mn></m:mrow></m:math>, and we now define <m:math overflow="scroll"><m:msub><m:mi>W</m:mi><m:mi>j</m:mi></m:msub></m:math> recursively as</para>
+      <equation id="id236381">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:msub>
+              <m:mi>W</m:mi>
+              <m:mi>j</m:mi>
+            </m:msub>
+            <m:mo>=</m:mo>
+            <m:mfrac>
+              <m:mn>1</m:mn>
+              <m:msqrt>
+                <m:mn>2</m:mn>
+              </m:msqrt>
+            </m:mfrac>
+            <m:mfenced separators="" open="[" close="]">
+              <m:mtable>
+                <m:mtr>
+                  <m:mtd>
+                    <m:msub>
+                      <m:mi>W</m:mi>
+                      <m:mrow>
+                        <m:mi>j</m:mi>
+                        <m:mo>-</m:mo>
+                        <m:mn>1</m:mn>
+                      </m:mrow>
+                    </m:msub>
+                  </m:mtd>
+                  <m:mtd>
+                    <m:msub>
+                      <m:mi>W</m:mi>
+                      <m:mrow>
+                        <m:mi>j</m:mi>
+                        <m:mo>-</m:mo>
+                        <m:mn>1</m:mn>
+                      </m:mrow>
+                    </m:msub>
+                  </m:mtd>
+                </m:mtr>
+                <m:mtr>
+                  <m:mtd>
+                    <m:msub>
+                      <m:mi>W</m:mi>
+                      <m:mrow>
+                        <m:mi>j</m:mi>
+                        <m:mo>-</m:mo>
+                        <m:mn>1</m:mn>
+                      </m:mrow>
+                    </m:msub>
+                  </m:mtd>
+                  <m:mtd>
+                    <m:mrow>
+                      <m:mo>-</m:mo>
+                      <m:msub>
+                        <m:mi>W</m:mi>
+                        <m:mrow>
+                          <m:mi>j</m:mi>
+                          <m:mo>-</m:mo>
+                          <m:mn>1</m:mn>
+                        </m:mrow>
+                      </m:msub>
+                    </m:mrow>
+                  </m:mtd>
+                </m:mtr>
+              </m:mtable>
+            </m:mfenced>
+            <m:mo>.</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id236480">This construction produces an orthonormal matrix with entries of <m:math overflow="scroll"><m:mrow><m:mo>±</m:mo><m:mn>1</m:mn><m:mo>/</m:mo><m:msqrt><m:mi>N</m:mi></m:msqrt></m:mrow></m:math> that admits a fast implementation requiring <m:math overflow="scroll"><m:mrow><m:mi>O</m:mi><m:mo>(</m:mo><m:mi>N</m:mi><m:mo form="prefix">log</m:mo><m:mi>N</m:mi><m:mo>)</m:mo></m:mrow></m:math> computations to apply. As an example, note that</para>
+      <equation id="id236525">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:msub>
+              <m:mi>W</m:mi>
+              <m:mn>1</m:mn>
+            </m:msub>
+            <m:mo>=</m:mo>
+            <m:mfrac>
+              <m:mn>1</m:mn>
+              <m:msqrt>
+                <m:mn>2</m:mn>
+              </m:msqrt>
+            </m:mfrac>
+            <m:mfenced separators="" open="[" close="]">
+              <m:mtable>
+                <m:mtr>
+                  <m:mtd>
+                    <m:mn>1</m:mn>
+                  </m:mtd>
+                  <m:mtd>
+                    <m:mn>1</m:mn>
+                  </m:mtd>
+                </m:mtr>
+                <m:mtr>
+                  <m:mtd>
+                    <m:mn>1</m:mn>
+                  </m:mtd>
+                  <m:mtd>
+                    <m:mrow>
+                      <m:mo>-</m:mo>
+                      <m:mn>1</m:mn>
+                    </m:mrow>
+                  </m:mtd>
+                </m:mtr>
+              </m:mtable>
+            </m:mfenced>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id236577">and</para>
+      <equation id="id236582">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:msub>
+              <m:mi>W</m:mi>
+              <m:mn>2</m:mn>
+            </m:msub>
+            <m:mo>=</m:mo>
+            <m:mfrac>
+              <m:mn>1</m:mn>
+              <m:mn>2</m:mn>
+            </m:mfrac>
+            <m:mfenced separators="" open="[" close="]">
+              <m:mtable>
+                <m:mtr>
+                  <m:mtd>
+                    <m:mn>1</m:mn>
+                  </m:mtd>
+                  <m:mtd>
+                    <m:mn>1</m:mn>
+                  </m:mtd>
+                  <m:mtd>
+                    <m:mn>1</m:mn>
+                  </m:mtd>
+                  <m:mtd>
+                    <m:mn>1</m:mn>
+                  </m:mtd>
+                </m:mtr>
+                <m:mtr>
+                  <m:mtd>
+                    <m:mn>1</m:mn>
+                  </m:mtd>
+                  <m:mtd>
+                    <m:mrow>
+                      <m:mo>-</m:mo>
+                      <m:mn>1</m:mn>
+                    </m:mrow>
+                  </m:mtd>
+                  <m:mtd>
+                    <m:mn>1</m:mn>
+                  </m:mtd>
+                  <m:mtd>
+                    <m:mrow>
+                      <m:mo>-</m:mo>
+                      <m:mn>1</m:mn>
+                    </m:mrow>
+                  </m:mtd>
+                </m:mtr>
+                <m:mtr>
+                  <m:mtd>
+                    <m:mn>1</m:mn>
+                  </m:mtd>
+                  <m:mtd>
+                    <m:mn>1</m:mn>
+                  </m:mtd>
+                  <m:mtd>
+                    <m:mrow>
+                      <m:mo>-</m:mo>
+                      <m:mn>1</m:mn>
+                    </m:mrow>
+                  </m:mtd>
+                  <m:mtd>
+                    <m:mrow>
+                      <m:mo>-</m:mo>
+                      <m:mn>1</m:mn>
+                    </m:mrow>
+                  </m:mtd>
+                </m:mtr>
+                <m:mtr>
+                  <m:mtd>
+                    <m:mn>1</m:mn>
+                  </m:mtd>
+                  <m:mtd>
+                    <m:mrow>
+                      <m:mo>-</m:mo>
+                      <m:mn>1</m:mn>
+                    </m:mrow>
+                  </m:mtd>
+                  <m:mtd>
+                    <m:mrow>
+                      <m:mo>-</m:mo>
+                      <m:mn>1</m:mn>
+                    </m:mrow>
+                  </m:mtd>
+                  <m:mtd>
+                    <m:mn>1</m:mn>
+                  </m:mtd>
+                </m:mtr>
+              </m:mtable>
+            </m:mfenced>
+            <m:mo>.</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id236692">We can exploit these constructions as follows. Suppose that <m:math overflow="scroll"><m:mrow><m:mi>N</m:mi><m:mo>=</m:mo><m:msup><m:mn>2</m:mn><m:mi>B</m:mi></m:msup></m:mrow></m:math> and generate <m:math overflow="scroll"><m:msub><m:mi>W</m:mi><m:mi>B</m:mi></m:msub></m:math>. Let <m:math overflow="scroll"><m:msub><m:mi>I</m:mi><m:mi>Γ</m:mi></m:msub></m:math> denote a <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>×</m:mo><m:mi>N</m:mi></m:mrow></m:math> submatrix of the identity <m:math overflow="scroll"><m:mi>I</m:mi></m:math> obtained by picking a random set of <m:math overflow="scroll"><m:mi>M</m:mi></m:math> rows, so that <m:math overflow="scroll"><m:mrow><m:msub><m:mi>I</m:mi><m:mi>Γ</m:mi></m:msub><m:msub><m:mi>W</m:mi><m:mi>B</m:mi></m:msub></m:mrow></m:math> is the submatrix of <m:math overflow="scroll"><m:msub><m:mi>W</m:mi><m:mi>B</m:mi></m:msub></m:math> consisting of the rows of <m:math overflow="scroll"><m:msub><m:mi>W</m:mi><m:mi>B</m:mi></m:msub></m:math> indexed by <m:math overflow="scroll"><m:mi>Γ</m:mi></m:math>. Furthermore, let <m:math overflow="scroll"><m:mi>D</m:mi></m:math> denote a random <m:math overflow="scroll"><m:mrow><m:mi>N</m:mi><m:mo>×</m:mo><m:mi>N</m:mi></m:mrow></m:math> permutation matrix. We can generate <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> as</para>
+      <equation id="uid6">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:mi>Φ</m:mi>
+            <m:mo>=</m:mo>
+            <m:mfenced separators="" open="(" close=")">
+              <m:mfrac>
+                <m:mn>1</m:mn>
+                <m:mn>2</m:mn>
+              </m:mfrac>
+              <m:msqrt>
+                <m:mi>N</m:mi>
+              </m:msqrt>
+              <m:msub>
+                <m:mi>I</m:mi>
+                <m:mi>Γ</m:mi>
+              </m:msub>
+              <m:msub>
+                <m:mi>W</m:mi>
+                <m:mi>B</m:mi>
+              </m:msub>
+              <m:mo>+</m:mo>
+              <m:mfrac>
+                <m:mn>1</m:mn>
+                <m:mn>2</m:mn>
+              </m:mfrac>
+            </m:mfenced>
+            <m:mi>D</m:mi>
+            <m:mo>.</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id236926">Note that <m:math overflow="scroll"><m:mrow><m:mfrac><m:mn>1</m:mn><m:mn>2</m:mn></m:mfrac><m:msqrt><m:mi>N</m:mi></m:msqrt><m:msub><m:mi>I</m:mi><m:mi>Γ</m:mi></m:msub><m:msub><m:mi>W</m:mi><m:mi>B</m:mi></m:msub><m:mo>+</m:mo><m:mfrac><m:mn>1</m:mn><m:mn>2</m:mn></m:mfrac></m:mrow></m:math> merely rescales and shifts <m:math overflow="scroll"><m:mrow><m:msub><m:mi>I</m:mi><m:mi>Γ</m:mi></m:msub><m:msub><m:mi>W</m:mi><m:mi>B</m:mi></m:msub></m:mrow></m:math> to have <m:math overflow="scroll"><m:mrow><m:mo>{</m:mo><m:mn>0</m:mn><m:mo>,</m:mo><m:mn>1</m:mn><m:mo>}</m:mo></m:mrow></m:math>-valued entries, and recall that each row of <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> will be reshaped into a 2-D matrix of numbers that is then displayed on the DMD array. Furthermore, <m:math overflow="scroll"><m:mi>D</m:mi></m:math> can be thought of as either permuting the pixels or permuting the columns of <m:math overflow="scroll"><m:msub><m:mi>W</m:mi><m:mi>B</m:mi></m:msub></m:math>. This step adds some additional randomness since some of the rows of the Walsh matrix are highly correlated with coarse scale wavelet basis functions — but permuting the pixels eliminates this structure. Note that at this point we do not have any strict guarantees that such <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> combined with a wavelet basis <m:math overflow="scroll"><m:mi>Ψ</m:mi></m:math> will yield a product <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:mi>Ψ</m:mi></m:mrow></m:math> satisfying the <link document="m37171" version="latest">restricted isometry property</link>, but this approach seems to work well in practice.</para>
+    </section>
+  </content>
+  <bib:file>
+    <bib:entry id="bid8">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Coifman, R. and Geshwind, F. and Meyer, Y.</bib:author>
+        <bib:title>Noiselets</bib:title>
+        <bib:journal>Appl. Comput. Harmon. Anal.</bib:journal>
+        <bib:year>2001</bib:year>
+        <!--optional fields-->
+        <bib:volume>10</bib:volume>
+        <bib:number/>
+        <bib:pages>27–44</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid9">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Candès, E. and Romberg, J.</bib:author>
+        <bib:title>Sparsity and Incoherence in Compressive Sampling</bib:title>
+        <bib:journal>Inverse Problems</bib:journal>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:volume>23</bib:volume>
+        <bib:number>3</bib:number>
+        <bib:pages>969–985</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid7">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Candès, E. and Tao, T.</bib:author>
+        <bib:title>Near Optimal Signal Recovery From Random Projections: Universal Encoding Strategies?</bib:title>
+        <bib:journal>IEEE Trans. Inform. Theory</bib:journal>
+        <bib:year>2006</bib:year>
+        <!--optional fields-->
+        <bib:volume>52</bib:volume>
+        <bib:number>12</bib:number>
+        <bib:pages>5406–5425</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid0">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Duarte, M. and Davenport, M. and Takhar, D. and Laska, J. and Sun, T. and Kelly, K. and Baraniuk, R.</bib:author>
+        <bib:title>Single-Pixel Imaging via Compressive Sampling</bib:title>
+        <bib:journal>IEEE Signal Processing Mag.</bib:journal>
+        <bib:year>2008</bib:year>
+        <!--optional fields-->
+        <bib:volume>25</bib:volume>
+        <bib:number>2</bib:number>
+        <bib:pages>83–91</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid2">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Marcia, R. and Harmany, Z. and Willett, R.</bib:author>
+        <bib:title>Compressive coded aperture imaging</bib:title>
+        <bib:booktitle>Proc. IS&amp;T/SPIE Symp. Elec. Imag.: Comp. Imag.</bib:booktitle>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>San Jose, CA</bib:address>
+        <bib:month>Jan.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid1">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Robucci, R. and Chiu, L. and Gray, J. and Romberg, J. and Hasler, P. and Anderson, D.</bib:author>
+        <bib:title>Compressive sensing on a CMOS separable transform image sensor</bib:title>
+        <bib:booktitle>Proc. IEEE Int. Conf. Acoust., Speech, and Signal Processing (ICASSP)</bib:booktitle>
+        <bib:year>2008</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Las Vegas, NV</bib:address>
+        <bib:month>Apr.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid4">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Takhar, D. and Laska, J. and Wakin, M. and Duarte, M. and Baron, D. and Kelly, K. and Baraniuk, R.</bib:author>
+        <bib:title>A Compressed Sensing Camera: New Theory and an Implementation using Digital Micromirrors</bib:title>
+        <bib:booktitle>Proc. IS&amp;T/SPIE Symp. Elec. Imag.: Comp. Imag.</bib:booktitle>
+        <bib:year>2006</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>San Jose, CA</bib:address>
+        <bib:month>Jan.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid3">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Takhar, D. and Laska, J. and Wakin, M. and Duarte, M. and Baron, D. and Sarvotham, S. and Kelly, K. and Baraniuk, R.</bib:author>
+        <bib:title>A New Compressive Imaging Camera Architecture using Optical-Domain Compression</bib:title>
+        <bib:booktitle>Proc. IS&amp;T/SPIE Symp. Elec. Imag.: Comp. Imag.</bib:booktitle>
+        <bib:year>2006</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>San Jose, CA</bib:address>
+        <bib:month>Jan.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid6">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Wakin, M. and Laska, J. and Duarte, M. and Baron, D. and Sarvotham, S. and Takhar, D. and Kelly, K. and Baraniuk, R.</bib:author>
+        <bib:title>An Architecture for Compressive Imaging</bib:title>
+        <bib:booktitle>Proc. IEEE Int. Conf. Image Processing (ICIP)</bib:booktitle>
+        <bib:year>2006</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Atlanta, GA</bib:address>
+        <bib:month>Oct.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid5">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Wakin, M. and Laska, J. and Duarte, M. and Baron, D. and Sarvotham, S. and Takhar, D. and Kelly, K. and Baraniuk, R.</bib:author>
+        <bib:title>Compressive Imaging for Video Representation and Coding</bib:title>
+        <bib:booktitle>Proc. Picture Coding Symp.</bib:booktitle>
+        <bib:year>2006</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Beijing, China</bib:address>
+        <bib:month>Apr.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+  </bib:file>
+</document>

@@ -1,0 +1,83 @@
+<col:collection xmlns="http://cnx.rice.edu/collxml" xmlns:md="http://cnx.rice.edu/mdml" xmlns:col="http://cnx.rice.edu/collxml" xml:lang="en">
+  <metadata xmlns:md="http://cnx.rice.edu/mdml" mdml-version="0.5">
+    <md:content-id>col11133</md:content-id>
+    <md:title>An Introduction to Compressive Sensing</md:title>
+    <md:language>en</md:language>
+    <md:license url="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution License</md:license>
+    <md:uuid>f70b6ba0-b9f0-460f-8828-e8fc6179e65f</md:uuid>
+<md:slug>an-introduction-to-compressive-sensing</md:slug>
+</metadata>
+  <col:content>
+    <col:subcollection>
+      <md:title>Introduction</md:title>
+      <col:content>
+        <col:module document="m37172"/>
+      </col:content>
+    </col:subcollection>
+    <col:subcollection>
+      <md:title>Sparse and Compressible Signal Models</md:title>
+      <col:content>
+        <col:module document="m37167"/>
+        <col:module document="m37165"/>
+        <col:module document="m37168"/>
+        <col:module document="m37166"/>
+      </col:content>
+    </col:subcollection>
+    <col:subcollection>
+      <md:title>Sensing Matrices</md:title>
+      <col:content>
+        <col:module document="m37169"/>
+        <col:module document="m37170"/>
+        <col:module document="m37171"/>
+        <col:module document="m37176"/>
+        <col:module document="m37177"/>
+        <col:module document="m37178"/>
+      </col:content>
+    </col:subcollection>
+    <col:subcollection>
+      <md:title>Sparse Signal Recovery via ℓ_1 Minimization</md:title>
+      <col:content>
+        <col:module document="m37179"/>
+        <col:module document="m37181"/>
+        <col:module document="m37182"/>
+        <col:module document="m37183"/>
+        <col:module document="m37184"/>
+      </col:content>
+    </col:subcollection>
+    <col:subcollection>
+      <md:title>Algorithms for Sparse Recovery</md:title>
+      <col:content>
+        <col:module document="m37292"/>
+        <col:module document="m37293"/>
+        <col:module document="m37294"/>
+        <col:module document="m37295"/>
+        <col:module document="m37359"/>
+      </col:content>
+    </col:subcollection>
+    <col:subcollection>
+      <md:title>Applications of Compressive Sensing</md:title>
+      <col:content>
+        <col:module document="m37360"/>
+        <col:module document="m37361"/>
+        <col:module document="m37362"/>
+        <col:module document="m37363"/>
+        <col:module document="m37375"/>
+        <col:module document="m37369"/>
+        <col:module document="m37370"/>
+        <col:module document="m37371"/>
+        <col:module document="m37372"/>
+        <col:module document="m37373"/>
+        <col:module document="m37374"/>
+      </col:content>
+    </col:subcollection>
+    <col:subcollection>
+      <md:title>Appendices</md:title>
+      <col:content>
+        <col:module document="m37185"/>
+        <col:module document="m32583"/>
+        <col:module document="m37186"/>
+        <col:module document="m37187"/>
+      </col:content>
+    </col:subcollection>
+  </col:content>
+</col:collection>

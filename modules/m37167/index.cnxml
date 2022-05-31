@@ -1,0 +1,293 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML">
+  <title>Introduction to vector spaces</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37167</md:content-id>
+  <md:title>Introduction to vector spaces</md:title>
+  <md:abstract>This module provides a brief review of some of the key concepts in vector spaces that will be required in developing the theory of compressive sensing.</md:abstract>
+  <md:uuid>c4263afd-1cd0-4354-ab41-b481e1d2f58e</md:uuid>
+</metadata>
+
+<content>
+    <para id="id263371">For much of its history, signal processing has focused on signals produced by physical systems. Many natural and man-made systems can be modeled as linear. Thus, it is natural to consider signal models that complement this kind of linear structure. This notion has been incorporated into modern signal processing by modeling signals as <emphasis effect="italics">vectors</emphasis> living in an appropriate <emphasis effect="italics">vector space</emphasis>. This captures the linear structure that we often desire, namely that if we add two signals together then we obtain a new, physically meaningful signal. Moreover, vector spaces allow us to apply intuitions and tools from geometry in <m:math overflow="scroll"><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mn>3</m:mn></m:msup></m:math>, such as lengths, distances, and angles, to describe and compare signals of interest. This is useful even when our signals live in high-dimensional or infinite-dimensional spaces.</para>
+    <para id="id263410">Throughout this <link document="col11133" version="latest">course</link>, we will treat signals as real-valued functions having domains that are either continuous or discrete, and either infinite or finite. These assumptions will be made clear as necessary in each chapter. In this course, we will assume that the reader is relatively comfortable with the key concepts in vector spaces. We now provide only a brief review of some of the key concepts in vector spaces that will be required in developing the theory of <link document="m37172" version="latest">compressive sensing</link> (CS).  For a more thorough review of vector spaces see this introductory course in <link document="col11172" version="latest">Digital Signal Processing</link>.</para>
+    <para id="id263418">We will typically be concerned with <emphasis effect="italics">normed vector spaces</emphasis>, i.e., vector spaces endowed with a <emphasis effect="italics">norm</emphasis>. In the case of a discrete, finite domain, we can view our signals as vectors in an <m:math overflow="scroll"><m:mi>N</m:mi></m:math>-dimensional Euclidean space, denoted by <m:math overflow="scroll"><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:math>. When dealing with vectors in <m:math overflow="scroll"><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:math>, we will make frequent use of the <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> norms, which are defined for <m:math overflow="scroll"><m:mrow><m:mi>p</m:mi><m:mo>∈</m:mo><m:mo>[</m:mo><m:mn>1</m:mn><m:mo>,</m:mo><m:mi>∞</m:mi><m:mo>]</m:mo></m:mrow></m:math> as</para>
+    <equation id="uid1">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msub>
+            <m:mfenced open="∥" close="∥">
+              <m:mi>x</m:mi>
+            </m:mfenced>
+            <m:mi>p</m:mi>
+          </m:msub>
+          <m:mo>=</m:mo>
+          <m:mfenced separators="" open="{" close="">
+            <m:mtable>
+              <m:mtr>
+                <m:mtd columnalign="left">
+                  <m:mrow>
+                    <m:msup>
+                      <m:mfenced separators="" open="(" close=")">
+                        <m:munderover>
+                          <m:mo>∑</m:mo>
+                          <m:mrow>
+                            <m:mi>i</m:mi>
+                            <m:mo>=</m:mo>
+                            <m:mn>1</m:mn>
+                          </m:mrow>
+                          <m:mi>N</m:mi>
+                        </m:munderover>
+                        <m:msup>
+                          <m:mrow>
+                            <m:mo>|</m:mo>
+                            <m:msub>
+                              <m:mi>x</m:mi>
+                              <m:mi>i</m:mi>
+                            </m:msub>
+                            <m:mo>|</m:mo>
+                          </m:mrow>
+                          <m:mi>p</m:mi>
+                        </m:msup>
+                      </m:mfenced>
+                      <m:mfrac>
+                        <m:mn>1</m:mn>
+                        <m:mi>p</m:mi>
+                      </m:mfrac>
+                    </m:msup>
+                    <m:mo>,</m:mo>
+                  </m:mrow>
+                </m:mtd>
+                <m:mtd columnalign="left">
+                  <m:mrow>
+                    <m:mspace width="0.277778em"/>
+                    <m:mi>p</m:mi>
+                    <m:mo>∈</m:mo>
+                    <m:mo>[</m:mo>
+                    <m:mn>1</m:mn>
+                    <m:mo>,</m:mo>
+                    <m:mi>∞</m:mi>
+                    <m:mo>)</m:mo>
+                    <m:mo>;</m:mo>
+                  </m:mrow>
+                </m:mtd>
+              </m:mtr>
+              <m:mtr>
+                <m:mtd columnalign="left">
+                  <m:mrow>
+                    <m:munder>
+                      <m:mo movablelimits="false" form="prefix">max</m:mo>
+                      <m:mrow>
+                        <m:mi>i</m:mi>
+                        <m:mo>=</m:mo>
+                        <m:mn>1</m:mn>
+                        <m:mo>,</m:mo>
+                        <m:mn>2</m:mn>
+                        <m:mo>,</m:mo>
+                        <m:mo>...</m:mo>
+                        <m:mo>,</m:mo>
+                        <m:mi>N</m:mi>
+                      </m:mrow>
+                    </m:munder>
+                    <m:mrow>
+                      <m:mo>|</m:mo>
+                      <m:msub>
+                        <m:mi>x</m:mi>
+                        <m:mi>i</m:mi>
+                      </m:msub>
+                      <m:mo>|</m:mo>
+                    </m:mrow>
+                    <m:mo>,</m:mo>
+                  </m:mrow>
+                </m:mtd>
+                <m:mtd columnalign="left">
+                  <m:mrow>
+                    <m:mspace width="0.277778em"/>
+                    <m:mi>p</m:mi>
+                    <m:mo>=</m:mo>
+                    <m:mi>∞</m:mi>
+                    <m:mo>.</m:mo>
+                  </m:mrow>
+                </m:mtd>
+              </m:mtr>
+            </m:mtable>
+          </m:mfenced>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id264030">In Euclidean space we can also consider the standard <emphasis effect="italics">inner product</emphasis> in <m:math overflow="scroll"><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:math>, which we denote</para>
+    <equation id="id264055">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mrow>
+            <m:mo>〈</m:mo>
+            <m:mi>x</m:mi>
+            <m:mo>,</m:mo>
+            <m:mi>z</m:mi>
+            <m:mo>〉</m:mo>
+          </m:mrow>
+          <m:mo>=</m:mo>
+          <m:msup>
+            <m:mi>z</m:mi>
+            <m:mi>T</m:mi>
+          </m:msup>
+          <m:mi>x</m:mi>
+          <m:mo>=</m:mo>
+          <m:munderover>
+            <m:mo>∑</m:mo>
+            <m:mrow>
+              <m:mi>i</m:mi>
+              <m:mo>=</m:mo>
+              <m:mn>1</m:mn>
+            </m:mrow>
+            <m:mi>N</m:mi>
+          </m:munderover>
+          <m:msub>
+            <m:mi>x</m:mi>
+            <m:mi>i</m:mi>
+          </m:msub>
+          <m:msub>
+            <m:mi>z</m:mi>
+            <m:mi>i</m:mi>
+          </m:msub>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id264302">This inner product leads to the <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>2</m:mn></m:msub></m:math> norm: <m:math overflow="scroll"><m:mrow><m:msub><m:mfenced open="∥" close="∥"><m:mi>x</m:mi></m:mfenced><m:mn>2</m:mn></m:msub><m:mo>=</m:mo><m:msqrt><m:mrow><m:mo>〈</m:mo><m:mi>x</m:mi><m:mo>,</m:mo><m:mi>x</m:mi><m:mo>〉</m:mo></m:mrow></m:msqrt></m:mrow></m:math>.</para>
+    <para id="id264356">In some contexts it is useful to extend the notion of <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> norms to the case where <m:math overflow="scroll"><m:mrow><m:mi>p</m:mi><m:mo>&lt;</m:mo><m:mn>1</m:mn></m:mrow></m:math>. In this case, the “norm” defined in <link target-id="uid1"/> fails to satisfy the triangle inequality, so it is actually a quasinorm. We will also make frequent use of the notation <m:math overflow="scroll"><m:mrow><m:msub><m:mfenced open="∥" close="∥"><m:mi>x</m:mi></m:mfenced><m:mn>0</m:mn></m:msub><m:mo>:</m:mo><m:mo>=</m:mo><m:mrow><m:mo>|</m:mo><m:mi> supp </m:mi><m:mrow><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow><m:mo>|</m:mo></m:mrow></m:mrow></m:math>, where <m:math overflow="scroll"><m:mrow><m:mi> supp </m:mi><m:mrow><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow><m:mo>=</m:mo><m:mrow><m:mo>{</m:mo><m:mi>i</m:mi><m:mo>:</m:mo><m:msub><m:mi>x</m:mi><m:mi>i</m:mi></m:msub><m:mo>≠</m:mo><m:mn>0</m:mn><m:mo>}</m:mo></m:mrow></m:mrow></m:math> denotes the support of <m:math overflow="scroll"><m:mi>x</m:mi></m:math> and <m:math overflow="scroll"><m:mrow><m:mo>|</m:mo><m:mi> supp </m:mi><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo><m:mo>|</m:mo></m:mrow></m:math> denotes the cardinality of <m:math overflow="scroll"><m:mrow><m:mi> supp </m:mi><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow></m:math>. Note that <m:math overflow="scroll"><m:msub><m:mfenced open="∥" close="∥"><m:mo>·</m:mo></m:mfenced><m:mn>0</m:mn></m:msub></m:math> is not even a quasinorm, but one can easily show that</para>
+    <equation id="id264532"><m:math overflow="scroll" mode="display">
+        <m:mrow>
+<m:msub>
+            <m:mfenced open="∥" close="∥">
+              <m:mi>x</m:mi>
+            </m:mfenced>
+            <m:mn>0</m:mn>
+          </m:msub>
+   <m:mo>=</m:mo>
+          
+<m:munder>
+            <m:mo movablelimits="true" form="prefix">lim</m:mo>
+            <m:mrow>
+              <m:mi>p</m:mi>
+              <m:mo>→</m:mo>
+              <m:mn>0</m:mn>
+            </m:mrow>
+          </m:munder>
+          <m:msubsup>
+            <m:mfenced open="∥" close="∥">
+              <m:mi>x</m:mi>
+            </m:mfenced>
+            <m:mi>p</m:mi>
+            <m:mi>p</m:mi>
+          </m:msubsup>          
+<m:mo>=</m:mo>
+          <m:mrow>
+            <m:mo>|</m:mo>
+            <m:mi> supp </m:mi>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>x</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mo>|</m:mo>
+          </m:mrow>
+          <m:mo>,</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation><para id="id264598">justifying this choice of notation. The <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> (quasi-)norms have notably different properties for different values of <m:math overflow="scroll"><m:mi>p</m:mi></m:math>. To illustrate this, in <link target-id="uid2"/> we show the unit sphere, i.e., <m:math overflow="scroll"><m:mrow><m:mo>{</m:mo><m:mi>x</m:mi><m:mo>:</m:mo><m:msub><m:mfenced open="∥" close="∥"><m:mi>x</m:mi></m:mfenced><m:mi>p</m:mi></m:msub><m:mo>=</m:mo><m:mn>1</m:mn><m:mo>}</m:mo><m:mo>,</m:mo></m:mrow></m:math> induced by each of these norms in <m:math overflow="scroll"><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mn>2</m:mn></m:msup></m:math>. Note that for <m:math overflow="scroll"><m:mrow><m:mi>p</m:mi><m:mo>&lt;</m:mo><m:mn>1</m:mn></m:mrow></m:math> the corresponding unit sphere is nonconvex (reflecting the quasinorm's violation of the triangle inequality).</para>
+    <figure id="uid2" orient="horizontal"><subfigure id="id264795">
+        <media id="id264795_media" alt="">
+          <image mime-type="image/png" src="../../media/10_3-050e.png" id="id264795_onlineimage" width="150"><!-- NOTE: attribute width changes image size online (pixels). original width is 184. --></image>
+          <image mime-type="application/postscript" for="pdf" src="../../media/10_3-070c.eps" id="id264795_printimage" print-width="3.3cm">
+            <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+          </image>
+        </media>
+        <caption>
+           Unit sphere for <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> norm
+        </caption>
+      </subfigure>
+      <subfigure id="id264806">
+        <media id="id264806_media" alt="">
+          <image mime-type="image/png" src="../../media/10_1-22af.png" id="id264806_onlineimage" width="150"><!-- NOTE: attribute width changes image size online (pixels). original width is 183. --></image>
+          <image mime-type="application/postscript" for="pdf" src="../../media/10_1-0565.eps" id="id264806_printimage" print-width="3.3cm">
+            <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+          </image>
+        </media>
+<caption>
+           Unit sphere for <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>2</m:mn></m:msub></m:math> norm
+        </caption>
+      </subfigure>
+      <subfigure id="id264817">
+        <media id="id264817_media" alt="">
+          <image mime-type="image/png" src="../../media/10_2-598f.png" id="id264817_onlineimage" width="150"><!-- NOTE: attribute width changes image size online (pixels). original width is 183. --></image>
+          <image mime-type="application/postscript" for="pdf" src="../../media/10_2-1f3e.eps" id="id264817_printimage" print-width="3.3cm">
+            <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+          </image>
+        </media>
+      <caption>
+           Unit sphere for <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>∞</m:mi></m:msub></m:math> norm
+        </caption>
+      </subfigure>
+      <subfigure id="id264828">
+        <media id="id264828_media" alt="">
+          <image mime-type="image/png" src="../../media/10_3a-f2eb.png" id="id264828_onlineimage" width="150"><!-- NOTE: attribute width changes image size online (pixels). original width is 181. --></image>
+          <image mime-type="application/postscript" for="pdf" src="../../media/10_3a-52b2.eps" id="id264828_printimage" print-width="3.3cm">
+            <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+          </image>
+        </media>
+        <caption>
+           Unit sphere for <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> quasinorm
+        </caption>
+      </subfigure>
+      
+    <caption>Unit spheres in <m:math overflow="scroll"><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mn>2</m:mn></m:msup></m:math> for the <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> norms with <m:math overflow="scroll"><m:mrow><m:mi>p</m:mi><m:mo>=</m:mo><m:mn>1</m:mn><m:mo>,</m:mo><m:mn>2</m:mn><m:mo>,</m:mo><m:mi>∞</m:mi></m:mrow></m:math>, and for the <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> quasinorm with <m:math overflow="scroll"><m:mrow><m:mi>p</m:mi><m:mo>=</m:mo><m:mfrac><m:mn>1</m:mn><m:mn>2</m:mn></m:mfrac></m:mrow></m:math>.</caption></figure>
+    <para id="id264909">We typically use norms as a measure of the strength of a signal, or the size of an error. For example, suppose we are given a signal <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>∈</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mn>2</m:mn></m:msup></m:mrow></m:math> and wish to approximate it using a point in a one-dimensional affine space <m:math overflow="scroll"><m:mi>A</m:mi></m:math>. If we measure the approximation error using an <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> norm, then our task is to find the <m:math overflow="scroll"><m:mrow><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mo>∈</m:mo><m:mi>A</m:mi></m:mrow></m:math> that minimizes <m:math overflow="scroll"><m:msub><m:mfenced separators="" open="∥" close="∥"><m:mi>x</m:mi><m:mo>-</m:mo><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover></m:mfenced><m:mi>p</m:mi></m:msub></m:math>. The choice of <m:math overflow="scroll"><m:mi>p</m:mi></m:math> will have a significant effect on the properties of the resulting approximation error. An example is illustrated in <link target-id="uid3"/>. To compute the closest point in <m:math overflow="scroll"><m:mi>A</m:mi></m:math> to <m:math overflow="scroll"><m:mi>x</m:mi></m:math> using each <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> norm, we can imagine growing an <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> sphere centered on <m:math overflow="scroll"><m:mi>x</m:mi></m:math> until it intersects with <m:math overflow="scroll"><m:mi>A</m:mi></m:math>. This will be the point <m:math overflow="scroll"><m:mrow><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mo>∈</m:mo><m:mi>A</m:mi></m:mrow></m:math> that is closest to <m:math overflow="scroll"><m:mi>x</m:mi></m:math> in the corresponding <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> norm. We observe that larger <m:math overflow="scroll"><m:mi>p</m:mi></m:math> tends to spread out the error more evenly among the two coefficients, while smaller <m:math overflow="scroll"><m:mi>p</m:mi></m:math> leads to an error that is more unevenly distributed and tends to be sparse. This intuition generalizes to higher dimensions, and plays an important role in the development of CS theory.</para>
+    <figure id="uid3" orient="horizontal"><subfigure id="id265239">
+        <media id="id265239_media" alt="">
+          <image mime-type="image/png" src="../../media/10_6-3e45.png" id="id265239_onlineimage" width="150"><!-- NOTE: attribute width changes image size online (pixels). original width is 147. --></image>
+          <image mime-type="application/postscript" for="pdf" src="../../media/10_6-78df.eps" id="id265239_printimage" print-width="3.3cm">
+            <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+          </image>
+        </media>
+        <caption>
+          Approximation in <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> norm
+        </caption>
+      </subfigure>
+      <subfigure id="id265250">
+        <media id="id265250_media" alt="">
+          <image mime-type="image/png" src="../../media/10_4-b5e6.png" id="id265250_onlineimage" width="150"><!-- NOTE: attribute width changes image size online (pixels). original width is 130. --></image>
+          <image mime-type="application/postscript" for="pdf" src="../../media/10_4-fce0.eps" id="id265250_printimage" print-width="3.3cm">
+            <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+          </image>
+        </media>
+        <caption>
+          Approximation in <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>2</m:mn></m:msub></m:math> norm
+        </caption>
+      </subfigure>
+      <subfigure id="id265261">
+        <media id="id265261_media" alt="">
+          <image mime-type="image/png" src="../../media/10_5-6519.png" id="id265261_onlineimage" width="150"><!-- NOTE: attribute width changes image size online (pixels). original width is 96. --></image>
+          <image mime-type="application/postscript" for="pdf" src="../../media/10_5-52a2.eps" id="id265261_printimage" print-width="3.3cm">
+            <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+          </image>
+        </media>
+        <caption>
+          Approximation in <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>∞</m:mi></m:msub></m:math> norm
+        </caption>
+      </subfigure>
+      <subfigure id="id265272">
+        <media id="id265272_media" alt="">
+          <image mime-type="image/png" src="../../media/10_6a-ed89.png" id="id265272_onlineimage" width="150"><!-- NOTE: attribute width changes image size online (pixels). original width is 146. --></image>
+          <image mime-type="application/postscript" for="pdf" src="../../media/10_6a-bd8c.eps" id="id265272_printimage" print-width="3.3cm">
+            <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+          </image>
+        </media>
+<caption>
+          Approximation in <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> quasinorm 
+        </caption>
+      </subfigure>
+      
+    <caption>Best approximation of a point in <m:math overflow="scroll"><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mn>2</m:mn></m:msup></m:math> by a a one-dimensional subspace using the <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> norms for <m:math overflow="scroll"><m:mrow><m:mi>p</m:mi><m:mo>=</m:mo><m:mn>1</m:mn><m:mo>,</m:mo><m:mn>2</m:mn><m:mo>,</m:mo><m:mi>∞</m:mi></m:mrow></m:math>, and the <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> quasinorm with <m:math overflow="scroll"><m:mrow><m:mi>p</m:mi><m:mo>=</m:mo><m:mfrac><m:mn>1</m:mn><m:mn>2</m:mn></m:mfrac></m:mrow></m:math>.</caption></figure>
+  </content>
+
+</document>

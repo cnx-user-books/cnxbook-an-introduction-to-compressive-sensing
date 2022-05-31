@@ -1,0 +1,298 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:bib="http://bibtexml.sf.net/">
+  <title>Bayesian methods</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37359</md:content-id>
+  <md:title>Bayesian methods</md:title>
+  <md:abstract>This module provides an overview of the application of Bayesian methods to compressive sensing and sparse recovery.</md:abstract>
+  <md:uuid>853f7bcb-00cb-4b8d-b747-1bed8566b904</md:uuid>
+</metadata>
+
+<content>
+    <section id="uid1">
+      <title>Setup</title>
+      <para id="id82886">Throughout this <link document="col11133" version="latest">course</link>, we have almost exclusively worked within a deterministic signal framework. In other words, our signal <m:math overflow="scroll"><m:mi>x</m:mi></m:math> is fixed and belongs to a known set of signals. In this section, we depart from this framework and assume that the <link document="m37168" version="latest">sparse</link> (or <link document="m37166" version="latest">compressible</link>) signal of interest arises from a known <emphasis effect="italics">probability distribution</emphasis>, i.e., we assume sparsity promoting <emphasis effect="italics">priors</emphasis> on the elements of <m:math overflow="scroll"><m:mi>x</m:mi></m:math>, and recover from the stochastic measurements <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi></m:mrow></m:math> a probability distribution on each nonzero element of <m:math overflow="scroll"><m:mi>x</m:mi></m:math>. Such an approach falls under the purview of <emphasis effect="italics">Bayesian </emphasis> methods for <link document="m37292" version="latest">sparse recovery</link>.</para>
+      <para id="id83286">The algorithms discussed in this section demonstrate a digression from the conventional sparse recovery techniques typically used in <link document="m37172" version="latest">compressive sensing</link> (CS). We note that none of these algorithms are accompanied by guarantees on the number of measurements required, or the fidelity of signal reconstruction; indeed, in a Bayesian signal modeling framework, there is no well-defined notion of “reconstruction error”. However, such methods do provide insight into developing recovery algorithms for rich classes of signals, and may be of considerable practical interest.</para>
+    </section>
+    <section id="uid2">
+      <title>Sparse recovery via belief propagation</title>
+      <para id="id83308">As we will see later in this course, there are significant parallels to be drawn between error correcting codes and sparse recovery <link target-id="bid0"/>. In particular, sparse codes such as LDPC codes have had grand success. The advantage that sparse coding matrices may have in efficient encoding of signals and their low complexity decoding algorithms, is transferable to CS encoding and decoding with the use of <emphasis effect="italics">sparse</emphasis> <link document="m37169" version="latest">sensing matrices</link> <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>. The sparsity in the <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> matrix is equivalent to the sparsity in LDPC coding graphs.</para>
+      <figure id="uid3"><media id="uid3_media" alt="">
+          <image mime-type="image/png" src="../../media/bpfactorgraph-3.png" id="uid3_onlineimage" width="400"><!-- NOTE: attribute width changes image size online (pixels). original width is 400. --></image>
+          <image mime-type="application/postscript" for="pdf" src="../../media/bpfactorgraph-3.eps" print-width="4in" id="uid3_printimage"/>
+        </media>
+        
+      <caption>Factor graph depicting the relationship between the variables involved in CS decoding using BP. Variable nodes are black and the constraint nodes are white.</caption></figure>
+      <para id="id83362">A sensing matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> that defines the relation between the signal <m:math overflow="scroll"><m:mi>x</m:mi></m:math> and measurements <m:math overflow="scroll"><m:mi>y</m:mi></m:math> can be represented as a bipartite graph of signal coefficient nodes <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>(</m:mo><m:mi>i</m:mi><m:mo>)</m:mo></m:mrow></m:math> and measurement nodes <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>(</m:mo><m:mi>i</m:mi><m:mo>)</m:mo></m:mrow></m:math> <link target-id="bid0"/>, <link target-id="bid1"/>. The factor graph in <link target-id="uid3"/> represents the relationship between the signal coefficients and measurements in the CS decoding problem.</para>
+      <para id="id83437">The choice of signal probability density is of practical interest. In many applications, the signals of interest need to be modeled as being compressible (as opposed to being strictly sparse). This behavior is modeled by a two-state Gaussian mixture distribution, with each signal coefficient taking either a “large” or “small” coefficient value state. Assuming that the elements of <m:math overflow="scroll"><m:mi>x</m:mi></m:math> are i.i.d., it can be shown that small coefficients occur more frequently than the large coefficients. Other distributions besides the two-state Gaussian may also be used to model the coefficients, for e.g., the i.i.d. Laplace prior on the coefficients of <m:math overflow="scroll"><m:mi>x</m:mi></m:math>.</para>
+      <para id="id83465">The ultimate goal is to estimate (i.e., decode) <m:math overflow="scroll"><m:mi>x</m:mi></m:math>, given <m:math overflow="scroll"><m:mi>y</m:mi></m:math> and <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>. The decoding problem takes the form of a Bayesian inference problem in which we want to approximate the marginal distributions of each of the <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>(</m:mo><m:mi>i</m:mi><m:mo>)</m:mo></m:mrow></m:math> coefficients conditioned on the observed measurements <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>(</m:mo><m:mi>i</m:mi><m:mo>)</m:mo></m:mrow></m:math>. We can then estimate the Maximum Likelihood Estimate (MLE), or the Maximum a Posteriori (MAP) estimates of the coefficients from their distributions. This sort of inference can be solved using a variety of methods; for example, the popular belief propagation method (BP) <link target-id="bid0"/> can be applied to solve for the coefficients approximately. Although exact inference in arbitrary graphical models is an NP hard problem, inference using BP can be employed when <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> is sparse enough, i.e., when most of the entries in the matrix are equal to zero.</para>
+    </section>
+    <section id="uid4">
+      <title>Sparse Bayesian learning</title>
+      <para id="id83554">Another probabilistic approach used to estimate the components of <m:math overflow="scroll"><m:mi>x</m:mi></m:math> is by using Relevance Vector Machines (RVMs). An RVM is essentially a Bayesian learning method that produces sparse classification by linearly weighting a small number of fixed basis functions from a large dictionary of potential candidates (for more details the interested reader may refer to <link target-id="bid3"/>, <link target-id="bid2"/>). From the CS perspective, we may view this as a method to determine the elements of a sparse <m:math overflow="scroll"><m:mi>x</m:mi></m:math> which linearly weight the basis functions comprising the columns of <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>.</para>
+      <para id="id83599">The RVM setup employs a hierarchy of priors; first, a Gaussian prior is assigned to each of the <m:math overflow="scroll"><m:mi>N</m:mi></m:math> elements of <m:math overflow="scroll"><m:mi>x</m:mi></m:math>; subsequently, a Gamma prior is assigned to the inverse-variance <m:math overflow="scroll"><m:msub><m:mi>α</m:mi><m:mi>i</m:mi></m:msub></m:math> of the <m:math overflow="scroll"><m:msup><m:mi>i</m:mi><m:mi> th </m:mi></m:msup></m:math> Gaussian prior. Therefore each <m:math overflow="scroll"><m:msub><m:mi>α</m:mi><m:mi>i</m:mi></m:msub></m:math> controls the strength of the prior on its associated weight in <m:math overflow="scroll"><m:msub><m:mi>x</m:mi><m:mi>i</m:mi></m:msub></m:math>. If <m:math overflow="scroll"><m:mi>x</m:mi></m:math> is the sparse vector to be reconstructed, its associated Gaussian prior is given by:</para>
+      <equation id="id83682">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:mi>p</m:mi>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>x</m:mi>
+              <m:mo>|</m:mo>
+              <m:mi>α</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mo>=</m:mo>
+            <m:munderover>
+              <m:mo>∏</m:mo>
+              <m:mrow>
+                <m:mi>i</m:mi>
+                <m:mo>=</m:mo>
+                <m:mn>1</m:mn>
+              </m:mrow>
+              <m:mi>N</m:mi>
+            </m:munderover>
+            <m:mi mathvariant="script">N</m:mi>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:msub>
+                <m:mi>x</m:mi>
+                <m:mi>i</m:mi>
+              </m:msub>
+              <m:mo>|</m:mo>
+              <m:mn>0</m:mn>
+              <m:mo>,</m:mo>
+              <m:msubsup>
+                <m:mi>α</m:mi>
+                <m:mrow>
+                  <m:mi>i</m:mi>
+                </m:mrow>
+                <m:mrow>
+                  <m:mo>-</m:mo>
+                  <m:mn>1</m:mn>
+                </m:mrow>
+              </m:msubsup>
+              <m:mo>)</m:mo>
+            </m:mrow>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id82840">and the Gamma prior on <m:math overflow="scroll"><m:mi>α</m:mi></m:math> is written as:</para>
+      <equation id="id83953">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:mi>p</m:mi>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>α</m:mi>
+              <m:mo>|</m:mo>
+              <m:mi>a</m:mi>
+              <m:mo>,</m:mo>
+              <m:mi>b</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mo>=</m:mo>
+            <m:munderover>
+              <m:mo>∏</m:mo>
+              <m:mrow>
+                <m:mi>i</m:mi>
+                <m:mo>=</m:mo>
+                <m:mn>1</m:mn>
+              </m:mrow>
+              <m:mi>N</m:mi>
+            </m:munderover>
+            <m:mi>Γ</m:mi>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:msub>
+                <m:mi>α</m:mi>
+                <m:mi>i</m:mi>
+              </m:msub>
+              <m:mo>|</m:mo>
+              <m:mi>a</m:mi>
+              <m:mo>,</m:mo>
+              <m:mi>b</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id84022">The overall prior on <m:math overflow="scroll"><m:mi>x</m:mi></m:math> can be analytically evaluated to be the Student-t distribution, which can be designed to peak at <m:math overflow="scroll"><m:mrow><m:msub><m:mi>x</m:mi><m:mi>i</m:mi></m:msub><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math> with appropriate choice of <m:math overflow="scroll"><m:mi>a</m:mi></m:math> and <m:math overflow="scroll"><m:mi>b</m:mi></m:math>. This enables the desired solution <m:math overflow="scroll"><m:mi>x</m:mi></m:math> to be sparse. The RVM approach can be visualized using a graphical model similar to the one in <link target-id="uid2">"Sparse recovery via belief propagation"</link>. Using the observed measurements <m:math overflow="scroll"><m:mi>y</m:mi></m:math>, the posterior density on each <m:math overflow="scroll"><m:msub><m:mi>x</m:mi><m:mi>i</m:mi></m:msub></m:math> is estimated by an iterative algorithm (e.g., Markov Chain Monte Carlo (MCMC) methods). For a detailed analysis of the RVM with a measurement noise prior, refer to <link target-id="bid4"/>, <link target-id="bid2"/>.</para>
+      <para id="id84116">Alternatively, we can eliminate the need to set the hyperparameters <m:math overflow="scroll"><m:mi>a</m:mi></m:math> and <m:math overflow="scroll"><m:mi>b</m:mi></m:math> as follows. Assuming Gaussian measurement noise with mean 0 and variance <m:math overflow="scroll"><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup></m:math>, we can directly find the marginal log likelihood for <m:math overflow="scroll"><m:mi>α</m:mi></m:math> and maximize it by the EM algorithm (or directly differentiate) to find estimates for <m:math overflow="scroll"><m:mi>α</m:mi></m:math>.</para>
+      <equation id="id84167">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:mi mathvariant="script">L</m:mi>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>α</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mo>=</m:mo>
+            <m:mo form="prefix">log</m:mo>
+            <m:mi>p</m:mi>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>y</m:mi>
+              <m:mo>|</m:mo>
+              <m:mi>α</m:mi>
+              <m:mo>,</m:mo>
+              <m:msup>
+                <m:mi>σ</m:mi>
+                <m:mn>2</m:mn>
+              </m:msup>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mo>=</m:mo>
+            <m:mo form="prefix">log</m:mo>
+            <m:mo>∫</m:mo>
+            <m:mi>p</m:mi>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>y</m:mi>
+              <m:mo>|</m:mo>
+              <m:mi>x</m:mi>
+              <m:mo>,</m:mo>
+              <m:msup>
+                <m:mi>σ</m:mi>
+                <m:mn>2</m:mn>
+              </m:msup>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mi>p</m:mi>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>y</m:mi>
+              <m:mo>|</m:mo>
+              <m:mi>α</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mi>d</m:mi>
+            <m:mi>x</m:mi>
+            <m:mo>.</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+    </section>
+    <section id="uid5">
+      <title>Bayesian compressive sensing</title>
+      <para id="id84279">Unfortunately, evaluation of the log-likelihood in the original RVM setup involves taking the inverse of an <m:math overflow="scroll"><m:mrow><m:mi>N</m:mi><m:mo>×</m:mo><m:mi>N</m:mi></m:mrow></m:math> matrix, rendering the algorithm's complexity to be <m:math overflow="scroll"><m:mrow><m:mi>O</m:mi><m:mo>(</m:mo><m:msup><m:mi>N</m:mi><m:mn>3</m:mn></m:msup><m:mo>)</m:mo></m:mrow></m:math>. A fast alternative algorithm for the RVM is available which monotonically maximizes the marginal likelihoods of the priors by a gradient ascent, resulting in an algorithm with complexity <m:math overflow="scroll"><m:mrow><m:mi>O</m:mi><m:mo>(</m:mo><m:mi>N</m:mi><m:msup><m:mi>M</m:mi><m:mn>2</m:mn></m:msup><m:mo>)</m:mo></m:mrow></m:math>. Here, basis functions are sequentially added and deleted, thus building the model up constructively, and the true sparsity of the signal <m:math overflow="scroll"><m:mi>x</m:mi></m:math> is exploited to minimize model complexity. This is known as Fast Marginal Likelihood Maximization, and is employed by the Bayesian Compressive Sensing (BCS) algorithm <link target-id="bid4"/> to efficiently evaluate the posterior densities of <m:math overflow="scroll"><m:msub><m:mi>x</m:mi><m:mi>i</m:mi></m:msub></m:math>.</para>
+      <para id="id84373">A key advantage of the BCS algorithm is that it enables evaluation of “error bars” on each estimated coefficient of <m:math overflow="scroll"><m:mi>x</m:mi></m:math>; these give us an idea of the (in)accuracies of these estimates. These error bars could be used to <emphasis effect="italics">adaptively select</emphasis> the linear projections (i.e., the rows of the matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>) to reduce uncertainty in the signal. This provides an intriguing connection between CS and machine learning techniques such as experimental design and active learning <link target-id="bid5"/>, <link target-id="bid6"/>.</para>
+    </section>
+  </content>
+  <bib:file>
+    <bib:entry id="bid5">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Fedorov, V.</bib:author>
+        <bib:title>Theory of Optimal Experiments</bib:title>
+        <bib:publisher>Academic Press</bib:publisher>
+        <bib:year>1972</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address>New York, NY</bib:address>
+        <bib:edition/>
+        <bib:month/>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid4">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Ji, S. and Xue, Y. and Carin, L.</bib:author>
+        <bib:title>Bayesian Compressive Sensing</bib:title>
+        <bib:journal>IEEE Trans. Signal Processing</bib:journal>
+        <bib:year>2008</bib:year>
+        <!--optional fields-->
+        <bib:volume>56</bib:volume>
+        <bib:number>6</bib:number>
+        <bib:pages>2346–2356</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid6">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>MacKay, D.</bib:author>
+        <bib:title>Information-based objective functions for active data selection</bib:title>
+        <bib:journal>Neural Comput.</bib:journal>
+        <bib:year>1992</bib:year>
+        <!--optional fields-->
+        <bib:volume>4</bib:volume>
+        <bib:number/>
+        <bib:pages>590–604</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid0">
+      <bib:techreport>
+        <!--required fields-->
+        <bib:author>Sarvotham, S. and Baron, D. and Baraniuk, R.</bib:author>
+        <bib:title>Compressed Sensing Reconstruction via Belief Propagation</bib:title>
+        <bib:institution>Rice Univ., ECE Dept.</bib:institution>
+        <bib:year>2006</bib:year>
+        <!--optional fields-->
+        <bib:type>Technical report</bib:type>
+        <bib:number>TREE-0601</bib:number>
+        <bib:address/>
+        <bib:month/>
+        <bib:note/>
+      </bib:techreport>
+    </bib:entry>
+    <bib:entry id="bid1">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Sheikh, M. and Sarvotham, S. and Milenkovic, O. and Baraniuk, R.</bib:author>
+        <bib:title>DNA Array Decoding From Nonlinear Measurements By Belief Propagation</bib:title>
+        <bib:booktitle>Proc. IEEE Work. Stat. Signal Processing</bib:booktitle>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Madison, WI</bib:address>
+        <bib:month>Aug.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid3">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Tipping, M. and Faul, A.</bib:author>
+        <bib:title>Fast marginal likelihood maximization for sparse Bayesian models</bib:title>
+        <bib:booktitle>Proc. Int. Conf. Art. Intell. Stat. (AISTATS)</bib:booktitle>
+        <bib:year>2003</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Key West, FL</bib:address>
+        <bib:month>Jan.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid2">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Tipping, M.</bib:author>
+        <bib:title>Sparse bayesian learning and the relevance vector machine</bib:title>
+        <bib:journal>J. Machine Learning Research</bib:journal>
+        <bib:year>2001</bib:year>
+        <!--optional fields-->
+        <bib:volume>1</bib:volume>
+        <bib:number/>
+        <bib:pages>211–244</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+  </bib:file>
+</document>

@@ -1,0 +1,252 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:bib="http://bibtexml.sf.net/">
+  <title>Sparse representations</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37168</md:content-id>
+  <md:title>Sparse representations</md:title>
+  <md:abstract>This module provides an overview of sparsity and sparse representations, giving examples for both 1-D and 2-D signals.</md:abstract>
+  <md:uuid>06b74fdd-4129-47e4-bd31-4af7a3189762</md:uuid>
+</metadata>
+
+<content>
+    <para id="id168514">Transforming a signal to a new <link document="m37165" version="latest">basis or frame</link> may allow us to represent a signal more concisely. The resulting compression is useful for reducing data storage and data transmission, which can be quite expensive in some applications. Hence, one might wish to simply transmit the analysis coefficients obtained in our basis or frame expansion instead of its high-dimensional correlate. In cases where the number of non-zero coefficients is small, we say that we have a sparse representation. Sparse signal models allow us to achieve high rates of compression and in the case of <link document="m37172" version="latest">compressive sensing</link>, we may use the knowledge that our signal is sparse in a known basis or frame to recover our original signal from a small number of measurements. For sparse data, only the non-zero coefficients need to be stored or transmitted in many cases; the rest can be assumed to be zero).</para>
+    <para id="id168525">Mathematically, we say that a signal <m:math overflow="scroll"><m:mi>x</m:mi></m:math> is <emphasis effect="italics"><m:math overflow="scroll"><m:mi>K</m:mi></m:math>-sparse</emphasis> when it has at most <m:math overflow="scroll"><m:mi>K</m:mi></m:math> nonzeros, i.e., <m:math overflow="scroll"><m:mrow><m:msub><m:mfenced open="∥" close="∥"><m:mi>x</m:mi></m:mfenced><m:mn>0</m:mn></m:msub><m:mo>≤</m:mo><m:mi>K</m:mi></m:mrow></m:math>. We let</para>
+    <equation id="uid1">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msub>
+            <m:mi>Σ</m:mi>
+            <m:mi>K</m:mi>
+          </m:msub>
+          <m:mo>=</m:mo>
+          <m:mfenced separators="" open="{" close="}">
+            <m:mi>x</m:mi>
+            <m:mo>:</m:mo>
+            <m:msub>
+              <m:mfenced open="∥" close="∥">
+                <m:mi>x</m:mi>
+              </m:mfenced>
+              <m:mn>0</m:mn>
+            </m:msub>
+            <m:mo>≤</m:mo>
+            <m:mi>K</m:mi>
+          </m:mfenced>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id168974">denote the set of all <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-sparse signals. Typically, we will be dealing with signals that are not themselves sparse, but which admit a sparse representation in some basis <m:math overflow="scroll"><m:mi>Ψ</m:mi></m:math>. In this case we will still refer to <m:math overflow="scroll"><m:mi>x</m:mi></m:math> as being <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-sparse, with the understanding that we can express <m:math overflow="scroll"><m:mi>x</m:mi></m:math> as <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>=</m:mo><m:mi>Ψ</m:mi><m:mi>α</m:mi></m:mrow></m:math> where <m:math overflow="scroll"><m:mrow><m:msub><m:mrow><m:mo>∥</m:mo><m:mi>α</m:mi><m:mo>∥</m:mo></m:mrow><m:mn>0</m:mn></m:msub><m:mo>≤</m:mo><m:mi>K</m:mi></m:mrow></m:math>.</para>
+    <para id="id169058">Sparsity has long been exploited in signal processing and approximation theory for tasks such as compression <link target-id="bid0"/>, <link target-id="bid1"/>, <link target-id="bid2"/> and denoising <link target-id="bid3"/>, and in statistics and learning theory as a method for avoiding overfitting <link target-id="bid4"/>. Sparsity also figures prominently in the theory of statistical estimation and model selection <link target-id="bid6"/>, <link target-id="bid5"/>, in the study of the human visual system <link target-id="bid7"/>, and has been exploited heavily in image processing tasks, since the multiscale wavelet transform <link target-id="bid8"/> provides nearly sparse representations for natural images. Below, we briefly describe some one-dimensional (1-D) and two-dimensional (2-D) examples.</para>
+    <section id="uid2"><title>1-D signal models</title><para id="id169125">We will now present an example of three basis expansions that yield different levels of sparsity for the same signal. A simple periodic signal is sampled and represented as a periodic train of weighted impulses (see <link target-id="uid3"/>). One can interpret sampling as a basis expansion where our elements in our basis are impulses placed at periodic points along the time axis. We know that in this case, our dual basis consists of sinc functions used to reconstruct our signal from discrete-time samples. This representation contains many non-zero coefficients, and due to the signal's periodicity, there are many redundant measurements. Representing the signal in the Fourier basis, on the other hand, requires only two non-zero basis vectors, scaled appropriately at the positive and negative frequencies (see <link target-id="uid3"/>). Driving the number of coefficients needed even lower, we may apply the discrete cosine transform (DCT) to our signal, thereby requiring only a single non-zero coefficient in our expansion (see <link target-id="uid3"/>). The DCT equation is <m:math overflow="scroll"><m:mrow><m:msub><m:mi>X</m:mi><m:mi>k</m:mi></m:msub><m:mo>=</m:mo><m:msubsup><m:mo>∑</m:mo><m:mrow><m:mi>n</m:mi><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow><m:mrow><m:mi>N</m:mi><m:mo>-</m:mo><m:mn>1</m:mn></m:mrow></m:msubsup><m:msub><m:mi>x</m:mi><m:mi>n</m:mi></m:msub><m:mo form="prefix">cos</m:mo><m:mrow><m:mo>(</m:mo><m:mfrac><m:mi>π</m:mi><m:mi>N</m:mi></m:mfrac><m:mrow><m:mo>(</m:mo><m:mi>n</m:mi><m:mo>+</m:mo><m:mfrac><m:mn>1</m:mn><m:mn>2</m:mn></m:mfrac><m:mo>)</m:mo></m:mrow><m:mi>k</m:mi><m:mo>)</m:mo></m:mrow></m:mrow></m:math> with <m:math overflow="scroll"><m:mrow><m:mi>k</m:mi><m:mo>=</m:mo><m:mn>0</m:mn><m:mo>,</m:mo><m:mo>⋯</m:mo><m:mo>,</m:mo><m:mi>N</m:mi><m:mo>-</m:mo><m:mn>1</m:mn></m:mrow></m:math>, <m:math overflow="scroll"><m:msub><m:mi>x</m:mi><m:mi>n</m:mi></m:msub></m:math> the input signal, and N the length of the transform.</para>
+      <figure id="uid3" orient="horizontal"><subfigure id="id169478">
+          <media id="id169478_media" alt="">
+            <image mime-type="image/png" src="../../media/cos-b37a.png" id="id169478_onlineimage" width="450"><!-- NOTE: attribute width changes image size online (pixels). original width is 366. --></image>
+            <image mime-type="application/postscript" for="pdf" src="../../media/cos-99cd.eps" id="id169478_printimage" print-width="3in">
+              <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+            </image>
+          </media>
+        </subfigure>
+        <subfigure id="id169489">
+          <media id="id169489_media" alt="">
+            <image mime-type="image/png" src="../../media/cosFourier-8b88.png" id="id169489_onlineimage" width="450"><!-- NOTE: attribute width changes image size online (pixels). original width is 369. --></image>
+            <image mime-type="application/postscript" for="pdf" src="../../media/cosFourier-8d4a.eps" id="id169489_printimage" print-width="3in">
+              <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+            </image>
+          </media>
+        </subfigure>
+        <subfigure id="id169501">
+          <media id="id169501_media" alt="">
+            <image mime-type="image/png" src="../../media/cosDCT-049b.png" id="id169501_onlineimage" width="450"><!-- NOTE: attribute width changes image size online (pixels). original width is 361. --></image>
+            <image mime-type="application/postscript" for="pdf" src="../../media/cosDCT-edfb.eps" id="id169501_printimage" print-width="3in">
+              <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+            </image>
+          </media>
+        </subfigure>
+        
+      <caption><emphasis effect="italics">Cosine signal in three representations: (a) Train of impulses (b) Fourier basis (c) DCT basis</emphasis>
+        </caption></figure>
+    </section>
+    <section id="uid4">
+      <title>2-D signal models</title>
+      <para id="id169536">This same concept can be extended to 2-D signals as well. For instance, a binary picture of a nighttime sky is sparse in the standard pixel domain because most of the pixels are zero-valued black pixels. Likewise, natural images are characterized by large smooth or textured regions and relatively few sharp edges. Signals with this structure are known to be very nearly sparse when represented using a multiscale wavelet transform <link target-id="bid8"/>. The wavelet transform consists of recursively dividing the image into its low- and high-frequency components. The lowest frequency components provide a coarse scale approximation of the image, while the higher frequency components fill in the detail and resolve edges. What we see when we compute a wavelet transform of a typical natural image, as shown in <link target-id="uid6"/>, is that most coefficients are very small. Hence, we can obtain a good approximation of the signal by setting the small coefficients to zero, or <emphasis effect="italics">thresholding</emphasis> the coefficients, to obtain a <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-sparse representation. When measuring the approximation error using an <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> norm, this procedure yields the <emphasis effect="italics">best <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-term approximation</emphasis> of the original signal, i.e., the best approximation of the signal using only <m:math overflow="scroll"><m:mi>K</m:mi></m:math> basis elements.<footnote id="uid5">Thresholding yields the best <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-term approximation of a signal with respect to an orthonormal basis. When redundant frames are used, we must rely on sparse approximation algorithms like those described later in this course <link target-id="bid9"/>, <link target-id="bid8"/>.</footnote></para>
+      <figure id="uid6" orient="horizontal">
+        <subfigure id="id169665">
+          <media id="id169665_media" alt="">
+            <image mime-type="image/png" src="../../media/Cameraman-584d.png" id="id169665_onlineimage" width="410"><!-- NOTE: attribute width changes image size online (pixels). original width is 410. --></image>
+            <image mime-type="application/postscript" for="pdf" src="../../media/Cameraman-be6c.eps" id="id169665_printimage" print-width="6.75cm">
+              <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+            </image>
+          </media>
+        </subfigure>
+        <subfigure id="id169677">
+          <media id="id169677_media" alt="">
+            <image mime-type="image/png" src="../../media/CameramanWavelet-03c3.png" id="id169677_onlineimage" width="413"><!-- NOTE: attribute width changes image size online (pixels). original width is 413. --></image>
+            <image mime-type="application/postscript" for="pdf" src="../../media/CameramanWavelet-aa05.eps" id="id169677_printimage" print-width="6.75cm">
+              <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+            </image>
+          </media>
+        </subfigure>
+        <caption>Sparse representation of an image via a multiscale wavelet transform. (a) Original image. (b) Wavelet representation. Large coefficients are represented by light pixels, while small coefficients are represented by dark pixels. Observe that most of the wavelet coefficients are close to zero.</caption>
+      </figure>
+      <para id="id169697">Sparsity results through this decomposition because in most natural images most pixel values vary little from their neighbors. Areas with little contrast difference can be represent with low frequency wavelets. Low frequency wavelets are created through stretching a mother wavelet and thus expanding it in space. On the other hand, discontinuities, or edges in the picture, require high frequency wavelets, which are created through compacting a mother wavelet. At the same time, the transitions are generally limited in space, mimicking the properties of the high frequency compacted wavelet. See <link document="m37166" version="latest">"Compressible signals"</link> for an example.
+
+</para>
+    </section>
+  </content>
+  <bib:file>
+    <bib:entry id="bid0">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>DeVore, R.</bib:author>
+        <bib:title>Nonlinear Approximation</bib:title>
+        <bib:journal>Acta Numerica</bib:journal>
+        <bib:year>1998</bib:year>
+        <!--optional fields-->
+        <bib:volume>7</bib:volume>
+        <bib:number/>
+        <bib:pages>51–150</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid3">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Donoho, D.</bib:author>
+        <bib:title>Denoising by soft-thresholding</bib:title>
+        <bib:journal>IEEE Trans. Inform. Theory</bib:journal>
+        <bib:year>1995</bib:year>
+        <!--optional fields-->
+        <bib:volume>41</bib:volume>
+        <bib:number>3</bib:number>
+        <bib:pages>613–627</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid9">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Elad, M.</bib:author>
+        <bib:title>Sparse and Redundant Representations: From Theory to Applications in Signal and Image Processing</bib:title>
+        <bib:publisher>Springer</bib:publisher>
+        <bib:year>2010</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address>New York, NY</bib:address>
+        <bib:edition/>
+        <bib:month/>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid6">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Hastie, T. and Tibshirani, R. and Friedman, J.</bib:author>
+        <bib:title>The Elements of Statistical Learning</bib:title>
+        <bib:publisher>Springer</bib:publisher>
+        <bib:year>2001</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address>New York, NY</bib:address>
+        <bib:edition/>
+        <bib:month/>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid8">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Mallat, S.</bib:author>
+        <bib:title>A Wavelet Tour of Signal Processing</bib:title>
+        <bib:publisher>Academic Press</bib:publisher>
+        <bib:year>1999</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address>San Diego, CA</bib:address>
+        <bib:edition/>
+        <bib:month/>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid7">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Olshausen, B. and Field, D.</bib:author>
+        <bib:title>Emergence of simple-cell receptive field properties by learning a sparse representation</bib:title>
+        <bib:journal>Nature</bib:journal>
+        <bib:year>1996</bib:year>
+        <!--optional fields-->
+        <bib:volume>381</bib:volume>
+        <bib:number/>
+        <bib:pages>607–609</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid1">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Pennebaker, W. and Mitchell, J.</bib:author>
+        <bib:title>JPEG Still Image Data Compression Standard</bib:title>
+        <bib:publisher>Van Nostrand Reinhold</bib:publisher>
+        <bib:year>1993</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address/>
+        <bib:edition/>
+        <bib:month/>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid5">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Tibshirani, R.</bib:author>
+        <bib:title>Regression shrinkage and selection via the Lasso</bib:title>
+        <bib:journal>J. Royal Statist. Soc B</bib:journal>
+        <bib:year>1996</bib:year>
+        <!--optional fields-->
+        <bib:volume>58</bib:volume>
+        <bib:number>1</bib:number>
+        <bib:pages>267–288</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid2">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Taubman, D. and Marcellin, M.</bib:author>
+        <bib:title>JPEG 2000: Image Compression Fundamentals, Standards and Practice</bib:title>
+        <bib:publisher>Kluwer</bib:publisher>
+        <bib:year>2001</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address/>
+        <bib:edition/>
+        <bib:month/>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid4">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Vapnik, V.</bib:author>
+        <bib:title>The Nature of Statistical Learning Theory</bib:title>
+        <bib:publisher>Springer-Verlag</bib:publisher>
+        <bib:year>1999</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address>New York, NY</bib:address>
+        <bib:edition/>
+        <bib:month/>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+  </bib:file>
+</document>

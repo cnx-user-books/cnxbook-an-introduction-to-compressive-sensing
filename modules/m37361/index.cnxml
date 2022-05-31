@@ -1,0 +1,35 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:bib="http://bibtexml.sf.net/">
+  <title>Sparse error correction</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37361</md:content-id>
+  <md:title>Sparse error correction</md:title>
+  <md:abstract>This module illustrates the application of the ideas of compressive sensing to the design and decoding of error correcting codes for vectors of real numbers subject to sparse corruptions.</md:abstract>
+  <md:uuid>f8e9d198-de22-4fc7-a77e-b3393ed5497c</md:uuid>
+</metadata>
+
+<content>
+    <para id="id82123">In communications, error correction refers to mechanisms that can detect and correct errors in the data that appear duet to distortion in the transmission channel. Standard approaches for error correction rely on repetition schemes, redundancy checks, or nearest neighbor code search. We consider the particular case in which a signal <m:math overflow="scroll"><m:mi>x</m:mi></m:math> with <m:math overflow="scroll"><m:mi>M</m:mi></m:math> entries is coded by taking length-<m:math overflow="scroll"><m:mi>N</m:mi></m:math> linearly independent codewords <m:math overflow="scroll"><m:mrow><m:mo>{</m:mo><m:msub><m:mi>φ</m:mi><m:mn>1</m:mn></m:msub><m:mo>,</m:mo><m:mo>...</m:mo><m:mo>.</m:mo><m:msub><m:mi>φ</m:mi><m:mi>M</m:mi></m:msub><m:mo>}</m:mo></m:mrow></m:math>, with <m:math overflow="scroll"><m:mrow><m:mi>N</m:mi><m:mo>&gt;</m:mo><m:mi>M</m:mi></m:mrow></m:math> and summing them using the entries of <m:math overflow="scroll"><m:mi>x</m:mi></m:math> as coefficients. The received message is a length-<m:math overflow="scroll"><m:mi>N</m:mi></m:math> code <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>=</m:mo><m:msubsup><m:mo>∑</m:mo><m:mrow><m:mi>m</m:mi><m:mo>=</m:mo><m:mn>1</m:mn></m:mrow><m:mi>M</m:mi></m:msubsup><m:msub><m:mi>φ</m:mi><m:mi>i</m:mi></m:msub><m:msub><m:mi>x</m:mi><m:mi>i</m:mi></m:msub><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>f</m:mi></m:mrow></m:math>, where <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> is a matrix that has the different codewords for columns. We assume that the transmission channel corrupts the entries of <m:math overflow="scroll"><m:mi>y</m:mi></m:math> in an additive way, so that the received data is <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi><m:mo>+</m:mo><m:mi>e</m:mi></m:mrow></m:math>, where <m:math overflow="scroll"><m:mi>e</m:mi></m:math> is an error vector.</para>
+    <para id="id82081">The techniques developed for <link document="m37292" version="latest">sparse recovery</link> in the context of <link document="m37172" version="latest">compressive sensing</link> (CS) provide a number of methods to estimate the error vector <m:math overflow="scroll"><m:mi>e</m:mi></m:math> — therefore making it possible to correct it and obtain the signal <m:math overflow="scroll"><m:mi>x</m:mi></m:math> — when <m:math overflow="scroll"><m:mi>e</m:mi></m:math> is sufficiently <link document="m37168" version="latest">sparse</link> <link target-id="bid0"/>. To estimate the error, we build a matrix <m:math overflow="scroll"><m:mi>Θ</m:mi></m:math> that is a basis for the orthogonal subspace to the span of the matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>, i.e., an <m:math overflow="scroll"><m:mrow><m:mo>(</m:mo><m:mi>N</m:mi><m:mo>-</m:mo><m:mi>M</m:mi><m:mo>)</m:mo><m:mo>×</m:mo><m:mi>N</m:mi></m:mrow></m:math> matrix <m:math overflow="scroll"><m:mi>Θ</m:mi></m:math> that holds <m:math overflow="scroll"><m:mrow><m:mi>Θ</m:mi><m:mi>Φ</m:mi><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math>. When such a matrix is obtained, we can modify the measurements by multiplying them with the matrix to obtain <m:math overflow="scroll"><m:mrow><m:mover accent="true"><m:mi>y</m:mi><m:mo>˜</m:mo></m:mover><m:mo>=</m:mo><m:mi>Θ</m:mi><m:mi>y</m:mi><m:mo>=</m:mo><m:mi>Θ</m:mi><m:mi>Φ</m:mi><m:mi>x</m:mi><m:mo>+</m:mo><m:mi>Θ</m:mi><m:mi>e</m:mi><m:mo>=</m:mo><m:mi>Θ</m:mi><m:mi>e</m:mi></m:mrow></m:math>. If the matrix <m:math overflow="scroll"><m:mi>Θ</m:mi></m:math> is well-suited for CS (i.e., it satisfies a condition such as the <link document="m37171" version="latest">restricted isometry property</link>) and <m:math overflow="scroll"><m:mi>e</m:mi></m:math> is sufficiently sparse, then the error vector <m:math overflow="scroll"><m:mi>e</m:mi></m:math> can be estimated accurately using CS. Once the estimate <m:math overflow="scroll"><m:mover accent="true"><m:mi>e</m:mi><m:mo>^</m:mo></m:mover></m:math> is obtained, the error-free measurements can be estimated as <m:math overflow="scroll"><m:mrow><m:mover accent="true"><m:mi>y</m:mi><m:mo>^</m:mo></m:mover><m:mo>=</m:mo><m:mi>y</m:mi><m:mo>-</m:mo><m:mover accent="true"><m:mi>e</m:mi><m:mo>^</m:mo></m:mover></m:mrow></m:math>, and the signal can be recovered as <m:math overflow="scroll"><m:mrow><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mo>=</m:mo><m:msup><m:mi>Φ</m:mi><m:mo>†</m:mo></m:msup><m:mover accent="true"><m:mi>y</m:mi><m:mo>^</m:mo></m:mover><m:mo>=</m:mo><m:msup><m:mi>Φ</m:mi><m:mo>†</m:mo></m:msup><m:mi>y</m:mi><m:mo>-</m:mo><m:msup><m:mi>Φ</m:mi><m:mo>†</m:mo></m:msup><m:mover accent="true"><m:mi>e</m:mi><m:mo>^</m:mo></m:mover></m:mrow></m:math>. As an example, when the codewords <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mi>m</m:mi></m:msub></m:math> have random independent and identically distributed <link document="m37185" version="latest">sub-Gaussian</link> entries, then a <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-sparse error can be corrected if <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>&lt;</m:mo><m:mi>N</m:mi><m:mo>-</m:mo><m:mi>C</m:mi><m:mi>K</m:mi><m:mo form="prefix">log</m:mo><m:mi>N</m:mi><m:mo>/</m:mo><m:mi>K</m:mi></m:mrow></m:math> for a fixed constant <m:math overflow="scroll"><m:mi>C</m:mi></m:math> (see <link document="m37177" version="latest">"Matrices that satisfy the RIP"</link>).</para>
+  </content>
+  <bib:file>
+    <bib:entry id="bid0">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Candès, E. and Rudelson, M. and Tao, T. and Vershynin, R.</bib:author>
+        <bib:title>Error correction via linear programming</bib:title>
+        <bib:booktitle>Proc. IEEE Symp. Found. Comp. Science (FOCS)</bib:booktitle>
+        <bib:year>2005</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Pittsburg, PA</bib:address>
+        <bib:month>Oct.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+  </bib:file>
+</document>

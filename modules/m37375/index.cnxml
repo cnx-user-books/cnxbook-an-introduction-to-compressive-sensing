@@ -1,0 +1,738 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:bib="http://bibtexml.sf.net/">
+  <title>Analog-to-information conversion</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37375</md:content-id>
+  <md:title>Analog-to-information conversion</md:title>
+  <md:abstract>In this module we describe the random demodulator and how it can be used in the application of the theory of compressive sensing to the problem of acquiring a high-bandwidth continuous-time signal.</md:abstract>
+  <md:uuid>6f6f39df-6c07-45ff-a11b-c0edcc2bb176</md:uuid>
+</metadata>
+
+<content>
+      <para id="id299906">We now consider the application of <link document="m37172" version="latest">compressive sensing</link> (CS) to the problem of designing a system that can acquire a continuous-time signal <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow></m:math>. Specifically, we would like to build an <emphasis effect="italics">analog-to-digital converter</emphasis> (ADC) that avoids having to sample <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow></m:math> at its Nyquist rate when <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow></m:math> is sparse. In this context, we will assume that <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow></m:math> has some kind of <link document="m37168" version="latest">sparse</link> structure in the Fourier domain, meaning that it is still bandlimited but that much of the spectrum is empty. We will discuss the different possible signal models for mathematically capturing this structure in greater detail below. For now, the challenge is that our <link document="m37169" version="latest">measurement system</link> must be built using analog hardware. This imposes severe restrictions on the kinds of operations we can perform.</para>
+    <section id="uid2">
+      <title>Analog measurement model</title>
+      <para id="id300329">To be more concrete, since we are dealing with a continuous-time signal <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow></m:math>, we must also consider continuous-time test functions <m:math overflow="scroll"><m:msubsup><m:mrow><m:mo>{</m:mo><m:msub><m:mi>φ</m:mi><m:mi>j</m:mi></m:msub><m:mrow><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow><m:mo>}</m:mo></m:mrow><m:mrow><m:mi>j</m:mi><m:mo>=</m:mo><m:mn>1</m:mn></m:mrow><m:mi>M</m:mi></m:msubsup></m:math>. We then consider a finite window of time, say <m:math overflow="scroll"><m:mrow><m:mi>t</m:mi><m:mo>∈</m:mo><m:mo>[</m:mo><m:mn>0</m:mn><m:mo>,</m:mo><m:mi>T</m:mi><m:mo>]</m:mo></m:mrow></m:math>, and would like to collect <m:math overflow="scroll"><m:mi>M</m:mi></m:math> measurements of the form</para>
+      <equation id="uid3">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:mi>y</m:mi>
+            <m:mrow>
+              <m:mo>[</m:mo>
+              <m:mi>j</m:mi>
+              <m:mo>]</m:mo>
+            </m:mrow>
+            <m:mo>=</m:mo>
+            <m:msubsup>
+              <m:mo>∫</m:mo>
+              <m:mn>0</m:mn>
+              <m:mi>T</m:mi>
+            </m:msubsup>
+            <m:mi>x</m:mi>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>t</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:msub>
+              <m:mi>φ</m:mi>
+              <m:mi>j</m:mi>
+            </m:msub>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>t</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mspace width="0.166667em"/>
+            <m:mi>d</m:mi>
+            <m:mi>t</m:mi>
+            <m:mo>.</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id300668">Building an analog system to collect such measurements will require three main components:</para>
+      <list id="id300674" display="block" list-type="enumerated"><item id="uid4">hardware for generating the test signals <m:math overflow="scroll"><m:mrow><m:msub><m:mi>φ</m:mi><m:mi>j</m:mi></m:msub><m:mrow><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow></m:mrow></m:math>;
+</item>
+        <item id="uid5"><m:math overflow="scroll"><m:mi>M</m:mi></m:math> correlators  that multiply the signal <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow></m:math> with each respective <m:math overflow="scroll"><m:mrow><m:msub><m:mi>φ</m:mi><m:mi>j</m:mi></m:msub><m:mrow><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow></m:mrow></m:math>;
+</item>
+        <item id="uid6"><m:math overflow="scroll"><m:mi>M</m:mi></m:math> integrators with a zero-valued initial state.
+</item>
+      </list>
+      <para id="id300795">We could then sample and quantize the output of each of the integrators to collect the measurements <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>[</m:mo><m:mi>j</m:mi><m:mo>]</m:mo></m:mrow></m:math>. Of course, even in this somewhat idealized setting, it should be clear that what we can build in hardware will constrain our choice of <m:math overflow="scroll"><m:mrow><m:msub><m:mi>φ</m:mi><m:mi>j</m:mi></m:msub><m:mrow><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow></m:mrow></m:math> since we cannot reliably and accurately produce (and reproduce) arbitrarily complex <m:math overflow="scroll"><m:mrow><m:msub><m:mi>φ</m:mi><m:mi>j</m:mi></m:msub><m:mrow><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow></m:mrow></m:math> in analog hardware. Moreover, the architecture described above requires <m:math overflow="scroll"><m:mi>M</m:mi></m:math> correlator/integrator pairs operating in parallel, which will be potentially prohibitively expensive both in dollar cost as well as costs such as size, weight, and power (SWAP).</para>
+      <para id="id300870">As a result, there have been a number of efforts to design simpler architectures, chiefly by carefully designing structured <m:math overflow="scroll"><m:mrow><m:msub><m:mi>φ</m:mi><m:mi>j</m:mi></m:msub><m:mrow><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow></m:mrow></m:math>. The simplest to describe and historically earliest idea is to choose <m:math overflow="scroll"><m:mrow><m:msub><m:mi>φ</m:mi><m:mi>j</m:mi></m:msub><m:mrow><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow><m:mo>=</m:mo><m:mi>δ</m:mi><m:mrow><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>-</m:mo><m:msub><m:mi>t</m:mi><m:mi>j</m:mi></m:msub><m:mo>)</m:mo></m:mrow></m:mrow></m:math>, where <m:math overflow="scroll"><m:msubsup><m:mrow><m:mo>{</m:mo><m:msub><m:mi>t</m:mi><m:mi>j</m:mi></m:msub><m:mo>}</m:mo></m:mrow><m:mrow><m:mi>j</m:mi><m:mo>=</m:mo><m:mn>1</m:mn></m:mrow><m:mi>M</m:mi></m:msubsup></m:math> denotes a sequence of <m:math overflow="scroll"><m:mi>M</m:mi></m:math> locations in time at which we would like to sample the signal <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow></m:math>. Typically, if the number of measurements we are acquiring is lower than the Nyquist-rate, then these locations cannot simply be uniformly spaced in the interval <m:math overflow="scroll"><m:mrow><m:mo>[</m:mo><m:mn>0</m:mn><m:mo>,</m:mo><m:mi>T</m:mi><m:mo>]</m:mo></m:mrow></m:math>, but must be carefully chosen. Note that this approach simply requires a single traditional ADC with the ability to sample on a non-uniform grid, avoiding the requirement for <m:math overflow="scroll"><m:mi>M</m:mi></m:math> parallel correlator/integrator pairs. Such non-uniform sampling systems have been studied in other contexts outside of the CS framework. For example, there exist specialized fast algorithms for the recovery of extremely large Fourier-sparse signals. The algorithm uses samples at a non-uniform sequence of locations that are highly structured, but where the initial location is chosen using a (pseudo)random seed. This literature provides guarantees similar to those available from standard CS <link target-id="bid0"/>, <link target-id="bid1"/>. Additionally, there exist frameworks for the sampling and recovery of multi-band signals, whose Fourier transforms are mostly zero except for a few frequency bands. These schemes again use non-uniform sampling patterns based on coset sampling <link target-id="bid3"/>, <link target-id="bid6"/>, <link target-id="bid2"/>, <link target-id="bid4"/>, <link target-id="bid7"/>, <link target-id="bid5"/>. Unfortunately, these approaches are often highly sensitive to <emphasis effect="italics">jitter</emphasis>, or error in the timing of when the samples are taken.</para>
+      <para id="id301086">We will consider a rather different approach, which we call the <emphasis effect="italics">random demodulator</emphasis> <link target-id="bid8"/>, <link target-id="bid9"/>, <link target-id="bid10"/>.<footnote id="uid7">A correlator is also known as a “demodulator” due to its most common application: demodulating radio signals.</footnote> The architecture of the random demodulator is depicted in <link target-id="uid9"/>. The analog input <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow></m:math> is correlated with a pseudorandom square pulse of <m:math overflow="scroll"><m:mrow><m:mo>±</m:mo><m:mn>1</m:mn></m:mrow></m:math>'s, called the <emphasis effect="italics">chipping sequence</emphasis> <m:math overflow="scroll"><m:mrow><m:msub><m:mi>p</m:mi><m:mi>c</m:mi></m:msub><m:mrow><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow></m:mrow></m:math>, which alternates between values at a rate of <m:math overflow="scroll"><m:msub><m:mi>N</m:mi><m:mi>a</m:mi></m:msub></m:math>Hz, where <m:math overflow="scroll"><m:msub><m:mi>N</m:mi><m:mi>a</m:mi></m:msub></m:math>Hz is at least as fast as the Nyquist rate of <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow></m:math>. The mixed signal is integrated over a time period <m:math overflow="scroll"><m:mrow><m:mn>1</m:mn><m:mo>/</m:mo><m:msub><m:mi>M</m:mi><m:mi>a</m:mi></m:msub></m:mrow></m:math> and sampled by a traditional integrate-and-dump back-end ADC at <m:math overflow="scroll"><m:msub><m:mi>M</m:mi><m:mi>a</m:mi></m:msub></m:math>Hz <m:math overflow="scroll"><m:mrow><m:mo>≪</m:mo><m:msub><m:mi>N</m:mi><m:mi>a</m:mi></m:msub></m:mrow></m:math>Hz. In this case our measurements are given by</para>
+      <equation id="uid8">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:mi>y</m:mi>
+            <m:mrow>
+              <m:mo>[</m:mo>
+              <m:mi>j</m:mi>
+              <m:mo>]</m:mo>
+            </m:mrow>
+            <m:mo>=</m:mo>
+            <m:msubsup>
+              <m:mo>∫</m:mo>
+              <m:mrow>
+                <m:mrow>
+                  <m:mo>(</m:mo>
+                  <m:mi>j</m:mi>
+                  <m:mo>-</m:mo>
+                  <m:mn>1</m:mn>
+                  <m:mo>)</m:mo>
+                </m:mrow>
+                <m:mo>/</m:mo>
+                <m:msub>
+                  <m:mi>M</m:mi>
+                  <m:mi>a</m:mi>
+                </m:msub>
+              </m:mrow>
+              <m:mrow>
+                <m:mi>j</m:mi>
+                <m:mo>/</m:mo>
+                <m:msub>
+                  <m:mi>M</m:mi>
+                  <m:mi>a</m:mi>
+                </m:msub>
+              </m:mrow>
+            </m:msubsup>
+            <m:msub>
+              <m:mi>p</m:mi>
+              <m:mi>c</m:mi>
+            </m:msub>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>t</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mi>x</m:mi>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>t</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mspace width="0.166667em"/>
+            <m:mi>d</m:mi>
+            <m:mi>t</m:mi>
+            <m:mo>.</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id301373">In practice, data is processed in time blocks of period <m:math overflow="scroll"><m:mi>T</m:mi></m:math>, and we define <m:math overflow="scroll"><m:mrow><m:mi>N</m:mi><m:mo>=</m:mo><m:msub><m:mi>N</m:mi><m:mi>a</m:mi></m:msub><m:mi>T</m:mi></m:mrow></m:math> as the number of elements in the chipping sequence, and <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>=</m:mo><m:msub><m:mi>M</m:mi><m:mi>a</m:mi></m:msub><m:mi>T</m:mi></m:mrow></m:math> as the number of measurements. We will discuss the discretization of this model below, but the key observation is that the correlator and chipping sequence operate at a fast rate, while the back-end ADC operates at a low rate. In hardware it is easier to build a high-rate modulator/chipping sequence combination than a high-rate ADC <link target-id="bid9"/>. In fact, many systems already use components of this front end for binary phase shift keying demodulation, as well as for other conventional communication schemes such as CDMA.</para>
+      <figure id="uid9"><media id="uid9_media" alt="">
+          <image mime-type="image/png" src="../../media/rdm.png" id="uid9_onlineimage" width="741"><!-- NOTE: attribute width changes image size online (pixels). original width is 741. --></image>
+          <image mime-type="application/postscript" for="pdf" src="../../media/rdm.eps" id="uid9_printimage" print-width="12.75cm">
+            <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+          </image>
+        </media>
+        
+      <caption>Random demodulator block diagram.</caption></figure>
+    </section>
+    <section id="uid10">
+      <title>Discrete formulation</title>
+      <para id="id301464">Although the random demodulator directly acquires compressive measurements without first sampling <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow></m:math>, it is equivalent to a system which first samples <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow></m:math> at its Nyquist-rate to yield a discrete-time vector <m:math overflow="scroll"><m:mi>x</m:mi></m:math>, and then applies a matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> to obtain the measurements <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi></m:mrow></m:math>. To see this we let <m:math overflow="scroll"><m:mrow><m:msub><m:mi>p</m:mi><m:mi>c</m:mi></m:msub><m:mrow><m:mo>[</m:mo><m:mi>n</m:mi><m:mo>]</m:mo></m:mrow></m:mrow></m:math> denote the sequence of <m:math overflow="scroll"><m:mrow><m:mo>±</m:mo><m:mn>1</m:mn></m:mrow></m:math> used to generate the signal <m:math overflow="scroll"><m:mrow><m:msub><m:mi>p</m:mi><m:mi>c</m:mi></m:msub><m:mrow><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow></m:mrow></m:math>, i.e., <m:math overflow="scroll"><m:mrow><m:msub><m:mi>p</m:mi><m:mi>c</m:mi></m:msub><m:mrow><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow><m:mo>=</m:mo><m:msub><m:mi>p</m:mi><m:mi>c</m:mi></m:msub><m:mrow><m:mo>[</m:mo><m:mi>n</m:mi><m:mo>]</m:mo></m:mrow></m:mrow></m:math> for <m:math overflow="scroll"><m:mrow><m:mi>t</m:mi><m:mo>∈</m:mo><m:mo>[</m:mo><m:mrow><m:mo>(</m:mo><m:mi>n</m:mi><m:mo>-</m:mo><m:mn>1</m:mn><m:mo>)</m:mo></m:mrow><m:mo>/</m:mo><m:msub><m:mi>N</m:mi><m:mi>a</m:mi></m:msub><m:mo>,</m:mo><m:mi>n</m:mi><m:mo>/</m:mo><m:msub><m:mi>N</m:mi><m:mi>a</m:mi></m:msub><m:mo>]</m:mo></m:mrow></m:math>. As an example, consider the first measurement, or the case of <m:math overflow="scroll"><m:mrow><m:mi>j</m:mi><m:mo>=</m:mo><m:mn>1</m:mn></m:mrow></m:math>. In this case, <m:math overflow="scroll"><m:mrow><m:mi>t</m:mi><m:mo>∈</m:mo><m:mo>[</m:mo><m:mn>0</m:mn><m:mo>,</m:mo><m:mn>1</m:mn><m:mo>/</m:mo><m:msub><m:mi>M</m:mi><m:mi>a</m:mi></m:msub><m:mo>]</m:mo></m:mrow></m:math>, so that <m:math overflow="scroll"><m:mrow><m:msub><m:mi>p</m:mi><m:mi>c</m:mi></m:msub><m:mrow><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow></m:mrow></m:math> is determined by <m:math overflow="scroll"><m:mrow><m:msub><m:mi>p</m:mi><m:mi>c</m:mi></m:msub><m:mrow><m:mo>[</m:mo><m:mi>n</m:mi><m:mo>]</m:mo></m:mrow></m:mrow></m:math> for <m:math overflow="scroll"><m:mrow><m:mi>n</m:mi><m:mo>=</m:mo><m:mn>1</m:mn><m:mo>,</m:mo><m:mn>2</m:mn><m:mo>,</m:mo><m:mo>...</m:mo><m:mo>,</m:mo><m:msub><m:mi>N</m:mi><m:mi>a</m:mi></m:msub><m:mo>/</m:mo><m:msub><m:mi>M</m:mi><m:mi>a</m:mi></m:msub></m:mrow></m:math>. Thus, from <link target-id="uid8"/> we obtain</para>
+      <equation id="uid11">
+        <m:math overflow="scroll" mode="display">
+          <m:mtable displaystyle="true">
+            <m:mtr>
+              <m:mtd columnalign="right">
+                <m:mrow>
+                  <m:mi>y</m:mi>
+                  <m:mo>[</m:mo>
+                  <m:mn>1</m:mn>
+                  <m:mo>]</m:mo>
+                </m:mrow>
+              </m:mtd>
+              <m:mtd columnalign="left">
+                <m:mrow>
+                  <m:mo>=</m:mo>
+                  <m:msubsup>
+                    <m:mo>∫</m:mo>
+                    <m:mrow>
+                      <m:mn>0</m:mn>
+                    </m:mrow>
+                    <m:mrow>
+                      <m:mn>1</m:mn>
+                      <m:mo>/</m:mo>
+                      <m:msub>
+                        <m:mi>M</m:mi>
+                        <m:mi>a</m:mi>
+                      </m:msub>
+                    </m:mrow>
+                  </m:msubsup>
+                  <m:msub>
+                    <m:mi>p</m:mi>
+                    <m:mi>c</m:mi>
+                  </m:msub>
+                  <m:mrow>
+                    <m:mo>(</m:mo>
+                    <m:mi>t</m:mi>
+                    <m:mo>)</m:mo>
+                  </m:mrow>
+                  <m:mi>x</m:mi>
+                  <m:mrow>
+                    <m:mo>(</m:mo>
+                    <m:mi>t</m:mi>
+                    <m:mo>)</m:mo>
+                  </m:mrow>
+                  <m:mspace width="0.166667em"/>
+                  <m:mi>d</m:mi>
+                  <m:mi>t</m:mi>
+                </m:mrow>
+              </m:mtd>
+            </m:mtr>
+            <m:mtr>
+              <m:mtd/>
+              <m:mtd columnalign="left">
+                <m:mrow>
+                  <m:mo>=</m:mo>
+                  <m:munderover>
+                    <m:mo>∑</m:mo>
+                    <m:mrow>
+                      <m:mi>n</m:mi>
+                      <m:mo>=</m:mo>
+                      <m:mn>1</m:mn>
+                    </m:mrow>
+                    <m:mrow>
+                      <m:msub>
+                        <m:mi>N</m:mi>
+                        <m:mi>a</m:mi>
+                      </m:msub>
+                      <m:mo>/</m:mo>
+                      <m:msub>
+                        <m:mi>M</m:mi>
+                        <m:mi>a</m:mi>
+                      </m:msub>
+                    </m:mrow>
+                  </m:munderover>
+                  <m:msub>
+                    <m:mi>p</m:mi>
+                    <m:mi>c</m:mi>
+                  </m:msub>
+                  <m:mrow>
+                    <m:mo>[</m:mo>
+                    <m:mi>n</m:mi>
+                    <m:mo>]</m:mo>
+                  </m:mrow>
+                  <m:msubsup>
+                    <m:mo>∫</m:mo>
+                    <m:mrow>
+                      <m:mrow>
+                        <m:mo>(</m:mo>
+                        <m:mi>n</m:mi>
+                        <m:mo>-</m:mo>
+                        <m:mn>1</m:mn>
+                        <m:mo>)</m:mo>
+                      </m:mrow>
+                      <m:mo>/</m:mo>
+                      <m:msub>
+                        <m:mi>N</m:mi>
+                        <m:mi>a</m:mi>
+                      </m:msub>
+                    </m:mrow>
+                    <m:mrow>
+                      <m:mi>n</m:mi>
+                      <m:mo>/</m:mo>
+                      <m:msub>
+                        <m:mi>N</m:mi>
+                        <m:mi>a</m:mi>
+                      </m:msub>
+                    </m:mrow>
+                  </m:msubsup>
+                  <m:mi>x</m:mi>
+                  <m:mrow>
+                    <m:mo>(</m:mo>
+                    <m:mi>t</m:mi>
+                    <m:mo>)</m:mo>
+                  </m:mrow>
+                  <m:mspace width="0.166667em"/>
+                  <m:mi>d</m:mi>
+                  <m:mi>t</m:mi>
+                  <m:mo>.</m:mo>
+                </m:mrow>
+              </m:mtd>
+            </m:mtr>
+          </m:mtable>
+        </m:math>
+      </equation>
+      <para id="id302016">
+But since <m:math overflow="scroll"><m:msub><m:mi>N</m:mi><m:mi>a</m:mi></m:msub></m:math> is the Nyquist-rate of <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow></m:math>, <m:math overflow="scroll"><m:mrow><m:msubsup><m:mo>∫</m:mo><m:mrow><m:mrow><m:mo>(</m:mo><m:mi>n</m:mi><m:mo>-</m:mo><m:mn>1</m:mn><m:mo>)</m:mo></m:mrow><m:mo>/</m:mo><m:msub><m:mi>N</m:mi><m:mi>a</m:mi></m:msub></m:mrow><m:mrow><m:mi>n</m:mi><m:mo>/</m:mo><m:msub><m:mi>N</m:mi><m:mi>a</m:mi></m:msub></m:mrow></m:msubsup><m:mi>x</m:mi><m:mrow><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow><m:mspace width="0.166667em"/><m:mi>d</m:mi><m:mi>t</m:mi></m:mrow></m:math> simply calculates the average value of <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow></m:math> on the <m:math overflow="scroll"><m:msup><m:mi>n</m:mi><m:mi> th </m:mi></m:msup></m:math> interval, yielding a sample denoted <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>[</m:mo><m:mi>n</m:mi><m:mo>]</m:mo></m:mrow></m:math>. Thus, we obtain</para>
+      <equation id="id302159">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:mi>y</m:mi>
+            <m:mrow>
+              <m:mo>[</m:mo>
+              <m:mn>1</m:mn>
+              <m:mo>]</m:mo>
+            </m:mrow>
+            <m:mo>=</m:mo>
+            <m:munderover>
+              <m:mo>∑</m:mo>
+              <m:mrow>
+                <m:mi>n</m:mi>
+                <m:mo>=</m:mo>
+                <m:mn>1</m:mn>
+              </m:mrow>
+              <m:mrow>
+                <m:msub>
+                  <m:mi>N</m:mi>
+                  <m:mi>a</m:mi>
+                </m:msub>
+                <m:mo>/</m:mo>
+                <m:msub>
+                  <m:mi>M</m:mi>
+                  <m:mi>a</m:mi>
+                </m:msub>
+              </m:mrow>
+            </m:munderover>
+            <m:msub>
+              <m:mi>p</m:mi>
+              <m:mi>c</m:mi>
+            </m:msub>
+            <m:mrow>
+              <m:mo>[</m:mo>
+              <m:mi>n</m:mi>
+              <m:mo>]</m:mo>
+            </m:mrow>
+            <m:mi>x</m:mi>
+            <m:mrow>
+              <m:mo>[</m:mo>
+              <m:mi>n</m:mi>
+              <m:mo>]</m:mo>
+            </m:mrow>
+            <m:mo>.</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id302238">In general, our measurement process is equivalent to multiplying the signal <m:math overflow="scroll"><m:mi>x</m:mi></m:math> with the random sequence of <m:math overflow="scroll"><m:mrow><m:mo>±</m:mo><m:mn>1</m:mn></m:mrow></m:math>'s in <m:math overflow="scroll"><m:mrow><m:msub><m:mi>p</m:mi><m:mi>c</m:mi></m:msub><m:mrow><m:mo>[</m:mo><m:mi>n</m:mi><m:mo>]</m:mo></m:mrow></m:mrow></m:math> and then summing every sequential block of <m:math overflow="scroll"><m:mrow><m:msub><m:mi>N</m:mi><m:mi>a</m:mi></m:msub><m:mo>/</m:mo><m:msub><m:mi>M</m:mi><m:mi>a</m:mi></m:msub></m:mrow></m:math> coefficients.
+We can represent this as a banded matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> containing <m:math overflow="scroll"><m:mrow><m:msub><m:mi>N</m:mi><m:mi>a</m:mi></m:msub><m:mo>/</m:mo><m:msub><m:mi>M</m:mi><m:mi>a</m:mi></m:msub></m:mrow></m:math> pseudorandom <m:math overflow="scroll"><m:mrow><m:mo>±</m:mo><m:mn>1</m:mn></m:mrow></m:math>s per row. For example, with <m:math overflow="scroll"><m:mrow><m:mi>N</m:mi><m:mo>=</m:mo><m:mn>12</m:mn></m:mrow></m:math>, <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>=</m:mo><m:mn>4</m:mn></m:mrow></m:math>, and <m:math overflow="scroll"><m:mrow><m:mi>T</m:mi><m:mo>=</m:mo><m:mn>1</m:mn></m:mrow></m:math>, such a <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> is expressed as</para>
+      <equation id="uid12">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:mi>Φ</m:mi>
+            <m:mo>=</m:mo>
+            <m:mfenced separators="" open="[" close="]">
+              <m:mtable>
+                <m:mtr>
+                  <m:mtd>
+                    <m:mrow>
+                      <m:mo>-</m:mo>
+                      <m:mn>1</m:mn>
+                    </m:mrow>
+                  </m:mtd>
+                  <m:mtd>
+                    <m:mrow>
+                      <m:mo>+</m:mo>
+                      <m:mn>1</m:mn>
+                    </m:mrow>
+                  </m:mtd>
+                  <m:mtd>
+                    <m:mrow>
+                      <m:mo>+</m:mo>
+                      <m:mn>1</m:mn>
+                    </m:mrow>
+                  </m:mtd>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd/>
+                </m:mtr>
+                <m:mtr>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd>
+                    <m:mrow>
+                      <m:mo>-</m:mo>
+                      <m:mn>1</m:mn>
+                    </m:mrow>
+                  </m:mtd>
+                  <m:mtd>
+                    <m:mrow>
+                      <m:mo>+</m:mo>
+                      <m:mn>1</m:mn>
+                    </m:mrow>
+                  </m:mtd>
+                  <m:mtd>
+                    <m:mrow>
+                      <m:mo>-</m:mo>
+                      <m:mn>1</m:mn>
+                    </m:mrow>
+                  </m:mtd>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd/>
+                </m:mtr>
+                <m:mtr>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd>
+                    <m:mrow>
+                      <m:mo>+</m:mo>
+                      <m:mn>1</m:mn>
+                    </m:mrow>
+                  </m:mtd>
+                  <m:mtd>
+                    <m:mrow>
+                      <m:mo>+</m:mo>
+                      <m:mn>1</m:mn>
+                    </m:mrow>
+                  </m:mtd>
+                  <m:mtd>
+                    <m:mrow>
+                      <m:mo>-</m:mo>
+                      <m:mn>1</m:mn>
+                    </m:mrow>
+                  </m:mtd>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd/>
+                </m:mtr>
+                <m:mtr>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd/>
+                  <m:mtd>
+                    <m:mrow>
+                      <m:mo>+</m:mo>
+                      <m:mn>1</m:mn>
+                    </m:mrow>
+                  </m:mtd>
+                  <m:mtd>
+                    <m:mrow>
+                      <m:mo>-</m:mo>
+                      <m:mn>1</m:mn>
+                    </m:mrow>
+                  </m:mtd>
+                  <m:mtd>
+                    <m:mrow>
+                      <m:mo>-</m:mo>
+                      <m:mn>1</m:mn>
+                    </m:mrow>
+                  </m:mtd>
+                </m:mtr>
+              </m:mtable>
+            </m:mfenced>
+            <m:mo>.</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id302549">In general, <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> will have <m:math overflow="scroll"><m:mi>M</m:mi></m:math> rows and each row will contain <m:math overflow="scroll"><m:mrow><m:mi>N</m:mi><m:mo>/</m:mo><m:mi>M</m:mi></m:mrow></m:math> nonzeros. Note that matrices satisfying this structure are extremely efficient to apply, requiring only <m:math overflow="scroll"><m:mrow><m:mi>O</m:mi><m:mo>(</m:mo><m:mi>N</m:mi><m:mo>)</m:mo></m:mrow></m:math> computations compared to <m:math overflow="scroll"><m:mrow><m:mi>O</m:mi><m:mo>(</m:mo><m:mi>M</m:mi><m:mi>N</m:mi><m:mo>)</m:mo></m:mrow></m:math> in the general case. This is extremely useful during recovery.</para>
+      <para id="id302621">A detailed analysis of the random demodulator in <link target-id="bid10"/> studied the properties of these matrices applied to a particular signal model. Specifically, it is shown that if <m:math overflow="scroll"><m:mi>Ψ</m:mi></m:math> represents the <m:math overflow="scroll"><m:mrow><m:mi>N</m:mi><m:mo>×</m:mo><m:mi>N</m:mi></m:mrow></m:math> normalized discrete Fourier transform (DFT) matrix, then the matrix <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:mi>Ψ</m:mi></m:mrow></m:math> will satisfy the <link document="m37171" version="latest">restricted isometry property</link> (RIP) with high probability, provided that</para>
+      <equation id="id302667">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:mi>M</m:mi>
+            <m:mo>=</m:mo>
+            <m:mi>O</m:mi>
+            <m:mfenced separators="" open="(" close=")">
+              <m:mi>K</m:mi>
+              <m:msup>
+                <m:mo form="prefix">log</m:mo>
+                <m:mn>2</m:mn>
+              </m:msup>
+              <m:mrow>
+                <m:mo>(</m:mo>
+                <m:mi>N</m:mi>
+                <m:mo>/</m:mo>
+                <m:mi>K</m:mi>
+                <m:mo>)</m:mo>
+              </m:mrow>
+            </m:mfenced>
+            <m:mo>,</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id302716">where the probability is taken with respect to the random choice of <m:math overflow="scroll"><m:mrow><m:msub><m:mi>p</m:mi><m:mi>c</m:mi></m:msub><m:mrow><m:mo>[</m:mo><m:mi>n</m:mi><m:mo>]</m:mo></m:mrow></m:mrow></m:math>. This means that if <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow></m:math> is a periodic (or finite-length) signal such that once it is sampled it is sparse or compressible in the basis <m:math overflow="scroll"><m:mi>Ψ</m:mi></m:math>, then it should be possible to recover <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>(</m:mo><m:mi>t</m:mi><m:mo>)</m:mo></m:mrow></m:math> from the measurements provided by the random demodulator. Moreover, it is empirically demonstrated that combining <link document="m37179" version="latest"><m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> minimization</link> with the random demodulator can recover <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-sparse (in <m:math overflow="scroll"><m:mi>Ψ</m:mi></m:math>) signals with</para>
+      <equation id="id302821">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:mi>M</m:mi>
+            <m:mo>≥</m:mo>
+            <m:mi>C</m:mi>
+            <m:mi>K</m:mi>
+            <m:mo form="prefix">log</m:mo>
+            <m:mo>(</m:mo>
+            <m:mi>N</m:mi>
+            <m:mo>/</m:mo>
+            <m:mi>K</m:mi>
+            <m:mo>+</m:mo>
+            <m:mn>1</m:mn>
+            <m:mo>)</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id302858">measurements where <m:math overflow="scroll"><m:mrow><m:mi>C</m:mi><m:mo>≈</m:mo><m:mn>1</m:mn><m:mo>.</m:mo><m:mn>7</m:mn></m:mrow></m:math> <link target-id="bid10"/>.</para>
+      <para id="id302889">Note that the signal model considered in <link target-id="bid10"/> is somewhat restrictive, since even a pure tone will not yield a sparse DFT unless the frequency happens to be equal to <m:math overflow="scroll"><m:mrow><m:mi>k</m:mi><m:mo>/</m:mo><m:msub><m:mi>N</m:mi><m:mi>a</m:mi></m:msub></m:mrow></m:math> for some integer <m:math overflow="scroll"><m:mi>k</m:mi></m:math>. Perhaps a more realistic signal model is the multi-band signal model of <link target-id="bid3"/>, <link target-id="bid6"/>, <link target-id="bid2"/>, <link target-id="bid4"/>, <link target-id="bid7"/>, <link target-id="bid5"/>, where the signal is assumed to be bandlimited outside of <m:math overflow="scroll"><m:mi>K</m:mi></m:math> bands each of bandwidth <m:math overflow="scroll"><m:mi>B</m:mi></m:math>, where <m:math overflow="scroll"><m:mrow><m:mi>K</m:mi><m:mi>B</m:mi></m:mrow></m:math> is much less than the total possible bandwidth. It remains unknown whether the random demodulator can be exploited to recover such signals. Moreover, there also exist other CS-inspired architectures that we have not explored in this <link target-id="bid12"/>, <link target-id="bid13"/>, <link target-id="bid11"/>, and this remains an active area of research. We have simply provided an overview of one of the more promising approaches in order to illustrate the potential applicability of the ideas of this <link document="col11133" version="latest">course</link> to the problem of analog-to-digital conversion.</para>
+    </section>
+  </content>
+  <bib:file>
+    <bib:entry id="bid3">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Bresler, Y. and Feng, P.</bib:author>
+        <bib:title>Spectrum-blind minimum-rate sampling and reconstruction of 2-D multiband signals</bib:title>
+        <bib:booktitle>Proc. IEEE Int. Conf. Image Processing (ICIP)</bib:booktitle>
+        <bib:year>1996</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Zurich, Switzerland</bib:address>
+        <bib:month>Sept.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid12">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Bajwa, W. and Haupt, J. and Raz, G. and Wright, S. and Nowak, R.</bib:author>
+        <bib:title>Toeplitz-structured compressed sensing matrices</bib:title>
+        <bib:booktitle>Proc. IEEE Work. Stat. Signal Processing</bib:booktitle>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Madison, WI</bib:address>
+        <bib:month>Aug.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid6">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Bresler, Y.</bib:author>
+        <bib:title>Spectrum-blind sampling and compressive sensing for continuous-index signals</bib:title>
+        <bib:booktitle>Proc. Work. Inform. Theory and Applications (ITA)</bib:booktitle>
+        <bib:year>2008</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>San Diego, CA</bib:address>
+        <bib:month>Jan.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid2">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Feng, P. and Bresler, Y.</bib:author>
+        <bib:title>Spectrum-blind minimum-rate sampling and reconstruction of multiband signals</bib:title>
+        <bib:booktitle>Proc. IEEE Int. Conf. Acoust., Speech, and Signal Processing (ICASSP)</bib:booktitle>
+        <bib:year>1996</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Atlanta, GA</bib:address>
+        <bib:month>May</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid4">
+      <bib:phdthesis>
+        <!--required fields-->
+        <bib:author>Feng, P.</bib:author>
+        <bib:title>Universal spectrum blind minimum rate sampling and reconstruction of multiband signals</bib:title>
+        <bib:school>University of Illinois at Urbana-Champaign</bib:school>
+        <bib:year>1997</bib:year>
+        <!--optional fields-->
+        <bib:type>Ph. D. Thesis</bib:type>
+        <bib:address/>
+        <bib:month>Mar.</bib:month>
+        <bib:note/>
+      </bib:phdthesis>
+    </bib:entry>
+    <bib:entry id="bid0">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Gilbert, A. and Guha, S. and Indyk, P. and Muthukrishnan, S. and Strauss, M.</bib:author>
+        <bib:title>Near-Optimal Sparse Fourier Representations via Sampling</bib:title>
+        <bib:booktitle>Proc. ACM Symp. Theory of Comput.</bib:booktitle>
+        <bib:year>2002</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Montreal, Canada</bib:address>
+        <bib:month>May</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid1">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Gilbert, A. and Muthukrishnan, S. and Strauss, M.</bib:author>
+        <bib:title>Improved time bounds for near-optimal sparse Fourier representations</bib:title>
+        <bib:booktitle>Proc. SPIE Optics Photonics: Wavelets</bib:booktitle>
+        <bib:year>2005</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>San Diego, CA</bib:address>
+        <bib:month>Aug.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid8">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Kirolos, S. and Laska, J. and Wakin, M. and Duarte, M. and Baron, D. and Ragheb, T. and Massoud, Y. and Baraniuk, R.</bib:author>
+        <bib:title>Analog-to-Information Conversion via Random Demodulation</bib:title>
+        <bib:booktitle>Proc. IEEE Dallas Circuits and Systems Work. (DCAS)</bib:booktitle>
+        <bib:year>2006</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Dallas, TX</bib:address>
+        <bib:month>Oct.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid9">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Laska, J. and Kirolos, S. and Duarte, M. and Ragheb, T. and Baraniuk, R. and Massoud, Y.</bib:author>
+        <bib:title>Theory and Implementation of an Analog-to-Information Convertor Using Random Demodulation</bib:title>
+        <bib:booktitle>Proc. IEEE Int. Symposium on Circuits and Systems (ISCAS)</bib:booktitle>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>New Orleans, LA</bib:address>
+        <bib:month>May</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid7">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Mishali, M. and Eldar, Y. C.</bib:author>
+        <bib:title>Blind multi-band signal reconstruction: Compressed sensing for analog signals</bib:title>
+        <bib:journal>IEEE Trans. Signal Processing</bib:journal>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume>57</bib:volume>
+        <bib:number>3</bib:number>
+        <bib:pages>993–1009</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid13">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Romberg, J.</bib:author>
+        <bib:title>Compressive sensing by random convolution</bib:title>
+        <bib:journal>SIAM J. Imag. Sci.</bib:journal>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume>2</bib:volume>
+        <bib:number>4</bib:number>
+        <bib:pages>1098–1128</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid10">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Tropp, J. and Laska, J. and Duarte, M. and Romberg, J. and Baraniuk, R.</bib:author>
+        <bib:title>Beyond Nyquist: Efficient sampling of sparse, bandlimited signals</bib:title>
+        <bib:journal>IEEE Trans. Inform. Theory</bib:journal>
+        <bib:year>2010</bib:year>
+        <!--optional fields-->
+        <bib:volume>56</bib:volume>
+        <bib:number>1</bib:number>
+        <bib:pages>520–544</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid11">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Tropp, J. and Wakin, M. and Duarte, M. and Baron, D. and Baraniuk, R.</bib:author>
+        <bib:title>Random filters for compressive sampling and reconstruction</bib:title>
+        <bib:booktitle>Proc. IEEE Int. Conf. Acoust., Speech, and Signal Processing (ICASSP)</bib:booktitle>
+        <bib:year>2006</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Toulouse, France</bib:address>
+        <bib:month>May</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid5">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Venkataramani, R. and Bresler, Y.</bib:author>
+        <bib:title>Further results on spectrum blind sampling of 2-D signals</bib:title>
+        <bib:booktitle>Proc. IEEE Int. Conf. Image Processing (ICIP)</bib:booktitle>
+        <bib:year>1998</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Chicago, IL</bib:address>
+        <bib:month>Oct.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+  </bib:file>
+</document>

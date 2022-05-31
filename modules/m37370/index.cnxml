@@ -1,0 +1,502 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:bib="http://bibtexml.sf.net/">
+  <title>Hyperspectral imaging</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37370</md:content-id>
+  <md:title>Hyperspectral imaging</md:title>
+  <md:abstract>This module provides an overview of architectures and methods for hyperspectral imaging using the ideas of compressive sensing.</md:abstract>
+  <md:uuid>f0bdfbd9-ec2c-40ca-bb1e-d7f025be17d9</md:uuid>
+</metadata>
+
+<content>
+    <para id="id186878">Standard digital color images of a scene of interest consist of three components – red, green and blue – which contain the intensity level for each of the pixels in three different groups of wavelengths.
+This concept has been extended in the <emphasis effect="italics">hyperspectral</emphasis> and <emphasis effect="italics">multispectral</emphasis> imaging sensing modalities, where the data to be acquired consists of a three-dimensional <emphasis effect="italics">datacube</emphasis> that has two spatial dimensions <m:math overflow="scroll"><m:mi>x</m:mi></m:math> and <m:math overflow="scroll"><m:mi>y</m:mi></m:math> and one spectral dimension <m:math overflow="scroll"><m:mi>λ</m:mi></m:math>.</para>
+    <para id="id187268">In simple terms, a datacube is a 3-D function <m:math overflow="scroll"><m:mrow><m:mi>f</m:mi><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>,</m:mo><m:mi>y</m:mi><m:mo>,</m:mo><m:mi>λ</m:mi><m:mo>)</m:mo></m:mrow></m:math> that can be represented as a stacking of intensities of the scene at different wavelengths. An example datacube is shown in <link target-id="uid1"/>.
+Each of its entries is called a voxel. We also define a pixel's <emphasis effect="italics">spectral signature</emphasis> as the stacking of its voxels in the spectral dimension <m:math overflow="scroll"><m:mrow><m:mi>f</m:mi><m:mrow><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>,</m:mo><m:mi>y</m:mi><m:mo>)</m:mo></m:mrow><m:mo>=</m:mo><m:msub><m:mrow><m:mo>{</m:mo><m:mi>f</m:mi><m:mrow><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>,</m:mo><m:mi>y</m:mi><m:mo>,</m:mo><m:mi>λ</m:mi><m:mo>)</m:mo></m:mrow><m:mo>}</m:mo></m:mrow><m:mi>λ</m:mi></m:msub></m:mrow></m:math>.
+The spectral signature of a pixel can give a wealth of information about the corresponding point in the scene that is not captured by its color. For example, using spectral signatures, it is possible to identify the type of material observed (for example, vegetation vs. ground vs. water), or its chemical composition.</para>
+    <para id="id187362">Datacubes are high-dimensional, since the standard number of pixels present in a digitized image is multiplied by the number of spectral bands desired. However, considerable structure is present in the observed data. The spatial structure common in natural images is also observed in hyperspectral imaging, while each pixel's spectral signature is usually smooth.</para>
+    <figure id="uid1"><media id="uid1_media" alt="">
+        <image mime-type="image/png" src="../../media/datacube.png" id="uid1_onlineimage" width="350"><!-- NOTE: attribute width changes image size online (pixels). original width is 356. --></image>
+        <image mime-type="application/postscript" for="pdf" src="../../media/datacube.eps" id="uid1_printimage" print-width="3in">
+          <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+        </image>
+      </media>
+      
+    <caption>Example hyperspectral datacube, with labeled dimensions.</caption></figure>
+    <para id="id187391"><link document="m37172" version="latest">Compressive sensing</link> (CS) architectures for hyperspectral imaging perform lower-dimensional projections that multiplex in the spatial domain, the spectral domain, or both. Below, we detail three example architectures, as well as three possible models to sparsify hyperspectral datacubes.</para>
+    <section id="uid2">
+      <title>Compressive hyperspectral imaging architectures</title>
+      <section id="uid3">
+        <title>Single pixel hyperspectral camera</title>
+        <para id="id187414">The <link document="m37369" version="latest">single pixel camera</link> uses a single photodetector to record random projections of the light emanated from the image, with the different random projections being captured in sequence. A single pixel hyperspectral camera requires a light modulating element that is reflective across the wavelengths of interest, as well as a sensor that can record the desired spectral bands separately <link target-id="bid0"/>. A block diagram is shown in <link target-id="uid5"/>.</para>
+        <para id="id187434">The single sensor consists of a single spectrometer that spans the necessary wavelength range, which replaces the photodiode. The spectrometer records the intensity of the light reflected by the modulator in each wavelength. The same digital micromirror device (DMD) provides reflectivity for wavelengths from near infrared to near ultraviolet. Thus, by converting the datacube into a vector sorted by spectral band, the matrix that operates on the data to obtain the CS measurements is represented as</para>
+        <equation id="uid4">
+          <m:math overflow="scroll" mode="display">
+            <m:mrow>
+              <m:mi>Φ</m:mi>
+              <m:mo>=</m:mo>
+              <m:mfenced separators="" open="[" close="]">
+                <m:mtable>
+                  <m:mtr>
+                    <m:mtd>
+                      <m:msub>
+                        <m:mi>Φ</m:mi>
+                        <m:mrow>
+                          <m:mi>x</m:mi>
+                          <m:mo>,</m:mo>
+                          <m:mi>y</m:mi>
+                        </m:mrow>
+                      </m:msub>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mn mathvariant="bold">0</m:mn>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mo>⋯</m:mo>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mn mathvariant="bold">0</m:mn>
+                    </m:mtd>
+                  </m:mtr>
+                  <m:mtr>
+                    <m:mtd>
+                      <m:mn mathvariant="bold">0</m:mn>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:msub>
+                        <m:mi>Φ</m:mi>
+                        <m:mrow>
+                          <m:mi>x</m:mi>
+                          <m:mo>,</m:mo>
+                          <m:mi>y</m:mi>
+                        </m:mrow>
+                      </m:msub>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mo>⋯</m:mo>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mn mathvariant="bold">0</m:mn>
+                    </m:mtd>
+                  </m:mtr>
+                  <m:mtr>
+                    <m:mtd>
+                      <m:mo>⋮</m:mo>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mo>⋮</m:mo>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mo>⋱</m:mo>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mo>⋮</m:mo>
+                    </m:mtd>
+                  </m:mtr>
+                  <m:mtr>
+                    <m:mtd>
+                      <m:mn mathvariant="bold">0</m:mn>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mn mathvariant="bold">0</m:mn>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mo>⋯</m:mo>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:msub>
+                        <m:mi>Φ</m:mi>
+                        <m:mrow>
+                          <m:mi>x</m:mi>
+                          <m:mo>,</m:mo>
+                          <m:mi>y</m:mi>
+                        </m:mrow>
+                      </m:msub>
+                    </m:mtd>
+                  </m:mtr>
+                </m:mtable>
+              </m:mfenced>
+              <m:mo>.</m:mo>
+            </m:mrow>
+          </m:math>
+        </equation>
+        <para id="id187754">This architecture performs multiplexing only in the spatial domain, i.e. dimensions <m:math overflow="scroll"><m:mi>x</m:mi></m:math> and <m:math overflow="scroll"><m:mi>y</m:mi></m:math>, since there is no mixing of the different spectral bands along the dimension <m:math overflow="scroll"><m:mi>λ</m:mi></m:math>.</para>
+        <figure id="uid5"><media id="uid5_media" alt="">
+            <image mime-type="image/png" src="../../media/BlockDiagram3.png" id="uid5_onlineimage" width="505"><!-- NOTE: attribute width changes image size online (pixels). original width is 505. --></image>
+            <image mime-type="application/postscript" for="pdf" src="../../media/BlockDiagram3.eps" id="uid5_printimage" print-width="4in">
+              <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+            </image>
+          </media>
+          
+        <caption>Block diagram for a single pixel hyperspectral camera. The photodiode is replaced by a spectrometer that captures the modulated light intensity for all spectral bands, for each of the CS measurements.</caption></figure>
+      </section>
+      <section id="uid6">
+        <title>Dual disperser coded aperture snapshot spectral imager</title>
+        <para id="id187818">The dual disperser coded aperture snapshot spectral imager (DD-CASSI), shown in <link target-id="uid7"/>, is an architecture that combines separate multiplexing in the spatial and spectral domain, which is then sensed by a wide-wavelength sensor/pixel array, thus flattening the spectral dimension <link target-id="bid1"/>.</para>
+        <para id="id187835">First, a dispersive element separates the different spectral bands, which still overlap in the spatial domain. In simple terms, this element shears the datacube, with each spectral slice being displaced from the previous by a constant amount in the same spatial dimension. The resulting datacube is then masked using the coded aperture, whose effect is to "punch holes" in the sheared datacube by blocking certain pixels of light. Subsequently, a second dispersive element acts on the masked, sheared datacube; however, this element shears in the opposite direction, effectively inverting the shearing of the first dispersive element. The resulting datacube is upright, but features "sheared" holes of datacube voxels that have been masked out.</para>
+        <para id="id187845">The resulting modified datacube is then received by a sensor array, which flattens the spectral dimension by measuring the sum of all the wavelengths received; the received light field resembles the target image, allowing for optical adjustments such as focusing. In this way, the measurements consist of full sampling in the spatial <m:math overflow="scroll"><m:mi>x</m:mi></m:math> and <m:math overflow="scroll"><m:mi>y</m:mi></m:math> dimensions, with an aggregation effect in the spectral <m:math overflow="scroll"><m:mi>λ</m:mi></m:math> dimension.</para>
+        <figure id="uid7" orient="horizontal"><subfigure id="id187901">
+            <media id="id187901_media" alt="">
+              <image mime-type="image/png" src="../../media/ddcassischematic2.png" id="id187901_onlineimage" width="350"><!-- NOTE: attribute width changes image size online (pixels). original width is 290. --></image>
+              <image mime-type="application/postscript" for="pdf" src="../../media/ddcassischematic2.eps" id="id187901_printimage" print-width="2.5in">
+                <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+              </image>
+            </media>
+          </subfigure>
+          <subfigure id="id187912">
+            <media id="id187912_media" alt="">
+              <image mime-type="image/png" src="../../media/ddcassisensing.png" id="id187912_onlineimage" width="350"><!-- NOTE: attribute width changes image size online (pixels). original width is 291. --></image>
+              <image mime-type="application/postscript" for="pdf" src="../../media/ddcassisensing.eps" id="id187912_printimage" print-width="2.5in">
+                <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+              </image>
+            </media>
+          </subfigure>
+          
+        <caption><emphasis effect="italics">Dual disperser coded aperture snapshot spectral imager (DD-CASSI). (a) Schematic of the DD-CASSI components. (b) Illustration of the datacube processing performed by the components.</emphasis>
+          </caption></figure>
+      </section>
+      <section id="uid8">
+        <title>Single disperser coded aperture snapshot spectral imager</title>
+        <para id="id187943">The single disperser coded aperture snapshot spectral imager (SD-CASSI), shown in <link target-id="uid9"/>, is a simplification of the DD-CASSI architecture in which the first dispersive element is removed <link target-id="bid2"/>. Thus, the light field received at the sensors does not resemble the target image. Furthermore, since the shearing is not reversed, the area occupied by the sheared datacube is larger than that of the original datacube, requiring a slightly larger number of pixels for the capture.</para>
+        <figure id="uid9" orient="horizontal"><subfigure id="id187988">
+            <media id="id187988_media" alt="">
+              <image mime-type="image/png" src="../../media/sdcassischematic2.png" id="id187988_onlineimage" width="350"><!-- NOTE: attribute width changes image size online (pixels). original width is 290. --></image>
+              <image mime-type="application/postscript" for="pdf" src="../../media/sdcassischematic2.eps" id="id187988_printimage" print-width="2.5in">
+                <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+              </image>
+            </media>
+          </subfigure>
+          <subfigure id="id187999">
+            <media id="id187999_media" alt="">
+              <image mime-type="image/png" src="../../media/sdcassisensing.png" id="id187999_onlineimage" width="350"><!-- NOTE: attribute width changes image size online (pixels). original width is 290. --></image>
+              <image mime-type="application/postscript" for="pdf" src="../../media/sdcassisensing.eps" id="id187999_printimage" print-width="2.5in">
+                <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+              </image>
+            </media>
+          </subfigure>
+          
+        <caption><emphasis effect="italics">Single disperser coded aperture snapshot spectral imager (SD-CASSI). (a) Schematic of the SD-CASSI components. (b) Illustration of the datacube processing performed by the components.</emphasis>
+          </caption></figure>
+      </section>
+    </section>
+    <section id="uid10">
+      <title>Sparsity structures for hyperspectral datacubes</title>
+      <section id="uid11">
+        <title>Dyadic Multiscale Partitioning</title>
+        <para id="id188038">This <link document="m37168" version="latest">sparsity</link> structure assumes that the spectral signature for all pixels in a neighborhood is close to constant; that is, that the datacube is piecewise constant with smooth borders in the spatial dimensions. The complexity of an image is then given by the number of spatial dyadic squares with constant spectral signature necessary to accurately approximate the datacube; see <link target-id="uid12"/>. A reconstruction algorithm then searches for the signal of lowest complexity (i.e., with the fewest dyadic squares) that generates compressive measurements close to those observed <link target-id="bid1"/>.</para>
+        <figure id="uid12"><media id="uid12_media" alt="">
+            <image mime-type="image/png" src="../../media/dyadic.png" id="uid12_onlineimage" width="350"><!-- NOTE: attribute width changes image size online (pixels). original width is 346. --></image>
+            <image mime-type="application/postscript" for="pdf" src="../../media/dyadic.eps" id="uid12_printimage" print-width="2.5in">
+              <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+            </image>
+          </media>
+          
+        <caption>Example dyadic square partition for piecewise spatially constant datacube.</caption></figure>
+      </section>
+      <section id="uid13">
+        <title>Spatial-only sparsity</title>
+        <para id="id188092">This sparsity structure operates on each spectral band separately and assumes the same type of sparsity structure for each band <link target-id="bid2"/>. The sparsity basis is drawn from those commonly used in images, such as wavelets, curvelets, or the discrete cosine basis. Since each basis operates only on a band, the resulting sparsity basis for the datacube can be represented as a block-diagonal matrix:</para>
+        <equation id="uid14">
+          <m:math overflow="scroll" mode="display">
+            <m:mrow>
+              <m:mi>Ψ</m:mi>
+              <m:mo>=</m:mo>
+              <m:mfenced separators="" open="[" close="]">
+                <m:mtable>
+                  <m:mtr>
+                    <m:mtd>
+                      <m:msub>
+                        <m:mi>Ψ</m:mi>
+                        <m:mrow>
+                          <m:mi>x</m:mi>
+                          <m:mo>,</m:mo>
+                          <m:mi>y</m:mi>
+                        </m:mrow>
+                      </m:msub>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mn mathvariant="bold">0</m:mn>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mo>⋯</m:mo>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mn mathvariant="bold">0</m:mn>
+                    </m:mtd>
+                  </m:mtr>
+                  <m:mtr>
+                    <m:mtd>
+                      <m:mn mathvariant="bold">0</m:mn>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:msub>
+                        <m:mi>Ψ</m:mi>
+                        <m:mrow>
+                          <m:mi>x</m:mi>
+                          <m:mo>,</m:mo>
+                          <m:mi>y</m:mi>
+                        </m:mrow>
+                      </m:msub>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mo>⋯</m:mo>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mn mathvariant="bold">0</m:mn>
+                    </m:mtd>
+                  </m:mtr>
+                  <m:mtr>
+                    <m:mtd>
+                      <m:mo>⋮</m:mo>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mo>⋮</m:mo>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mo>⋱</m:mo>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mo>⋮</m:mo>
+                    </m:mtd>
+                  </m:mtr>
+                  <m:mtr>
+                    <m:mtd>
+                      <m:mn mathvariant="bold">0</m:mn>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mn mathvariant="bold">0</m:mn>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mo>⋯</m:mo>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:msub>
+                        <m:mi>Ψ</m:mi>
+                        <m:mrow>
+                          <m:mi>x</m:mi>
+                          <m:mo>,</m:mo>
+                          <m:mi>y</m:mi>
+                        </m:mrow>
+                      </m:msub>
+                    </m:mtd>
+                  </m:mtr>
+                </m:mtable>
+              </m:mfenced>
+              <m:mo>.</m:mo>
+            </m:mrow>
+          </m:math>
+        </equation>
+      </section>
+      <section id="uid15">
+        <title>Kronecker product sparsity</title>
+        <para id="id188241">This sparsity structure employs separate sparsity bases for the spatial dimensions and the spectral dimension, and builds a sparsity basis for the datacube using the Kronecker product of these two <link target-id="bid3"/>:</para>
+        <equation id="uid16">
+          <m:math overflow="scroll" mode="display">
+            <m:mrow>
+              <m:mi>Ψ</m:mi>
+              <m:mo>=</m:mo>
+              <m:msub>
+                <m:mi>Ψ</m:mi>
+                <m:mi>λ</m:mi>
+              </m:msub>
+              <m:mo>⊗</m:mo>
+              <m:msub>
+                <m:mi>Ψ</m:mi>
+                <m:mrow>
+                  <m:mi>x</m:mi>
+                  <m:mo>,</m:mo>
+                  <m:mi>y</m:mi>
+                </m:mrow>
+              </m:msub>
+              <m:mo>=</m:mo>
+              <m:mfenced separators="" open="[" close="]">
+                <m:mtable>
+                  <m:mtr>
+                    <m:mtd>
+                      <m:mrow>
+                        <m:msub>
+                          <m:mi>Ψ</m:mi>
+                          <m:mi>λ</m:mi>
+                        </m:msub>
+                        <m:mrow>
+                          <m:mo>[</m:mo>
+                          <m:mn>1</m:mn>
+                          <m:mo>,</m:mo>
+                          <m:mn>1</m:mn>
+                          <m:mo>]</m:mo>
+                        </m:mrow>
+                        <m:msub>
+                          <m:mi>Ψ</m:mi>
+                          <m:mrow>
+                            <m:mi>x</m:mi>
+                            <m:mo>,</m:mo>
+                            <m:mi>y</m:mi>
+                          </m:mrow>
+                        </m:msub>
+                      </m:mrow>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mrow>
+                        <m:msub>
+                          <m:mi>Ψ</m:mi>
+                          <m:mi>λ</m:mi>
+                        </m:msub>
+                        <m:mrow>
+                          <m:mo>[</m:mo>
+                          <m:mn>1</m:mn>
+                          <m:mo>,</m:mo>
+                          <m:mn>2</m:mn>
+                          <m:mo>]</m:mo>
+                        </m:mrow>
+                        <m:msub>
+                          <m:mi>Ψ</m:mi>
+                          <m:mrow>
+                            <m:mi>x</m:mi>
+                            <m:mo>,</m:mo>
+                            <m:mi>y</m:mi>
+                          </m:mrow>
+                        </m:msub>
+                      </m:mrow>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mo>⋯</m:mo>
+                    </m:mtd>
+                  </m:mtr>
+                  <m:mtr>
+                    <m:mtd>
+                      <m:mrow>
+                        <m:msub>
+                          <m:mi>Ψ</m:mi>
+                          <m:mi>λ</m:mi>
+                        </m:msub>
+                        <m:mrow>
+                          <m:mo>[</m:mo>
+                          <m:mn>2</m:mn>
+                          <m:mo>,</m:mo>
+                          <m:mn>1</m:mn>
+                          <m:mo>]</m:mo>
+                        </m:mrow>
+                        <m:msub>
+                          <m:mi>Ψ</m:mi>
+                          <m:mrow>
+                            <m:mi>x</m:mi>
+                            <m:mo>,</m:mo>
+                            <m:mi>y</m:mi>
+                          </m:mrow>
+                        </m:msub>
+                      </m:mrow>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mrow>
+                        <m:msub>
+                          <m:mi>Ψ</m:mi>
+                          <m:mi>λ</m:mi>
+                        </m:msub>
+                        <m:mrow>
+                          <m:mo>[</m:mo>
+                          <m:mn>2</m:mn>
+                          <m:mo>,</m:mo>
+                          <m:mn>2</m:mn>
+                          <m:mo>]</m:mo>
+                        </m:mrow>
+                        <m:msub>
+                          <m:mi>Ψ</m:mi>
+                          <m:mrow>
+                            <m:mi>x</m:mi>
+                            <m:mo>,</m:mo>
+                            <m:mi>y</m:mi>
+                          </m:mrow>
+                        </m:msub>
+                      </m:mrow>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mo>⋯</m:mo>
+                    </m:mtd>
+                  </m:mtr>
+                  <m:mtr>
+                    <m:mtd>
+                      <m:mo>⋮</m:mo>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mo>⋮</m:mo>
+                    </m:mtd>
+                    <m:mtd>
+                      <m:mo>⋱</m:mo>
+                    </m:mtd>
+                  </m:mtr>
+                </m:mtable>
+              </m:mfenced>
+              <m:mo>.</m:mo>
+            </m:mrow>
+          </m:math>
+        </equation>
+        <para id="id188460">In this manner, the datacube sparsity bases simultaneously enforces both spatial and spectral structure, potentially achieving a sparsity level lower than the sums of the spatial sparsities for the separate spectral slices, depending on the level of structure between them and how well can this structure be captured through sparsity.</para>
+      </section>
+    </section>
+    <section id="uid17">
+      <title>Summary</title>
+      <para id="id188478"><link document="m37172" version="latest">Compressive sensing</link> will make the largest impact in applications with very large, high dimensional datasets that exhibit considerable amounts of structure. Hyperspectral imaging is a leading example of such applications; the sensor architectures and data structure models surveyed in this module show initial promising work in this new direction, enabling new ways of simultaneously sensing and compressing such data. For standard sensing architectures, the data structures surveyed also enable new transform coding-based compression schemes.</para>
+    </section>
+  </content>
+  <bib:file>
+    <bib:entry id="bid3">
+      <bib:unpublished>
+        <!--required fields-->
+        <bib:author>Duarte, M. and Baraniuk, R.</bib:author>
+        <bib:title>Kronecker Compressive Sensing</bib:title>
+        <bib:note>Preprint</bib:note>
+        <!--optional fields-->
+        <bib:month/>
+        <bib:year>2009</bib:year>
+      </bib:unpublished>
+    </bib:entry>
+    <bib:entry id="bid1">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Gehm, M. and John, R. and Brady, D. and Willett, R. and Schultz, T.</bib:author>
+        <bib:title>Single-shot compressive spectral imaging with a dual disperser architecture</bib:title>
+        <bib:journal>Optics Express</bib:journal>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:volume>15</bib:volume>
+        <bib:number>21</bib:number>
+        <bib:pages>14013–14027</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid0">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Kelly, K. and Takhar, D. and Sun, T. and Laska, J. and Duarte, M. and Baraniuk, R.</bib:author>
+        <bib:title>Compressed Sensing for Multispectral and Confocal Microscopy</bib:title>
+        <bib:booktitle>Proc. American Physical Society Meeting</bib:booktitle>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Denver, CO</bib:address>
+        <bib:month>Mar.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid2">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Wagadarikar, A. and John, R. and Willett, R. and Brady, D.</bib:author>
+        <bib:title>Single disperser design for coded aperture snapshot spectral imaging</bib:title>
+        <bib:journal>Appl. Optics</bib:journal>
+        <bib:year>2008</bib:year>
+        <!--optional fields-->
+        <bib:volume>47</bib:volume>
+        <bib:number>10</bib:number>
+        <bib:pages>B44–51</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+  </bib:file>
+</document>

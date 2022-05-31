@@ -1,0 +1,25 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML">
+  <title>Sparse recovery algorithms</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37292</md:content-id>
+  <md:title>Sparse recovery algorithms</md:title>
+  <md:abstract>This module introduces some of the tradeoffs involved in the design of sparse recovery algorithms.</md:abstract>
+  <md:uuid>f86e3d34-dd2f-4b35-8e2e-89d1d572d8e2</md:uuid>
+</metadata>
+
+<content>
+    <para id="id161961">Given noisy compressive measurements <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi><m:mo>+</m:mo><m:mi>e</m:mi></m:mrow></m:math> of a signal <m:math overflow="scroll"><m:mi>x</m:mi></m:math>, a core problem in <link document="m37172" version="latest">compressive sensing</link> (CS) is to recover a <link document="m37168" version="latest">sparse</link> signal <m:math overflow="scroll"><m:mi>x</m:mi></m:math> from a set of <link document="m37169" version="latest">measurements</link> <m:math overflow="scroll"><m:mi>y</m:mi></m:math>. Considerable efforts have been directed towards developing algorithms that perform fast, accurate, and stable reconstruction of <m:math overflow="scroll"><m:mi>x</m:mi></m:math> from <m:math overflow="scroll"><m:mi>y</m:mi></m:math>. As we have seen in <link document="m37169" version="latest">previous chapters</link>, a “good” CS matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> typically satisfies certain geometric conditions, such as the <link document="m37171" version="latest">restricted isometry property</link> (RIP). Practical algorithms exploit this fact in various ways in order to drive down the number of measurements, enable faster reconstruction, and ensure robustness to both numerical and stochastic errors.</para>
+    <para id="id162379">The design of sparse recovery algorithms are guided by various criteria. Some important ones are listed as follows.</para>
+    <list id="id162383" display="block" list-type="bulleted" bullet-style="bullet"><item id="uid1"><emphasis effect="bold">Minimal number of measurements.</emphasis>   Sparse recovery algorithms must require approximately the same number of measurements (up to a small constant) required for the stable embedding of <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-sparse signals.
+</item>
+      <item id="uid2"><emphasis effect="bold">Robustness to measurement noise and model mismatch</emphasis>   Sparse recovery algorithms must be stable with regards to perturbations of the input signal, as well as noise added to the measurements; both types of errors arise naturally in practical systems.
+</item>
+      <item id="uid3"><emphasis effect="bold">Speed.</emphasis>   Sparse recovery algorithms must strive towards expending minimal computational resources, Keeping in mind that a lot of applications in CS deal with very high-dimensional signals.
+</item>
+      <item id="uid4"><emphasis effect="bold">Performance guarantees.</emphasis>   In <link document="m37179" version="latest">previous chapters</link>, we have already seen a range of performance guarantees that hold for sparse signal recovery using <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> minimization. In evaluating other algorithms, we will have the same considerations. For example, we can choose to design algorithms that possess <link document="m37183" version="latest">instance-optimal or probabilistic guarantees</link>. We can also choose to focus on algorithm performance for the recovery of exactly <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-sparse signals <m:math overflow="scroll"><m:mi>x</m:mi></m:math>, or consider performance for the recovery of general signals <m:math overflow="scroll"><m:mi>x</m:mi></m:math>s. Alternately, we can also consider algorithms that are accompanied by performance guarantees in either the <link document="m37181" version="latest">noise-free</link> or <link document="m37182" version="latest">noisy</link> settings.
+</item>
+    </list>
+    <para id="id162505">A multitude of algorithms satisfying some (or even all) of the above have been proposed in the literature. While it is impossible to describe all of them in this chapter, we refer the interested reader to the <link url="http://dsp.rice.edu/cs">DSP resources webpage</link> for a more complete list of recovery algorithms. Broadly speaking, recovery methods tend to fall under three categories: <link document="m37293" version="latest">convex optimization-based approaches</link>, <link document="m37294" version="latest">greedy methods</link>, and <link document="m37295" version="latest">combinatorial techniques</link>. The rest of the chapter discusses several properties and example algorithms of each flavor of CS reconstruction.</para>
+  </content>
+
+</document>

@@ -1,0 +1,794 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:bib="http://bibtexml.sf.net/">
+  <title>Convex optimization-based methods</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37293</md:content-id>
+  <md:title>Convex optimization-based methods</md:title>
+  <md:abstract>This module provides an overview of convex optimization approaches to sparse signal recovery.</md:abstract>
+  <md:uuid>be9ebe4b-0acd-4ded-a346-bb096156ae42</md:uuid>
+</metadata>
+
+<content>
+    <para id="id276546">An important class of <link document="m37292" version="latest">sparse recovery algorithms</link> fall under the purview of <emphasis effect="italics">convex optimization</emphasis>. Algorithms in this category seek to optimize a convex function <m:math overflow="scroll"><m:mrow><m:mi>f</m:mi><m:mo>(</m:mo><m:mo>·</m:mo><m:mo>)</m:mo></m:mrow></m:math> of the unknown variable <m:math overflow="scroll"><m:mi>x</m:mi></m:math> over a (possibly unbounded) convex subset of <m:math overflow="scroll"><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:math>.</para>
+    <section id="uid1">
+      <title>Setup</title>
+      <para id="id276945">Let <m:math overflow="scroll"><m:mrow><m:mi>J</m:mi><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow></m:math> be a convex <emphasis effect="italics">sparsity-promoting</emphasis> cost function (i.e., <m:math overflow="scroll"><m:mrow><m:mi>J</m:mi><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow></m:math> is small for sparse <m:math overflow="scroll"><m:mi>x</m:mi></m:math>.) To recover a sparse signal representation <m:math overflow="scroll"><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover></m:math> from measurements <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi><m:mo>,</m:mo><m:mi>Φ</m:mi><m:mo>∈</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mrow><m:mi>M</m:mi><m:mo>×</m:mo><m:mi>N</m:mi></m:mrow></m:msup></m:mrow></m:math>, we may either solve</para>
+      <equation id="uid2">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:munder>
+              <m:mo movablelimits="true" form="prefix">min</m:mo>
+              <m:mi>x</m:mi>
+            </m:munder>
+            <m:mrow>
+              <m:mo>{</m:mo>
+              <m:mi>J</m:mi>
+              <m:mrow>
+                <m:mo>(</m:mo>
+                <m:mi>x</m:mi>
+                <m:mo>)</m:mo>
+              </m:mrow>
+              <m:mo>:</m:mo>
+              <m:mi>y</m:mi>
+              <m:mo>=</m:mo>
+              <m:mi>Φ</m:mi>
+              <m:mi>x</m:mi>
+              <m:mo>}</m:mo>
+            </m:mrow>
+            <m:mo>,</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id276508">when there is no noise, or solve</para>
+      <equation id="uid3">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:munder>
+              <m:mo movablelimits="true" form="prefix">min</m:mo>
+              <m:mi>x</m:mi>
+            </m:munder>
+            <m:mrow>
+              <m:mo>{</m:mo>
+              <m:mi>J</m:mi>
+              <m:mrow>
+                <m:mo>(</m:mo>
+                <m:mi>x</m:mi>
+                <m:mo>)</m:mo>
+              </m:mrow>
+              <m:mo>:</m:mo>
+              <m:mi>H</m:mi>
+              <m:mrow>
+                <m:mo>(</m:mo>
+                <m:mi>Φ</m:mi>
+                <m:mi>x</m:mi>
+                <m:mo>,</m:mo>
+                <m:mi>y</m:mi>
+                <m:mo>)</m:mo>
+              </m:mrow>
+              <m:mo>≤</m:mo>
+              <m:mi>ϵ</m:mi>
+              <m:mo>}</m:mo>
+            </m:mrow>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id277341">when there is noise in the measurements. Here, <m:math overflow="scroll"><m:mi>H</m:mi></m:math> is a cost function that penalizes the distance between the vectors <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:mi>x</m:mi></m:mrow></m:math> and <m:math overflow="scroll"><m:mi>y</m:mi></m:math>. For an appropriate penalty parameter <m:math overflow="scroll"><m:mi>μ</m:mi></m:math>, <link target-id="uid3"/> is equivalent to the <emphasis effect="italics">unconstrained</emphasis> formulation:</para>
+      <equation id="uid4">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:munder>
+              <m:mo movablelimits="true" form="prefix">min</m:mo>
+              <m:mi>x</m:mi>
+            </m:munder>
+            <m:mi>J</m:mi>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>x</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mo>+</m:mo>
+            <m:mi>μ</m:mi>
+            <m:mi>H</m:mi>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>Φ</m:mi>
+              <m:mi>x</m:mi>
+              <m:mo>,</m:mo>
+              <m:mi>y</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id277446">for some <m:math overflow="scroll"><m:mrow><m:mi>μ</m:mi><m:mo>&gt;</m:mo><m:mn>0</m:mn></m:mrow></m:math>. The parameter <m:math overflow="scroll"><m:mi>μ</m:mi></m:math> may be chosen by trial-and-error, or by statistical techniques such as cross-validation <link target-id="bid0"/>.</para>
+      <para id="id277479">For convex programming algorithms, the most common choices of <m:math overflow="scroll"><m:mi>J</m:mi></m:math> and <m:math overflow="scroll"><m:mi>H</m:mi></m:math> are usually chosen as follows: <m:math overflow="scroll"><m:mrow><m:mi>J</m:mi><m:mrow><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow><m:mo>=</m:mo><m:msub><m:mrow><m:mo>∥</m:mo><m:mi>x</m:mi><m:mo>∥</m:mo></m:mrow><m:mn>1</m:mn></m:msub></m:mrow></m:math>, the <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math>-norm of <m:math overflow="scroll"><m:mi>x</m:mi></m:math>, and <m:math overflow="scroll"><m:mrow><m:mi>H</m:mi><m:mrow><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi><m:mo>,</m:mo><m:mi>y</m:mi><m:mo>)</m:mo></m:mrow><m:mo>=</m:mo><m:mfrac><m:mn>1</m:mn><m:mn>2</m:mn></m:mfrac><m:msubsup><m:mrow><m:mo>∥</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi><m:mo>-</m:mo><m:mi>y</m:mi><m:mo>∥</m:mo></m:mrow><m:mn>2</m:mn><m:mn>2</m:mn></m:msubsup></m:mrow></m:math>, the <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>2</m:mn></m:msub></m:math>-norm of the error between the observed measurements and the linear projections of the target vector <m:math overflow="scroll"><m:mi>x</m:mi></m:math>. In statistics, minimizing this <m:math overflow="scroll"><m:mi>H</m:mi></m:math> subject to <m:math overflow="scroll"><m:mrow><m:msub><m:mrow><m:mo>∥</m:mo><m:mi>x</m:mi><m:mo>∥</m:mo></m:mrow><m:mn>1</m:mn></m:msub><m:mo>≤</m:mo><m:mi>δ</m:mi></m:mrow></m:math> is known as the <emphasis effect="italics">Lasso</emphasis> problem. More generally, <m:math overflow="scroll"><m:mrow><m:mi>J</m:mi><m:mo>(</m:mo><m:mo>·</m:mo><m:mo>)</m:mo></m:mrow></m:math> acts as a regularization term and can be replaced by other, more complex, functions; for example, the desired signal may be piecewise constant, and simultaneously have a sparse representation under a known basis transform <m:math overflow="scroll"><m:mi>Ψ</m:mi></m:math>. In this case, we may use a mixed regularization term:</para>
+      <equation id="id277689">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:mi>J</m:mi>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>x</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mo>=</m:mo>
+            <m:mi>T</m:mi>
+            <m:mi>V</m:mi>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>x</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mo>+</m:mo>
+            <m:msub>
+              <m:mrow>
+                <m:mi>λ</m:mi>
+                <m:mo>∥</m:mo>
+                <m:mi>x</m:mi>
+                <m:mo>∥</m:mo>
+              </m:mrow>
+              <m:mn>1</m:mn>
+            </m:msub>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id277739">It might be tempting to use conventional convex optimization packages for the above formulations (<link target-id="uid2"/>, <link target-id="uid3"/>, and <link target-id="uid4"/>). Nevertheless, the above problems pose two key challenges which are specific to practical problems encountered in <link document="m37172" version="latest">CS</link>: (i) real-world applications are invariably large-scale (an image of a resolution of <m:math overflow="scroll"><m:mrow><m:mn>1024</m:mn><m:mo>×</m:mo><m:mn>1024</m:mn></m:mrow></m:math> pixels leads to optimization over a million variables, well beyond the reach of any standard optimization software package); (ii) the objective function is nonsmooth, and standard smoothing techniques do not yield very good results. Hence, for these problems, conventional algorithms (typically involving matrix factorizations) are not effective or even applicable. These unique challenges encountered in the context of CS have led to considerable interest in developing improved sparse recovery algorithms in the optimization community.</para>
+    </section>
+    <section id="uid5">
+      <title>Linear programming</title>
+      <para id="id277789">In the <link document="m37181" version="latest">noiseless</link> case, the <link document="m37179" version="latest"><m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math>-minimization</link> problem (obtained by substituting <m:math overflow="scroll"><m:mrow><m:mi>J</m:mi><m:mrow><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow><m:mo>=</m:mo><m:msub><m:mrow><m:mo>∥</m:mo><m:mi>x</m:mi><m:mo>∥</m:mo></m:mrow><m:mn>1</m:mn></m:msub></m:mrow></m:math> in <link target-id="uid2"/>) can be recast as a linear program (LP) with equality constraints. These can be solved in polynomial time (<m:math overflow="scroll"><m:mrow><m:mi>O</m:mi><m:mo>(</m:mo><m:msup><m:mi>N</m:mi><m:mn>3</m:mn></m:msup><m:mo>)</m:mo></m:mrow></m:math>) using standard interior-point methods <link target-id="bid1"/>. This was the first feasible reconstruction algorithm used for CS recovery and has strong theoretical guarantees, as shown <link document="m37179" version="latest">earlier in this course</link>. In the noisy case, the problem can be recast as a second-order cone program (SOCP) with quadratic constraints. Solving LPs and SOCPs is a principal thrust in optimization research; nevertheless, their application in practical CS problems is limited due to the fact that both the signal dimension <m:math overflow="scroll"><m:mi>N</m:mi></m:math>, and the number of constraints <m:math overflow="scroll"><m:mi>M</m:mi></m:math>, can be very large in many scenarios. Note that both LPs and SOCPs correspond to the constrained formulations in <link target-id="uid2"/> and <link target-id="uid3"/> and are solved using <emphasis effect="italics">first order</emphasis> interior-point methods.</para>
+      <para id="id277904">A newer algorithm called “l1_ls" <link target-id="bid2"/> is based on an interior-point algorithm that uses a preconditioned conjugate gradient (PCG) method to approximately solve linear systems in a truncated-Newton framework. The algorithm exploits the structure of the Hessian to construct their preconditioner; thus, this is a second order method. Computational results show that about a hundred PCG steps are sufficient for obtaining accurate reconstruction. This method has been typically shown to be slower than first-order methods, but could be faster in cases where the true target signal is highly sparse.</para>
+    </section>
+    <section id="uid6"><title>Fixed-point continuation</title><para id="id277927">As opposed to solving the constrained formulation, an alternate approach is to solve the unconstrained formulation in <link target-id="uid4"/>. A widely used method for solving <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math>-minimization problems of the form</para>
+      <equation id="uid7">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:munder>
+              <m:mo movablelimits="true" form="prefix">min</m:mo>
+              <m:mi>x</m:mi>
+            </m:munder>
+            <m:mspace width="0.277778em"/>
+            <m:mi>μ</m:mi>
+            <m:msub>
+              <m:mrow>
+                <m:mo>∥</m:mo>
+                <m:mi>x</m:mi>
+                <m:mo>∥</m:mo>
+              </m:mrow>
+              <m:mn>1</m:mn>
+            </m:msub>
+            <m:mo>+</m:mo>
+            <m:mi>H</m:mi>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>x</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mo>,</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id278006">for a convex and differentiable <m:math overflow="scroll"><m:mi>H</m:mi></m:math>, is an iterative procedure based on <emphasis effect="italics">shrinkage</emphasis> (also called soft thresholding; see <link target-id="uid8"/> below). In the context of solving <link target-id="uid7"/> with a quadratic <m:math overflow="scroll"><m:mi>H</m:mi></m:math>, this method was independently proposed and analyzed in <link target-id="bid6"/>, <link target-id="bid3"/>, <link target-id="bid5"/>, <link target-id="bid4"/>, and then further studied or extended in <link target-id="bid10"/>, <link target-id="bid9"/>, <link target-id="bid7"/>, <link target-id="bid8"/>, <link target-id="bid11"/>, <link target-id="bid12"/>.
+Shrinkage is a classic method used in wavelet-based image denoising. The shrinkage operator on any scalar component can be defined as follows:</para>
+      <equation id="uid8">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:mi> shrink </m:mi>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>t</m:mi>
+              <m:mo>,</m:mo>
+              <m:mi>α</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mo>=</m:mo>
+            <m:mfenced separators="" open="{" close="">
+              <m:mtable>
+                <m:mtr>
+                  <m:mtd columnalign="left">
+                    <m:mrow>
+                      <m:mi>t</m:mi>
+                      <m:mo>-</m:mo>
+                      <m:mi>α</m:mi>
+                    </m:mrow>
+                  </m:mtd>
+                  <m:mtd columnalign="left">
+                    <m:mrow>
+                      <m:mi> if </m:mi>
+                      <m:mi>t</m:mi>
+                      <m:mo>&gt;</m:mo>
+                      <m:mi>α</m:mi>
+                      <m:mo>,</m:mo>
+                    </m:mrow>
+                  </m:mtd>
+                </m:mtr>
+                <m:mtr>
+                  <m:mtd columnalign="left">
+                    <m:mn>0</m:mn>
+                  </m:mtd>
+                  <m:mtd columnalign="left">
+                    <m:mrow>
+                      <m:mi> if </m:mi>
+                      <m:mo>-</m:mo>
+                      <m:mi>α</m:mi>
+                      <m:mo>≤</m:mo>
+                      <m:mi>t</m:mi>
+                      <m:mo>≤</m:mo>
+                      <m:mi>α</m:mi>
+                      <m:mo>,</m:mo>
+                      <m:mi> and </m:mi>
+                    </m:mrow>
+                  </m:mtd>
+                </m:mtr>
+                <m:mtr>
+                  <m:mtd columnalign="left">
+                    <m:mrow>
+                      <m:mi>t</m:mi>
+                      <m:mo>+</m:mo>
+                      <m:mi>α</m:mi>
+                    </m:mrow>
+                  </m:mtd>
+                  <m:mtd columnalign="left">
+                    <m:mrow>
+                      <m:mi> if </m:mi>
+                      <m:mi>t</m:mi>
+                      <m:mo>&lt;</m:mo>
+                      <m:mo>-</m:mo>
+                      <m:mi>α</m:mi>
+                      <m:mo>.</m:mo>
+                    </m:mrow>
+                  </m:mtd>
+                </m:mtr>
+              </m:mtable>
+            </m:mfenced>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id278220">This concept can be used effectively to solve <link target-id="uid7"/>. In particular, the basic algorithm can be written as following the fixed-point iteration: for <m:math overflow="scroll"><m:mrow><m:mi>i</m:mi><m:mo>=</m:mo><m:mn>1</m:mn><m:mo>,</m:mo><m:mo>...</m:mo><m:mo>,</m:mo><m:mi>N</m:mi></m:mrow></m:math>, the <m:math overflow="scroll"><m:msup><m:mi>i</m:mi><m:mi> th </m:mi></m:msup></m:math> coefficient of <m:math overflow="scroll"><m:mi>x</m:mi></m:math> at the <m:math overflow="scroll"><m:msup><m:mrow><m:mo>(</m:mo><m:mi>k</m:mi><m:mo>+</m:mo><m:mn>1</m:mn><m:mo>)</m:mo></m:mrow><m:mi> th </m:mi></m:msup></m:math> time step is given by</para>
+      <equation id="uid9"><m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:msubsup>
+              <m:mi>x</m:mi>
+              <m:mi>i</m:mi>
+              <m:mrow>
+                <m:mi>k</m:mi>
+                <m:mo>+</m:mo>
+                <m:mn>1</m:mn>
+              </m:mrow>
+            </m:msubsup>
+            <m:mo>=</m:mo>
+            <m:mi> shrink </m:mi>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:msub>
+                <m:mrow>
+                  <m:mo>(</m:mo>
+                  <m:msup>
+                    <m:mi>x</m:mi>
+                    <m:mi>k</m:mi>
+                  </m:msup>
+                  <m:mo>-</m:mo>
+                  <m:mi>τ</m:mi>
+                  <m:mo>▽</m:mo>
+                  <m:mi>H</m:mi>
+                  <m:mrow>
+                    <m:mo>(</m:mo>
+                    <m:msup>
+                      <m:mi>x</m:mi>
+                      <m:mi>k</m:mi>
+                    </m:msup>
+                    <m:mo>)</m:mo>
+                  </m:mrow>
+                  <m:mo>)</m:mo>
+                </m:mrow>
+                <m:mi>i</m:mi>
+              </m:msub>
+              <m:mo>,</m:mo>
+              <m:mi>μ</m:mi>
+              <m:mi>τ</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id278380">where <m:math overflow="scroll"><m:mrow><m:mi>τ</m:mi><m:mo>&gt;</m:mo><m:mn>0</m:mn></m:mrow></m:math> serves as a step-length for gradient descent (which may vary with <m:math overflow="scroll"><m:mi>k</m:mi></m:math>) and <m:math overflow="scroll"><m:mi>μ</m:mi></m:math> is as specified by the user. It is easy to see that the larger <m:math overflow="scroll"><m:mi>μ</m:mi></m:math> is, the larger the allowable distance between <m:math overflow="scroll"><m:msup><m:mi>x</m:mi><m:mrow><m:mi>k</m:mi><m:mo>+</m:mo><m:mn>1</m:mn></m:mrow></m:msup></m:math> and <m:math overflow="scroll"><m:msup><m:mi>x</m:mi><m:mi>k</m:mi></m:msup></m:math>. For a quadratic penalty term <m:math overflow="scroll"><m:mrow><m:mi>H</m:mi><m:mo>(</m:mo><m:mo>·</m:mo><m:mo>)</m:mo></m:mrow></m:math>, the gradient <m:math overflow="scroll"><m:mrow><m:mo>▽</m:mo><m:mi>H</m:mi></m:mrow></m:math> can be easily computed as a linear function of <m:math overflow="scroll"><m:msup><m:mi>x</m:mi><m:mi>k</m:mi></m:msup></m:math>; thus each iteration of <link target-id="uid9"/> essentially boils down to a small number of matrix-vector multiplications.</para>
+      <para id="id278512">The simplicity of the iterative approach is quite appealing, both from a computational, as well as a code-design standpoint. Various modifications, enhancements, and generalizations to this approach have been proposed, both to improve the efficiency of the basic iteration in <link target-id="uid9"/>, and to extend its applicability to various kinds of <m:math overflow="scroll"><m:mi>J</m:mi></m:math> <link target-id="bid13"/>, <link target-id="bid14"/>, <link target-id="bid12"/>. In principle, the basic iteration in <link target-id="uid9"/> would not be practically effective without a continuation (or path-following) strategy <link target-id="bid11"/>, <link target-id="bid12"/> in which we choose a gradually decreasing sequence of values for the parameter <m:math overflow="scroll"><m:mi>μ</m:mi></m:math> to guide the intermediate iterates towards the final optimal solution.</para>
+      <para id="id278574">This procedure is known as <emphasis effect="italics">continuation</emphasis>; in <link target-id="bid11"/>, the performance of an algorithm known as Fixed-Point Continuation (FPC) has been compared favorably with another similar method known as Gradient Projection for Sparse Reconstruction (GPSR) <link target-id="bid14"/> and “l1_ls” <link target-id="bid2"/>. A key aspect to solving the unconstrained optimization problem is the choice of the parameter <m:math overflow="scroll"><m:mi>μ</m:mi></m:math>. As discussed above, for CS recovery, <m:math overflow="scroll"><m:mi>μ</m:mi></m:math> may be chosen by trial and error; for the noiseless constrained formulation, we may solve the corresponding unconstrained minimization by choosing a large value for <m:math overflow="scroll"><m:mi>μ</m:mi></m:math>.</para>
+      <para id="id278633">In the case of recovery from noisy compressive measurements, a commonly used choice for the convex cost function <m:math overflow="scroll"><m:mrow><m:mi>H</m:mi><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow></m:math> is the square of the norm of the <emphasis effect="italics">residual</emphasis>. Thus we have:</para>
+      <equation id="uid10">
+        <m:math overflow="scroll" mode="display">
+          <m:mtable displaystyle="true">
+            <m:mtr>
+              <m:mtd columnalign="right">
+                <m:mrow>
+                  <m:mi>H</m:mi>
+                  <m:mo>(</m:mo>
+                  <m:mi>x</m:mi>
+                  <m:mo>)</m:mo>
+                </m:mrow>
+              </m:mtd>
+              <m:mtd columnalign="left">
+                <m:mrow>
+                  <m:mo>=</m:mo>
+                  <m:msubsup>
+                    <m:mrow>
+                      <m:mo>∥</m:mo>
+                      <m:mi>y</m:mi>
+                      <m:mo>-</m:mo>
+                      <m:mi>Φ</m:mi>
+                      <m:mi>x</m:mi>
+                      <m:mo>∥</m:mo>
+                    </m:mrow>
+                    <m:mn>2</m:mn>
+                    <m:mn>2</m:mn>
+                  </m:msubsup>
+                </m:mrow>
+              </m:mtd>
+            </m:mtr>
+            <m:mtr>
+              <m:mtd columnalign="right">
+                <m:mrow>
+                  <m:mo>▽</m:mo>
+                  <m:mi>H</m:mi>
+                  <m:mo>(</m:mo>
+                  <m:mi>x</m:mi>
+                  <m:mo>)</m:mo>
+                </m:mrow>
+              </m:mtd>
+              <m:mtd columnalign="left">
+                <m:mrow>
+                  <m:mo>=</m:mo>
+                  <m:mn>2</m:mn>
+                  <m:msup>
+                    <m:mi>Φ</m:mi>
+                    <m:mi>⊤</m:mi>
+                  </m:msup>
+                  <m:mrow>
+                    <m:mo>(</m:mo>
+                    <m:mi>y</m:mi>
+                    <m:mo>-</m:mo>
+                    <m:mi>Φ</m:mi>
+                    <m:mi>x</m:mi>
+                    <m:mo>)</m:mo>
+                  </m:mrow>
+                  <m:mo>.</m:mo>
+                </m:mrow>
+              </m:mtd>
+            </m:mtr>
+          </m:mtable>
+        </m:math>
+      </equation>
+      <para id="id278768">
+For this particular choice of penalty function, <link target-id="uid9"/> reduces to the following iteration:</para>
+      <equation id="uid11"><m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:msubsup>
+              <m:mi>x</m:mi>
+              <m:mi>i</m:mi>
+              <m:mrow>
+                <m:mi>k</m:mi>
+                <m:mo>+</m:mo>
+                <m:mn>1</m:mn>
+              </m:mrow>
+            </m:msubsup>
+            <m:mrow>
+              <m:mo>=</m:mo>
+              <m:mi> shrink </m:mi>
+<m:mrow>
+              <m:mo>(</m:mo>
+            </m:mrow>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:msup>
+                <m:mi>x</m:mi>
+                <m:mi>k</m:mi>
+              </m:msup>
+              <m:mo>-</m:mo>
+              <m:mi>τ</m:mi>
+              <m:mi>▽</m:mi>
+<m:mi>H</m:mi>
+              <m:msub>
+                <m:mrow>
+                  <m:mo>(</m:mo>
+                  <m:mi>y</m:mi>
+                  <m:mo>-</m:mo>
+                  <m:mi>Φ</m:mi>
+                  <m:msup>
+                    <m:mi>x</m:mi>
+                    <m:mi>k</m:mi>
+                  </m:msup>
+                  <m:mo>)</m:mo>
+                </m:mrow>
+                <m:mi>i</m:mi>
+              </m:msub>
+              <m:mo>,</m:mo>
+              <m:mi>μ</m:mi>
+              <m:mi>τ</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+          </m:mrow>
+</m:mrow>
+        </m:math>
+      </equation>
+      <para id="id278873">which is run until convergence to a fixed point. The algorithm is detailed in pseudocode form below.</para>
+      <code id="eip-id1166410271386" display="block"><newline/>Inputs: CS matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>, signal measurements <m:math overflow="scroll"><m:mi>y</m:mi></m:math>, parameter sequence <m:math overflow="scroll"><m:msub><m:mi>μ</m:mi><m:mi>n</m:mi></m:msub></m:math>
+Outputs: Signal estimate <m:math overflow="scroll"><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover></m:math>
+initialize: <m:math overflow="scroll"><m:mrow><m:msub><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mn>0</m:mn></m:msub><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math>, <m:math overflow="scroll"><m:mrow><m:mi>r</m:mi><m:mo>=</m:mo><m:mi>y</m:mi></m:mrow></m:math>, <m:math overflow="scroll"><m:mrow><m:mi>k</m:mi><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math>.
+<emphasis effect="bold">while</emphasis> ħalting criterion false <emphasis effect="bold">do</emphasis>
+    1. <m:math overflow="scroll"><m:mrow><m:mi>k</m:mi><m:mo>←</m:mo><m:mi>k</m:mi><m:mo>+</m:mo><m:mn>1</m:mn></m:mrow></m:math>
+    2. <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>←</m:mo><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mo>-</m:mo><m:mi>τ</m:mi><m:msup><m:mi>Φ</m:mi><m:mi>T</m:mi></m:msup><m:mi>r</m:mi></m:mrow></m:math> {take a gradient step}
+    3. <m:math overflow="scroll"><m:mrow><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mo>←</m:mo><m:mi> shrink </m:mi><m:mrow><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>,</m:mo><m:msub><m:mi>μ</m:mi><m:mi>k</m:mi></m:msub><m:mi>τ</m:mi><m:mo>)</m:mo></m:mrow></m:mrow></m:math> {perform soft thresholding}
+    4. <m:math overflow="scroll"><m:mrow><m:mi>r</m:mi><m:mo>←</m:mo><m:mi>y</m:mi><m:mo>-</m:mo><m:mi>Φ</m:mi><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover></m:mrow></m:math> {update measurement residual}
+<emphasis effect="bold">end while</emphasis>
+return <m:math overflow="scroll"><m:mrow><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mo>←</m:mo><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover></m:mrow></m:math>
+</code>
+    </section>
+    <section id="uid16">
+      <title>Bregman iteration methods</title>
+      <para id="id279241">It turns out that an efficient method to obtain the solution to the constrained optimization problem in <link target-id="uid2"/> can be devised by solving a small number of the unconstrained problems in the form of <link target-id="uid4"/>. These subproblems are commonly referred to as <emphasis effect="italics">Bregman iterations</emphasis>. A simple version can be written as follows:</para>
+      <equation id="uid17">
+        <m:math overflow="scroll" mode="display">
+          <m:mtable displaystyle="true">
+            <m:mtr>
+              <m:mtd columnalign="right">
+                <m:msup>
+                  <m:mi>y</m:mi>
+                  <m:mrow>
+                    <m:mi>k</m:mi>
+                    <m:mo>+</m:mo>
+                    <m:mn>1</m:mn>
+                  </m:mrow>
+                </m:msup>
+              </m:mtd>
+              <m:mtd columnalign="left">
+                <m:mrow>
+                  <m:mo>=</m:mo>
+                  <m:msup>
+                    <m:mi>y</m:mi>
+                    <m:mi>k</m:mi>
+                  </m:msup>
+                  <m:mo>+</m:mo>
+                  <m:mi>y</m:mi>
+                  <m:mo>-</m:mo>
+                  <m:mi>Φ</m:mi>
+                  <m:msup>
+                    <m:mi>x</m:mi>
+                    <m:mi>k</m:mi>
+                  </m:msup>
+                </m:mrow>
+              </m:mtd>
+            </m:mtr>
+            <m:mtr>
+              <m:mtd columnalign="right">
+                <m:msup>
+                  <m:mi>x</m:mi>
+                  <m:mrow>
+                    <m:mi>k</m:mi>
+                    <m:mo>+</m:mo>
+                    <m:mn>1</m:mn>
+                  </m:mrow>
+                </m:msup>
+              </m:mtd>
+              <m:mtd columnalign="left">
+                <m:mrow>
+                  <m:mo>=</m:mo>
+                  <m:mo form="prefix">arg</m:mo>
+                  <m:mo movablelimits="true" form="prefix">min</m:mo>
+                  <m:mspace width="3.33333pt"/>
+                  <m:mi>J</m:mi>
+                  <m:mrow>
+                    <m:mo>(</m:mo>
+                    <m:mi>x</m:mi>
+                    <m:mo>)</m:mo>
+                  </m:mrow>
+                  <m:mo>+</m:mo>
+                  <m:mfrac>
+                    <m:mi>μ</m:mi>
+                    <m:mn>2</m:mn>
+                  </m:mfrac>
+                  <m:msup>
+                    <m:mrow>
+                      <m:mo>∥</m:mo>
+                      <m:mi>Φ</m:mi>
+                      <m:mi>x</m:mi>
+                      <m:mo>-</m:mo>
+                      <m:msup>
+                        <m:mi>y</m:mi>
+                        <m:mrow>
+                          <m:mi>k</m:mi>
+                          <m:mo>+</m:mo>
+                          <m:mn>1</m:mn>
+                        </m:mrow>
+                      </m:msup>
+                      <m:mo>∥</m:mo>
+                    </m:mrow>
+                    <m:mn>2</m:mn>
+                  </m:msup>
+                  <m:mo>.</m:mo>
+                </m:mrow>
+              </m:mtd>
+            </m:mtr>
+          </m:mtable>
+        </m:math>
+      </equation>
+      <para id="id279416">The problem in the second step can be solved by the algorithms reviewed above. Bregman iterations were introduced in <link target-id="bid15"/> for constrained total variation minimization problems, and was proved to converge for closed, convex functions <m:math overflow="scroll"><m:mrow><m:mi>J</m:mi><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow></m:math>. In <link target-id="bid16"/>, it is applied to <link target-id="uid2"/> for <m:math overflow="scroll"><m:mrow><m:mi>J</m:mi><m:mrow><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow><m:mo>=</m:mo><m:msub><m:mrow><m:mo>∥</m:mo><m:mi>x</m:mi><m:mo>∥</m:mo></m:mrow><m:mn>1</m:mn></m:msub></m:mrow></m:math> and shown to converge in a finite number of steps for any <m:math overflow="scroll"><m:mrow><m:mi>μ</m:mi><m:mo>&gt;</m:mo><m:mn>0</m:mn></m:mrow></m:math>. For moderate <m:math overflow="scroll"><m:mi>μ</m:mi></m:math>, the number of iterations needed is typically lesser than 5. Compared to the alternate approach that solves <link target-id="uid2"/> through directly solving the unconstrained problem in <link target-id="uid4"/> with a very large <m:math overflow="scroll"><m:mi>μ</m:mi></m:math>, Bregman iterations are often more stable and sometimes much faster.</para>
+    </section>
+    <section id="uid18">
+      <title>Discussion</title>
+      <para id="id279544">All the methods discussed in this section optimize a convex function (usually the <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math>-norm) over a convex (possibly unbounded) set. This implies <emphasis effect="italics">guaranteed</emphasis> convergence to the global optimum. In other words, given that the sampling matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> satisfies the conditions specified in <link document="m37179" version="latest">"Signal recovery via <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> minimization"</link>, convex optimization methods will recover the underlying signal <m:math overflow="scroll"><m:mi>x</m:mi></m:math>. In addition, convex relaxation methods also guarantee <emphasis effect="italics">stable</emphasis> recovery by reformulating the recovery problem as the SOCP, or the unconstrained formulation.</para>
+    </section>
+  </content>
+  <bib:file>
+    <bib:entry id="bid6">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Bect, J. and Blanc-Feraud, L. and Aubert, G. and Chambolle, A.</bib:author>
+        <bib:title>A <!--no math allowed in bib entries-->-Unified Variational Framework for Image Restoration</bib:title>
+        <bib:booktitle>Proc. European Conf. Comp. Vision (ECCV)</bib:booktitle>
+        <bib:year>2004</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Prague, Czech Republic</bib:address>
+        <bib:month>May</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid0">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Boufounos, P. and Duarte, M. and Baraniuk, R.</bib:author>
+        <bib:title>Sparse signal reconstruction from noisy compressive measurements using cross validation</bib:title>
+        <bib:booktitle>Proc. IEEE Work. Stat. Signal Processing</bib:booktitle>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Madison, WI</bib:address>
+        <bib:month>Aug.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid1">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Boyd, S. and Vanderberghe, L.</bib:author>
+        <bib:title>Convex Optimization</bib:title>
+        <bib:publisher>Cambridge Univ. Press</bib:publisher>
+        <bib:year>2004</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address>Cambridge, England</bib:address>
+        <bib:edition/>
+        <bib:month/>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid10">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Combettes, P. and Pesquet, J.</bib:author>
+        <bib:title>Proximal thresholding algorithm for minimization over orthonormal bases</bib:title>
+        <bib:journal>SIAM J. Optimization</bib:journal>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:volume>18</bib:volume>
+        <bib:number>4</bib:number>
+        <bib:pages>1351–1376</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid9">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Daubechies, I. and Defrise, M. and Mol, C. De</bib:author>
+        <bib:title>An iterative thresholding algorithm for linear inverse problems with a sparsity constraint.</bib:title>
+        <bib:journal>Comm. Pure Appl. Math.</bib:journal>
+        <bib:year>2004</bib:year>
+        <!--optional fields-->
+        <bib:volume>57</bib:volume>
+        <bib:number>11</bib:number>
+        <bib:pages>1413–1457</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid7">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Elad, M.</bib:author>
+        <bib:title>Why simple shrinkage is still relevant for redundant representations?</bib:title>
+        <bib:journal>IEEE Trans. Inform. Theory</bib:journal>
+        <bib:year>2006</bib:year>
+        <!--optional fields-->
+        <bib:volume>52</bib:volume>
+        <bib:number>12</bib:number>
+        <bib:pages>5559–5569</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid8">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Elad, M. and Matalon, B. and Shtok, J. and Zibulevsky, M.</bib:author>
+        <bib:title>A wide-angle view at iterated shrinkage algorithms</bib:title>
+        <bib:booktitle>Proc. SPIE Optics Photonics: Wavelets</bib:booktitle>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>San Diego, CA</bib:address>
+        <bib:month>Apr.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid13">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Elad, M. and Matalon, B. and Zibulevsky, M.</bib:author>
+        <bib:title>Coordinate and subspace optimization methods for linear least squares with non-quadratic regularization</bib:title>
+        <bib:journal>Appl. Comput. Harmon. Anal.</bib:journal>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:volume>23</bib:volume>
+        <bib:number>3</bib:number>
+        <bib:pages>346–367</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid3">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Figueiredo, M. and Nowak, R.</bib:author>
+        <bib:title>An EM algorithm for wavelet-based image restoration</bib:title>
+        <bib:journal>IEEE Trans. Image Processing</bib:journal>
+        <bib:year>2003</bib:year>
+        <!--optional fields-->
+        <bib:volume>12</bib:volume>
+        <bib:number>8</bib:number>
+        <bib:pages>906–916</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid14">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Figueiredo, M. and Nowak, R. and Wright, S.</bib:author>
+        <bib:title>Gradient Projections For Sparse Reconstruction: Application to Compressed Sensing and Other Inverse Problems</bib:title>
+        <bib:journal>IEEE J. Select. Top. Signal Processing</bib:journal>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:volume>1</bib:volume>
+        <bib:number>4</bib:number>
+        <bib:pages>586–597</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid11">
+      <bib:techreport>
+        <!--required fields-->
+        <bib:author>Hale, E. and Yin, W. and Zhang, Y.</bib:author>
+        <bib:title>A Fixed-Point Continuation Method for <!--no math allowed in bib entries-->-Regularized Minimization with Applications to Compressed Sensing</bib:title>
+        <bib:institution>Rice Univ., CAAM Dept.</bib:institution>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:type>Technical report</bib:type>
+        <bib:number>TR07-07</bib:number>
+        <bib:address/>
+        <bib:month/>
+        <bib:note/>
+      </bib:techreport>
+    </bib:entry>
+    <bib:entry id="bid2">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Kim, S.-J. and Koh, K. and Lustig, M. and Boyd, S. and Gorinevsky, D.</bib:author>
+        <bib:title>An interior point method for large-scale <!--no math allowed in bib entries-->-regularized least squares</bib:title>
+        <bib:journal>IEEE J. Select. Top. Signal Processing</bib:journal>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:volume>1</bib:volume>
+        <bib:number>4</bib:number>
+        <bib:pages>606–617</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid5">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Mol, C. De and Defrise, M.</bib:author>
+        <bib:title>A note on wavelet-based inversion algorithms</bib:title>
+        <bib:journal>Contemporary Math.</bib:journal>
+        <bib:year>2002</bib:year>
+        <!--optional fields-->
+        <bib:volume>313</bib:volume>
+        <bib:number/>
+        <bib:pages>85–96</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid4">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Nowak, R. and Figueiredo, M.</bib:author>
+        <bib:title>Fast wavelet-based image deconvolution using the EM algorithm</bib:title>
+        <bib:booktitle>Proc. Asilomar Conf. Signals, Systems, and Computers</bib:booktitle>
+        <bib:year>2001</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Pacific Grove, CA</bib:address>
+        <bib:month>Nov.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid15">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Osher, S. and Burger, M. and Goldfarb, D. and Xu, J. and Yin, W.</bib:author>
+        <bib:title>An iterative regularization method for total variation-based image restoration</bib:title>
+        <bib:journal>SIAM J. Multiscale Modeling and Simulation</bib:journal>
+        <bib:year>2005</bib:year>
+        <!--optional fields-->
+        <bib:volume>4</bib:volume>
+        <bib:number>2</bib:number>
+        <bib:pages>460–489</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid12">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Wright, S. and Nowak, R. and Figueiredo, M.</bib:author>
+        <bib:title>Sparse reconstruction by separable approximation</bib:title>
+        <bib:journal>IEEE Trans. Signal Processing</bib:journal>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume>57</bib:volume>
+        <bib:number>7</bib:number>
+        <bib:pages>2479–2493</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid16">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Yin, W. and Osher, S. and Goldfarb, D. and Darbon, J.</bib:author>
+        <bib:title>Bregman iterative algorithms for <!--no math allowed in bib entries-->-minimization with applications to compressed sensing</bib:title>
+        <bib:journal>SIAM J. Imag. Sci.</bib:journal>
+        <bib:year>2008</bib:year>
+        <!--optional fields-->
+        <bib:volume>1</bib:volume>
+        <bib:number>1</bib:number>
+        <bib:pages>143–168</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+  </bib:file>
+</document>

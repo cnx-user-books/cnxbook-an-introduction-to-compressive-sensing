@@ -1,0 +1,151 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:bib="http://bibtexml.sf.net/">
+  <title>Compressive medical imaging</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37363</md:content-id>
+  <md:title>Compressive medical imaging</md:title>
+  <md:abstract>This module describes the application of compressive sensing to problems in medical imaging.</md:abstract>
+  <md:uuid>06a107d8-6af0-41c2-bc1c-a4a88d4f64bc</md:uuid>
+</metadata>
+
+<content>
+    <section id="uid1">
+      <title>MR image reconstruction</title>
+      <para id="id62167">Magnetic Resonance Imaging (MRI) is a medical imaging technique based on the core principle that protons in water molecules in the human body align themselves in a magnetic field. MRI machines repeatedly pulse magnetic fields to cause water molecules in the human body to disorient and then reorient themselves, which causes a release of detectable radiofrequencies. We assume that the object to be imaged as a collection of voxels. The MRI's magnetic pulses are sent incrementally along a gradient leading to a different phase and frequency encoding for each column and row of voxels respectively. Abstracting away from the technicalities of the physical process, the magnetic field measured in MRI acquisition corresponds to a Fourier coefficient of the imaged object; the object can then be recovered by an inverse Fourier transform. , we can view the MRI as measuring Fourier samples.</para>
+      <para id="id62178">A major limitation of the MRI process is the linear relation between the number of measured data samples and scan times. Long-duration MRI scans are more susceptible to physiological motion artifacts, add discomfort to the patient, and are expensive <link target-id="bid0"/>. Therefore, minimizing scan time without compromising image quality is of direct benefit to the medical community.</para>
+      <para id="id62191">The theory of <link document="m37172" version="latest">compressive sensing</link> (CS) can be applied to MR image reconstruction by exploiting the transform-domain sparsity of MR images <link target-id="bid3"/>, <link target-id="bid2"/>, <link target-id="bid1"/>, <link target-id="bid4"/>. In standard MRI reconstruction, undersampling in the Fourier domain results in aliasing artifacts when the image is reconstructed. However, when a known transform renders the object image <link document="m37168" version="latest">sparse</link> or <link document="m37166" version="latest">compressible</link>, the image can be reconstructed using <link document="m37292" version="latest">sparse recovery</link> methods. While the discrete cosine and wavelet transforms are commonly used in CS to reconstruct these images, the use of total variation norm minimization also provides high-quality reconstruction.</para>
+    </section>
+    <section id="uid2">
+      <title>Electroencephalography</title>
+      <para id="id62569">Electroencephalography (EEG) and Magnetoencephalography (MEG) are two popular noninvasive methods to characterize brain function by measuring scalp electric potential distributions and magnetic fields due to neuronal firing. EEG and MEG provide temporal resolution on the millisecond timescale characteristic of neural population activity and can also help to estimate the current sources inside the brain by solving an inverse problem <link target-id="bid5"/>.</para>
+      <para id="id62585">Models for neuromagnetic sources suggest that the underlying activity is often limited in spatial extent. Based on this idea, algorithms like FOCUSS (Focal Underdetermined System Solution) are used to identify highly localized sources by assuming a sparse model to solve an underdetermined problem <link target-id="bid6"/>.</para>
+      <para id="id62598">FOCUSS is a recursive linear estimation procedure, based on a weighted pseudo-inverse solution. The algorithm assigns a current (with nonlinear current location parameters) to each element within a region so that the unknown current values can be related linearly to the measurements. The weights at each step are derived from the solution of the previous iterative step. The algorithm converges to a source distribution in which the number of parameters required to describe source currents does not exceed the number of measurements. The initialization determines which of the localized solutions the algorithm converges to.</para>
+    </section>
+  </content>
+  <bib:file>
+    <bib:entry id="bid5">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Gorodnitsky, I. and George, J. and Rao, B.</bib:author>
+        <bib:title>Neuromagnetic source imaging with FOCUSS: A recursive weighted minimum norm algorithm</bib:title>
+        <bib:journal>Electroencephalography and Clinical Neurophysiology</bib:journal>
+        <bib:year>1995</bib:year>
+        <!--optional fields-->
+        <bib:volume>95</bib:volume>
+        <bib:number>4</bib:number>
+        <bib:pages>231–251</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid6">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Gorodnitsky, I. and Rao, B.</bib:author>
+        <bib:title>Convergence analysis of a class of adaptive weighted norm extrapolation algorithms</bib:title>
+        <bib:booktitle>Proc. Asilomar Conf. Signals, Systems, and Computers</bib:booktitle>
+        <bib:year>1993</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Pacific Grove, CA</bib:address>
+        <bib:month>Nov.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid0">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Lustig, M. and Donoho, D. and Pauly, J.</bib:author>
+        <bib:title>Rapid MR Imaging with Compressed Sensing and Randomly Under-Sampled 3DFT Trajectories</bib:title>
+        <bib:booktitle>Proc. Annual Meeting of ISMRM</bib:booktitle>
+        <bib:year>2006</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Seattle, WA</bib:address>
+        <bib:month>May</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid3">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Lustig, M. and Lee, J. and Donoho, D. and Pauly, J.</bib:author>
+        <bib:title>Faster Imaging with Randomly Perturbed, Under-Sampled Spirals and <!--no math allowed in bib entries--> Reconstruction</bib:title>
+        <bib:booktitle>Proc. Annual Meeting of ISMRM</bib:booktitle>
+        <bib:year>2005</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Miami, FL</bib:address>
+        <bib:month>May</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid2">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Lustig, M. and Lee, J. and Donoho, D. and Pauly, J.</bib:author>
+        <bib:title>k-t SPARSE: High Frame Rate Dynamic MRI Exploiting Spatio-Temporal Sparsity</bib:title>
+        <bib:booktitle>Proc. Annual Meeting of ISMRM</bib:booktitle>
+        <bib:year>2006</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Seattle, WA</bib:address>
+        <bib:month>May</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid1">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Lustig, M. and Santos, J. and Lee, J. and Donoho, D. and Pauly, J.</bib:author>
+        <bib:title>Application of Compressed Sensing for Rapid MR Imaging</bib:title>
+        <bib:booktitle>Proc. Work. Struc. Parc. Rep. Adap. Signaux (SPARS)</bib:booktitle>
+        <bib:year>2005</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Rennes, France</bib:address>
+        <bib:month>Nov.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid4">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Trzasko, J. and Manduca, A.</bib:author>
+        <bib:title>Highly Undersampled Magnetic Resonance Image Reconstruction via Homotopic <!--no math allowed in bib entries-->-Minimization</bib:title>
+        <bib:journal>IEEE Trans. Med. Imaging</bib:journal>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume>28</bib:volume>
+        <bib:number>1</bib:number>
+        <bib:pages>106–121</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+  </bib:file>
+</document>

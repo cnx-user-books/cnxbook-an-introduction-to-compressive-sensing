@@ -1,0 +1,1280 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:bib="http://bibtexml.sf.net/">
+  <title>Noise-free signal recovery</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37181</md:content-id>
+  <md:title>Noise-free signal recovery</md:title>
+  <md:abstract>This module establishes a simple performance guarantee of L1 minimization for signal recovery with noise-free measurements.</md:abstract>
+  <md:uuid>2fc8b802-57db-4887-a000-029c98a7e346</md:uuid>
+</metadata>
+
+<content>
+    <para id="id176945">We now begin our analysis of</para>
+    <equation id="uid1"><m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mover accent="true">
+            <m:mi>x</m:mi>
+            <m:mo>^</m:mo>
+          </m:mover>
+          <m:mo>=</m:mo>
+          <m:mo form="prefix">arg</m:mo>
+          <m:munder>
+            <m:mo movablelimits="true" form="prefix">min</m:mo>
+            <m:mi>z</m:mi>
+          </m:munder>
+          <m:mspace width="4pt"/>
+          <m:msub>
+            <m:mfenced open="∥" close="∥">
+              <m:mi>z</m:mi>
+            </m:mfenced>
+            <m:mn>1</m:mn>
+          </m:msub>
+          <m:mspace width="1.em"/>
+          <m:mi> subject to </m:mi>
+          <m:mspace width="1.em"/>
+          <m:mi>z</m:mi>
+          <m:mo>∈</m:mo>
+          <m:mi mathvariant="script">B</m:mi>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>y</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id177372">for various specific choices of <m:math overflow="scroll"><m:mrow><m:mi mathvariant="script">B</m:mi><m:mo>(</m:mo><m:mi>y</m:mi><m:mo>)</m:mo></m:mrow></m:math>. In order to do so, we require the following general result which builds on Lemma 4 from <link document="m37187" version="latest">"<m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> minimization proof"</link>. The key ideas in this proof follow from <link target-id="bid0"/>.</para>
+<rule id="uid2" type="lemma"><statement id="fs-id4935424">
+    <para id="id177406">Suppose that <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> satisfies the <link document="m37171" version="latest">restricted isometry property</link> (RIP) of order <m:math overflow="scroll"><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:math> with <m:math overflow="scroll"><m:mrow><m:msub><m:mi>δ</m:mi><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:msub><m:mo>&lt;</m:mo><m:msqrt><m:mn>2</m:mn></m:msqrt><m:mo>-</m:mo><m:mn>1</m:mn></m:mrow></m:math>. Let <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>,</m:mo><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mo>∈</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:mrow></m:math> be given, and define <m:math overflow="scroll"><m:mrow><m:mi>h</m:mi><m:mo>=</m:mo><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mo>-</m:mo><m:mi>x</m:mi></m:mrow></m:math>. Let <m:math overflow="scroll"><m:msub><m:mi>Λ</m:mi><m:mn>0</m:mn></m:msub></m:math> denote the index set corresponding to the <m:math overflow="scroll"><m:mi>K</m:mi></m:math> entries of <m:math overflow="scroll"><m:mi>x</m:mi></m:math> with largest magnitude and <m:math overflow="scroll"><m:msub><m:mi>Λ</m:mi><m:mn>1</m:mn></m:msub></m:math> the index set corresponding to the <m:math overflow="scroll"><m:mi>K</m:mi></m:math> entries of <m:math overflow="scroll"><m:msub><m:mi>h</m:mi><m:msubsup><m:mi>Λ</m:mi><m:mn>0</m:mn><m:mi>c</m:mi></m:msubsup></m:msub></m:math> with largest magnitude. Set <m:math overflow="scroll"><m:mrow><m:mi>Λ</m:mi><m:mo>=</m:mo><m:msub><m:mi>Λ</m:mi><m:mn>0</m:mn></m:msub><m:mo>∪</m:mo><m:msub><m:mi>Λ</m:mi><m:mn>1</m:mn></m:msub></m:mrow></m:math>. If <m:math overflow="scroll"><m:mrow><m:msub><m:mfenced separators="" open="∥" close="∥"><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover></m:mfenced><m:mn>1</m:mn></m:msub><m:mo>≤</m:mo><m:msub><m:mfenced open="∥" close="∥"><m:mi>x</m:mi></m:mfenced><m:mn>1</m:mn></m:msub></m:mrow></m:math>, then</para>
+    <equation id="id177841">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msub>
+            <m:mfenced open="∥" close="∥">
+              <m:mi>h</m:mi>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:mo>≤</m:mo>
+          <m:msub>
+            <m:mi>C</m:mi>
+            <m:mn>0</m:mn>
+          </m:msub>
+          <m:mfrac>
+            <m:mrow>
+              <m:msub>
+                <m:mi>σ</m:mi>
+                <m:mi>K</m:mi>
+              </m:msub>
+              <m:msub>
+                <m:mrow>
+                  <m:mo>(</m:mo>
+                  <m:mi>x</m:mi>
+                  <m:mo>)</m:mo>
+                </m:mrow>
+                <m:mn>1</m:mn>
+              </m:msub>
+            </m:mrow>
+            <m:msqrt>
+              <m:mi>K</m:mi>
+            </m:msqrt>
+          </m:mfrac>
+          <m:mo>+</m:mo>
+          <m:msub>
+            <m:mi>C</m:mi>
+            <m:mn>1</m:mn>
+          </m:msub>
+          <m:mfrac>
+            <m:mfenced separators="" open="|" close="|">
+              <m:mfenced separators="" open="〈" close="〉">
+                <m:mi>Φ</m:mi>
+                <m:msub>
+                  <m:mi>h</m:mi>
+                  <m:mi>Λ</m:mi>
+                </m:msub>
+                <m:mo>,</m:mo>
+                <m:mi>Φ</m:mi>
+                <m:mi>h</m:mi>
+              </m:mfenced>
+            </m:mfenced>
+            <m:msub>
+              <m:mfenced separators="" open="∥" close="∥">
+                <m:msub>
+                  <m:mi>h</m:mi>
+                  <m:mi>Λ</m:mi>
+                </m:msub>
+              </m:mfenced>
+              <m:mn>2</m:mn>
+            </m:msub>
+          </m:mfrac>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id177964">where</para>
+    <equation id="id177970">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msub>
+            <m:mi>C</m:mi>
+            <m:mn>0</m:mn>
+          </m:msub>
+          <m:mo>=</m:mo>
+          <m:mn>2</m:mn>
+          <m:mfrac>
+            <m:mrow>
+              <m:mn>1</m:mn>
+              <m:mo>-</m:mo>
+              <m:mrow>
+                <m:mo>(</m:mo>
+                <m:mn>1</m:mn>
+                <m:mo>-</m:mo>
+                <m:msqrt>
+                  <m:mn>2</m:mn>
+                </m:msqrt>
+                <m:mo>)</m:mo>
+              </m:mrow>
+              <m:msub>
+                <m:mi>δ</m:mi>
+                <m:mrow>
+                  <m:mn>2</m:mn>
+                  <m:mi>K</m:mi>
+                </m:mrow>
+              </m:msub>
+            </m:mrow>
+            <m:mrow>
+              <m:mn>1</m:mn>
+              <m:mo>-</m:mo>
+              <m:mrow>
+                <m:mo>(</m:mo>
+                <m:mn>1</m:mn>
+                <m:mo>+</m:mo>
+                <m:msqrt>
+                  <m:mn>2</m:mn>
+                </m:msqrt>
+                <m:mo>)</m:mo>
+              </m:mrow>
+              <m:msub>
+                <m:mi>δ</m:mi>
+                <m:mrow>
+                  <m:mn>2</m:mn>
+                  <m:mi>K</m:mi>
+                </m:mrow>
+              </m:msub>
+            </m:mrow>
+          </m:mfrac>
+          <m:mo>,</m:mo>
+          <m:mspace width="1.em"/>
+          <m:msub>
+            <m:mi>C</m:mi>
+            <m:mn>1</m:mn>
+          </m:msub>
+          <m:mo>=</m:mo>
+          <m:mfrac>
+            <m:mn>2</m:mn>
+            <m:mrow>
+              <m:mn>1</m:mn>
+              <m:mo>-</m:mo>
+              <m:mrow>
+                <m:mo>(</m:mo>
+                <m:mn>1</m:mn>
+                <m:mo>+</m:mo>
+                <m:msqrt>
+                  <m:mn>2</m:mn>
+                </m:msqrt>
+                <m:mo>)</m:mo>
+              </m:mrow>
+              <m:msub>
+                <m:mi>δ</m:mi>
+                <m:mrow>
+                  <m:mn>2</m:mn>
+                  <m:mi>K</m:mi>
+                </m:mrow>
+              </m:msub>
+            </m:mrow>
+          </m:mfrac>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+</statement>
+<proof id="fs-id1169490790095">
+    <para id="id178106">We begin by observing that <m:math overflow="scroll"><m:mrow><m:mi>h</m:mi><m:mo>=</m:mo><m:msub><m:mi>h</m:mi><m:mi>Λ</m:mi></m:msub><m:mo>+</m:mo><m:msub><m:mi>h</m:mi><m:msup><m:mi>Λ</m:mi><m:mi>c</m:mi></m:msup></m:msub></m:mrow></m:math>, so that from the triangle inequality</para>
+    <equation id="uid3">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msub>
+            <m:mfenced open="∥" close="∥">
+              <m:mi>h</m:mi>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:mo>≤</m:mo>
+          <m:msub>
+            <m:mfenced separators="" open="∥" close="∥">
+              <m:msub>
+                <m:mi>h</m:mi>
+                <m:mi>Λ</m:mi>
+              </m:msub>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:mo>+</m:mo>
+          <m:msub>
+            <m:mfenced separators="" open="∥" close="∥">
+              <m:msub>
+                <m:mi>h</m:mi>
+                <m:msup>
+                  <m:mi>Λ</m:mi>
+                  <m:mi>c</m:mi>
+                </m:msup>
+              </m:msub>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id178221">We first aim to bound <m:math overflow="scroll"><m:msub><m:mfenced separators="" open="∥" close="∥"><m:msub><m:mi>h</m:mi><m:msup><m:mi>Λ</m:mi><m:mi>c</m:mi></m:msup></m:msub></m:mfenced><m:mn>2</m:mn></m:msub></m:math>. From Lemma 3 from <link document="m37187" version="latest">"<m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> minimization proof"</link> we have</para>
+    <equation id="uid4">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msub>
+            <m:mfenced separators="" open="∥" close="∥">
+              <m:msub>
+                <m:mi>h</m:mi>
+                <m:msup>
+                  <m:mi>Λ</m:mi>
+                  <m:mi>c</m:mi>
+                </m:msup>
+              </m:msub>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:mo>=</m:mo>
+          <m:msub>
+            <m:mfenced separators="" open="∥" close="∥">
+              <m:munder>
+                <m:mo>∑</m:mo>
+                <m:mrow>
+                  <m:mi>j</m:mi>
+                  <m:mo>≥</m:mo>
+                  <m:mn>2</m:mn>
+                </m:mrow>
+              </m:munder>
+              <m:msub>
+                <m:mi>h</m:mi>
+                <m:msub>
+                  <m:mi>Λ</m:mi>
+                  <m:mi>j</m:mi>
+                </m:msub>
+              </m:msub>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:mo>≤</m:mo>
+          <m:munder>
+            <m:mo>∑</m:mo>
+            <m:mrow>
+              <m:mi>j</m:mi>
+              <m:mo>≥</m:mo>
+              <m:mn>2</m:mn>
+            </m:mrow>
+          </m:munder>
+          <m:msub>
+            <m:mfenced separators="" open="∥" close="∥">
+              <m:msub>
+                <m:mi>h</m:mi>
+                <m:msub>
+                  <m:mi>Λ</m:mi>
+                  <m:mi>j</m:mi>
+                </m:msub>
+              </m:msub>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:mo>≤</m:mo>
+          <m:mfrac>
+            <m:msub>
+              <m:mfenced separators="" open="∥" close="∥">
+                <m:msub>
+                  <m:mi>h</m:mi>
+                  <m:msubsup>
+                    <m:mi>Λ</m:mi>
+                    <m:mn>0</m:mn>
+                    <m:mi>c</m:mi>
+                  </m:msubsup>
+                </m:msub>
+              </m:mfenced>
+              <m:mn>1</m:mn>
+            </m:msub>
+            <m:msqrt>
+              <m:mi>K</m:mi>
+            </m:msqrt>
+          </m:mfrac>
+          <m:mo>,</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id178421">where the <m:math overflow="scroll"><m:msub><m:mi>Λ</m:mi><m:mi>j</m:mi></m:msub></m:math> are defined as before, i.e., <m:math overflow="scroll"><m:msub><m:mi>Λ</m:mi><m:mn>1</m:mn></m:msub></m:math> is the index set corresponding to the <m:math overflow="scroll"><m:mi>K</m:mi></m:math> largest entries of <m:math overflow="scroll"><m:msub><m:mi>h</m:mi><m:msubsup><m:mi>Λ</m:mi><m:mn>0</m:mn><m:mi>c</m:mi></m:msubsup></m:msub></m:math> (in absolute value), <m:math overflow="scroll"><m:msub><m:mi>Λ</m:mi><m:mn>2</m:mn></m:msub></m:math> as the index set corresponding to the next <m:math overflow="scroll"><m:mi>K</m:mi></m:math> largest entries, and so on.</para>
+    <para id="id178500">We now wish to bound <m:math overflow="scroll"><m:msub><m:mfenced separators="" open="∥" close="∥"><m:msub><m:mi>h</m:mi><m:msubsup><m:mi>Λ</m:mi><m:mn>0</m:mn><m:mi>c</m:mi></m:msubsup></m:msub></m:mfenced><m:mn>1</m:mn></m:msub></m:math>. Since <m:math overflow="scroll"><m:mrow><m:msub><m:mfenced open="∥" close="∥"><m:mi>x</m:mi></m:mfenced><m:mn>1</m:mn></m:msub><m:mo>≥</m:mo><m:msub><m:mfenced separators="" open="∥" close="∥"><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover></m:mfenced><m:mn>1</m:mn></m:msub></m:mrow></m:math>, by applying the triangle inequality we obtain</para>
+    <equation id="uid5">
+      <m:math overflow="scroll" mode="display">
+        <m:mtable displaystyle="true">
+          <m:mtr>
+            <m:mtd columnalign="right">
+              <m:mrow>
+                <m:msub>
+                  <m:mfenced open="∥" close="∥">
+                    <m:mi>x</m:mi>
+                  </m:mfenced>
+                  <m:mn>1</m:mn>
+                </m:msub>
+                <m:mo>≥</m:mo>
+                <m:msub>
+                  <m:mfenced separators="" open="∥" close="∥">
+                    <m:mi>x</m:mi>
+                    <m:mo>+</m:mo>
+                    <m:mi>h</m:mi>
+                  </m:mfenced>
+                  <m:mn>1</m:mn>
+                </m:msub>
+              </m:mrow>
+            </m:mtd>
+            <m:mtd columnalign="left">
+              <m:mrow>
+                <m:mo>=</m:mo>
+                <m:msub>
+                  <m:mfenced separators="" open="∥" close="∥">
+                    <m:msub>
+                      <m:mi>x</m:mi>
+                      <m:msub>
+                        <m:mi>Λ</m:mi>
+                        <m:mn>0</m:mn>
+                      </m:msub>
+                    </m:msub>
+                    <m:mo>+</m:mo>
+                    <m:msub>
+                      <m:mi>h</m:mi>
+                      <m:msub>
+                        <m:mi>Λ</m:mi>
+                        <m:mn>0</m:mn>
+                      </m:msub>
+                    </m:msub>
+                  </m:mfenced>
+                  <m:mn>1</m:mn>
+                </m:msub>
+                <m:mo>+</m:mo>
+                <m:msub>
+                  <m:mfenced separators="" open="∥" close="∥">
+                    <m:msub>
+                      <m:mi>x</m:mi>
+                      <m:msubsup>
+                        <m:mi>Λ</m:mi>
+                        <m:mn>0</m:mn>
+                        <m:mi>c</m:mi>
+                      </m:msubsup>
+                    </m:msub>
+                    <m:mo>+</m:mo>
+                    <m:msub>
+                      <m:mi>h</m:mi>
+                      <m:msubsup>
+                        <m:mi>Λ</m:mi>
+                        <m:mn>0</m:mn>
+                        <m:mi>c</m:mi>
+                      </m:msubsup>
+                    </m:msub>
+                  </m:mfenced>
+                  <m:mn>1</m:mn>
+                </m:msub>
+              </m:mrow>
+            </m:mtd>
+          </m:mtr>
+          <m:mtr>
+            <m:mtd/>
+            <m:mtd columnalign="left">
+              <m:mrow>
+                <m:mo>≥</m:mo>
+                <m:msub>
+                  <m:mfenced separators="" open="∥" close="∥">
+                    <m:msub>
+                      <m:mi>x</m:mi>
+                      <m:msub>
+                        <m:mi>Λ</m:mi>
+                        <m:mn>0</m:mn>
+                      </m:msub>
+                    </m:msub>
+                  </m:mfenced>
+                  <m:mn>1</m:mn>
+                </m:msub>
+                <m:mo>-</m:mo>
+                <m:msub>
+                  <m:mfenced separators="" open="∥" close="∥">
+                    <m:msub>
+                      <m:mi>h</m:mi>
+                      <m:msub>
+                        <m:mi>Λ</m:mi>
+                        <m:mn>0</m:mn>
+                      </m:msub>
+                    </m:msub>
+                  </m:mfenced>
+                  <m:mn>1</m:mn>
+                </m:msub>
+                <m:mo>+</m:mo>
+                <m:msub>
+                  <m:mfenced separators="" open="∥" close="∥">
+                    <m:msub>
+                      <m:mi>h</m:mi>
+                      <m:msubsup>
+                        <m:mi>Λ</m:mi>
+                        <m:mn>0</m:mn>
+                        <m:mi>c</m:mi>
+                      </m:msubsup>
+                    </m:msub>
+                  </m:mfenced>
+                  <m:mn>1</m:mn>
+                </m:msub>
+                <m:mo>-</m:mo>
+                <m:msub>
+                  <m:mfenced separators="" open="∥" close="∥">
+                    <m:msub>
+                      <m:mi>x</m:mi>
+                      <m:msubsup>
+                        <m:mi>Λ</m:mi>
+                        <m:mn>0</m:mn>
+                        <m:mi>c</m:mi>
+                      </m:msubsup>
+                    </m:msub>
+                  </m:mfenced>
+                  <m:mn>1</m:mn>
+                </m:msub>
+                <m:mo>.</m:mo>
+              </m:mrow>
+            </m:mtd>
+          </m:mtr>
+        </m:mtable>
+      </m:math>
+    </equation>
+    <para id="id178862">
+Rearranging and again applying the triangle inequality,</para>
+    <equation id="uid6">
+      <m:math overflow="scroll" mode="display">
+        <m:mtable displaystyle="true">
+          <m:mtr>
+            <m:mtd columnalign="right">
+              <m:msub>
+                <m:mfenced separators="" open="∥" close="∥">
+                  <m:msub>
+                    <m:mi>h</m:mi>
+                    <m:msubsup>
+                      <m:mi>Λ</m:mi>
+                      <m:mn>0</m:mn>
+                      <m:mi>c</m:mi>
+                    </m:msubsup>
+                  </m:msub>
+                </m:mfenced>
+                <m:mn>1</m:mn>
+              </m:msub>
+            </m:mtd>
+            <m:mtd columnalign="left">
+              <m:mrow>
+                <m:mo>≤</m:mo>
+                <m:msub>
+                  <m:mfenced open="∥" close="∥">
+                    <m:mi>x</m:mi>
+                  </m:mfenced>
+                  <m:mn>1</m:mn>
+                </m:msub>
+                <m:mo>-</m:mo>
+                <m:msub>
+                  <m:mfenced separators="" open="∥" close="∥">
+                    <m:msub>
+                      <m:mi>x</m:mi>
+                      <m:msub>
+                        <m:mi>Λ</m:mi>
+                        <m:mn>0</m:mn>
+                      </m:msub>
+                    </m:msub>
+                  </m:mfenced>
+                  <m:mn>1</m:mn>
+                </m:msub>
+                <m:mo>+</m:mo>
+                <m:msub>
+                  <m:mfenced separators="" open="∥" close="∥">
+                    <m:msub>
+                      <m:mi>h</m:mi>
+                      <m:msub>
+                        <m:mi>Λ</m:mi>
+                        <m:mn>0</m:mn>
+                      </m:msub>
+                    </m:msub>
+                  </m:mfenced>
+                  <m:mn>1</m:mn>
+                </m:msub>
+                <m:mo>+</m:mo>
+                <m:msub>
+                  <m:mfenced separators="" open="∥" close="∥">
+                    <m:msub>
+                      <m:mi>x</m:mi>
+                      <m:msubsup>
+                        <m:mi>Λ</m:mi>
+                        <m:mn>0</m:mn>
+                        <m:mi>c</m:mi>
+                      </m:msubsup>
+                    </m:msub>
+                  </m:mfenced>
+                  <m:mn>1</m:mn>
+                </m:msub>
+              </m:mrow>
+            </m:mtd>
+          </m:mtr>
+          <m:mtr>
+            <m:mtd/>
+            <m:mtd columnalign="left">
+              <m:mrow>
+                <m:mo>≤</m:mo>
+                <m:msub>
+                  <m:mfenced separators="" open="∥" close="∥">
+                    <m:mi>x</m:mi>
+                    <m:mo>-</m:mo>
+                    <m:msub>
+                      <m:mi>x</m:mi>
+                      <m:msub>
+                        <m:mi>Λ</m:mi>
+                        <m:mn>0</m:mn>
+                      </m:msub>
+                    </m:msub>
+                  </m:mfenced>
+                  <m:mn>1</m:mn>
+                </m:msub>
+                <m:mo>+</m:mo>
+                <m:msub>
+                  <m:mfenced separators="" open="∥" close="∥">
+                    <m:msub>
+                      <m:mi>h</m:mi>
+                      <m:msub>
+                        <m:mi>Λ</m:mi>
+                        <m:mn>0</m:mn>
+                      </m:msub>
+                    </m:msub>
+                  </m:mfenced>
+                  <m:mn>1</m:mn>
+                </m:msub>
+                <m:mo>+</m:mo>
+                <m:msub>
+                  <m:mfenced separators="" open="∥" close="∥">
+                    <m:msub>
+                      <m:mi>x</m:mi>
+                      <m:msubsup>
+                        <m:mi>Λ</m:mi>
+                        <m:mn>0</m:mn>
+                        <m:mi>c</m:mi>
+                      </m:msubsup>
+                    </m:msub>
+                  </m:mfenced>
+                  <m:mn>1</m:mn>
+                </m:msub>
+                <m:mo>.</m:mo>
+              </m:mrow>
+            </m:mtd>
+          </m:mtr>
+        </m:mtable>
+      </m:math>
+    </equation>
+    <para id="id179122">
+Recalling that <m:math overflow="scroll"><m:mrow><m:msub><m:mi>σ</m:mi><m:mi>K</m:mi></m:msub><m:msub><m:mrow><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow><m:mn>1</m:mn></m:msub><m:mo>=</m:mo><m:msub><m:mfenced separators="" open="∥" close="∥"><m:msub><m:mi>x</m:mi><m:msubsup><m:mi>Λ</m:mi><m:mn>0</m:mn><m:mi>c</m:mi></m:msubsup></m:msub></m:mfenced><m:mn>1</m:mn></m:msub><m:mo>=</m:mo><m:msub><m:mfenced separators="" open="∥" close="∥"><m:mi>x</m:mi><m:mo>-</m:mo><m:msub><m:mi>x</m:mi><m:msub><m:mi>Λ</m:mi><m:mn>0</m:mn></m:msub></m:msub></m:mfenced><m:mn>1</m:mn></m:msub></m:mrow></m:math>,</para>
+    <equation id="uid7">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msub>
+            <m:mfenced separators="" open="∥" close="∥">
+              <m:msub>
+                <m:mi>h</m:mi>
+                <m:msubsup>
+                  <m:mi>Λ</m:mi>
+                  <m:mn>0</m:mn>
+                  <m:mi>c</m:mi>
+                </m:msubsup>
+              </m:msub>
+            </m:mfenced>
+            <m:mn>1</m:mn>
+          </m:msub>
+          <m:mo>≤</m:mo>
+          <m:msub>
+            <m:mfenced separators="" open="∥" close="∥">
+              <m:msub>
+                <m:mi>h</m:mi>
+                <m:msub>
+                  <m:mi>Λ</m:mi>
+                  <m:mn>0</m:mn>
+                </m:msub>
+              </m:msub>
+            </m:mfenced>
+            <m:mn>1</m:mn>
+          </m:msub>
+          <m:mo>+</m:mo>
+          <m:mn>2</m:mn>
+          <m:msub>
+            <m:mi>σ</m:mi>
+            <m:mi>K</m:mi>
+          </m:msub>
+          <m:msub>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>x</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mn>1</m:mn>
+          </m:msub>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id179314">Combining this with <link target-id="uid4"/> we obtain</para>
+    <equation id="id179324">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msub>
+            <m:mfenced separators="" open="∥" close="∥">
+              <m:msub>
+                <m:mi>h</m:mi>
+                <m:msup>
+                  <m:mi>Λ</m:mi>
+                  <m:mi>c</m:mi>
+                </m:msup>
+              </m:msub>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:mo>≤</m:mo>
+          <m:mfrac>
+            <m:mrow>
+              <m:msub>
+                <m:mfenced separators="" open="∥" close="∥">
+                  <m:msub>
+                    <m:mi>h</m:mi>
+                    <m:msub>
+                      <m:mi>Λ</m:mi>
+                      <m:mn>0</m:mn>
+                    </m:msub>
+                  </m:msub>
+                </m:mfenced>
+                <m:mn>1</m:mn>
+              </m:msub>
+              <m:mo>+</m:mo>
+              <m:mn>2</m:mn>
+              <m:msub>
+                <m:mi>σ</m:mi>
+                <m:mi>K</m:mi>
+              </m:msub>
+              <m:msub>
+                <m:mrow>
+                  <m:mo>(</m:mo>
+                  <m:mi>x</m:mi>
+                  <m:mo>)</m:mo>
+                </m:mrow>
+                <m:mn>1</m:mn>
+              </m:msub>
+            </m:mrow>
+            <m:msqrt>
+              <m:mi>K</m:mi>
+            </m:msqrt>
+          </m:mfrac>
+          <m:mo>≤</m:mo>
+          <m:msub>
+            <m:mfenced separators="" open="∥" close="∥">
+              <m:msub>
+                <m:mi>h</m:mi>
+                <m:msub>
+                  <m:mi>Λ</m:mi>
+                  <m:mn>0</m:mn>
+                </m:msub>
+              </m:msub>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:mo>+</m:mo>
+          <m:mn>2</m:mn>
+          <m:mfrac>
+            <m:mrow>
+              <m:msub>
+                <m:mi>σ</m:mi>
+                <m:mi>K</m:mi>
+              </m:msub>
+              <m:msub>
+                <m:mrow>
+                  <m:mo>(</m:mo>
+                  <m:mi>x</m:mi>
+                  <m:mo>)</m:mo>
+                </m:mrow>
+                <m:mn>1</m:mn>
+              </m:msub>
+            </m:mrow>
+            <m:msqrt>
+              <m:mi>K</m:mi>
+            </m:msqrt>
+          </m:mfrac>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id179476">where the last inequality follows from standard bounds on <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> norms (Lemma 1 from <link document="m37176" version="latest">"The RIP and the NSP"</link>). By observing that <m:math overflow="scroll"><m:mrow><m:msub><m:mfenced separators="" open="∥" close="∥"><m:msub><m:mi>h</m:mi><m:msub><m:mi>Λ</m:mi><m:mn>0</m:mn></m:msub></m:msub></m:mfenced><m:mn>2</m:mn></m:msub><m:mo>≤</m:mo><m:msub><m:mfenced separators="" open="∥" close="∥"><m:msub><m:mi>h</m:mi><m:mi>Λ</m:mi></m:msub></m:mfenced><m:mn>2</m:mn></m:msub></m:mrow></m:math> this combines with <link target-id="uid3"/> to yield</para>
+    <equation id="uid8">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msub>
+            <m:mfenced open="∥" close="∥">
+              <m:mi>h</m:mi>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:mo>≤</m:mo>
+          <m:mn>2</m:mn>
+          <m:msub>
+            <m:mfenced separators="" open="∥" close="∥">
+              <m:msub>
+                <m:mi>h</m:mi>
+                <m:mi>Λ</m:mi>
+              </m:msub>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:mo>+</m:mo>
+          <m:mn>2</m:mn>
+          <m:mfrac>
+            <m:mrow>
+              <m:msub>
+                <m:mi>σ</m:mi>
+                <m:mi>K</m:mi>
+              </m:msub>
+              <m:msub>
+                <m:mrow>
+                  <m:mo>(</m:mo>
+                  <m:mi>x</m:mi>
+                  <m:mo>)</m:mo>
+                </m:mrow>
+                <m:mn>1</m:mn>
+              </m:msub>
+            </m:mrow>
+            <m:msqrt>
+              <m:mi>K</m:mi>
+            </m:msqrt>
+          </m:mfrac>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id179641">We now turn to establishing a bound for <m:math overflow="scroll"><m:msub><m:mfenced separators="" open="∥" close="∥"><m:msub><m:mi>h</m:mi><m:mi>Λ</m:mi></m:msub></m:mfenced><m:mn>2</m:mn></m:msub></m:math>. Combining Lemma 4 from <link document="m37187" version="latest">"<m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> minimization proof"</link> with <link target-id="uid7"/> and again applying standard bounds on <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> norms we obtain</para>
+    <equation id="uid9">
+      <m:math overflow="scroll" mode="display">
+        <m:mtable displaystyle="true">
+          <m:mtr>
+            <m:mtd columnalign="right">
+              <m:msub>
+                <m:mfenced separators="" open="∥" close="∥">
+                  <m:msub>
+                    <m:mi>h</m:mi>
+                    <m:mi>Λ</m:mi>
+                  </m:msub>
+                </m:mfenced>
+                <m:mn>2</m:mn>
+              </m:msub>
+            </m:mtd>
+            <m:mtd columnalign="left">
+              <m:mrow>
+                <m:mo>≤</m:mo>
+                <m:mi>α</m:mi>
+                <m:mfrac>
+                  <m:msub>
+                    <m:mfenced separators="" open="∥" close="∥">
+                      <m:msub>
+                        <m:mi>h</m:mi>
+                        <m:msubsup>
+                          <m:mi>Λ</m:mi>
+                          <m:mn>0</m:mn>
+                          <m:mi>c</m:mi>
+                        </m:msubsup>
+                      </m:msub>
+                    </m:mfenced>
+                    <m:mn>1</m:mn>
+                  </m:msub>
+                  <m:msqrt>
+                    <m:mi>K</m:mi>
+                  </m:msqrt>
+                </m:mfrac>
+                <m:mo>+</m:mo>
+                <m:mi>β</m:mi>
+                <m:mfrac>
+                  <m:mfenced separators="" open="|" close="|">
+                    <m:mfenced separators="" open="〈" close="〉">
+                      <m:mi>Φ</m:mi>
+                      <m:msub>
+                        <m:mi>h</m:mi>
+                        <m:mi>Λ</m:mi>
+                      </m:msub>
+                      <m:mo>,</m:mo>
+                      <m:mi>Φ</m:mi>
+                      <m:mi>h</m:mi>
+                    </m:mfenced>
+                  </m:mfenced>
+                  <m:msub>
+                    <m:mfenced separators="" open="∥" close="∥">
+                      <m:msub>
+                        <m:mi>h</m:mi>
+                        <m:mi>Λ</m:mi>
+                      </m:msub>
+                    </m:mfenced>
+                    <m:mn>2</m:mn>
+                  </m:msub>
+                </m:mfrac>
+              </m:mrow>
+            </m:mtd>
+          </m:mtr>
+          <m:mtr>
+            <m:mtd/>
+            <m:mtd columnalign="left">
+              <m:mrow>
+                <m:mo>≤</m:mo>
+                <m:mi>α</m:mi>
+                <m:mfrac>
+                  <m:mrow>
+                    <m:msub>
+                      <m:mfenced separators="" open="∥" close="∥">
+                        <m:msub>
+                          <m:mi>h</m:mi>
+                          <m:msub>
+                            <m:mi>Λ</m:mi>
+                            <m:mn>0</m:mn>
+                          </m:msub>
+                        </m:msub>
+                      </m:mfenced>
+                      <m:mn>1</m:mn>
+                    </m:msub>
+                    <m:mo>+</m:mo>
+                    <m:mn>2</m:mn>
+                    <m:msub>
+                      <m:mi>σ</m:mi>
+                      <m:mi>K</m:mi>
+                    </m:msub>
+                    <m:msub>
+                      <m:mrow>
+                        <m:mo>(</m:mo>
+                        <m:mi>x</m:mi>
+                        <m:mo>)</m:mo>
+                      </m:mrow>
+                      <m:mn>1</m:mn>
+                    </m:msub>
+                  </m:mrow>
+                  <m:msqrt>
+                    <m:mi>K</m:mi>
+                  </m:msqrt>
+                </m:mfrac>
+                <m:mo>+</m:mo>
+                <m:mi>β</m:mi>
+                <m:mfrac>
+                  <m:mfenced separators="" open="|" close="|">
+                    <m:mfenced separators="" open="〈" close="〉">
+                      <m:mi>Φ</m:mi>
+                      <m:msub>
+                        <m:mi>h</m:mi>
+                        <m:mi>Λ</m:mi>
+                      </m:msub>
+                      <m:mo>,</m:mo>
+                      <m:mi>Φ</m:mi>
+                      <m:mi>h</m:mi>
+                    </m:mfenced>
+                  </m:mfenced>
+                  <m:msub>
+                    <m:mfenced separators="" open="∥" close="∥">
+                      <m:msub>
+                        <m:mi>h</m:mi>
+                        <m:mi>Λ</m:mi>
+                      </m:msub>
+                    </m:mfenced>
+                    <m:mn>2</m:mn>
+                  </m:msub>
+                </m:mfrac>
+              </m:mrow>
+            </m:mtd>
+          </m:mtr>
+          <m:mtr>
+            <m:mtd/>
+            <m:mtd columnalign="left">
+              <m:mrow>
+                <m:mo>≤</m:mo>
+                <m:mi>α</m:mi>
+                <m:msub>
+                  <m:mfenced separators="" open="∥" close="∥">
+                    <m:msub>
+                      <m:mi>h</m:mi>
+                      <m:msub>
+                        <m:mi>Λ</m:mi>
+                        <m:mn>0</m:mn>
+                      </m:msub>
+                    </m:msub>
+                  </m:mfenced>
+                  <m:mn>2</m:mn>
+                </m:msub>
+                <m:mo>+</m:mo>
+                <m:mn>2</m:mn>
+                <m:mi>α</m:mi>
+                <m:mfrac>
+                  <m:mrow>
+                    <m:msub>
+                      <m:mi>σ</m:mi>
+                      <m:mi>K</m:mi>
+                    </m:msub>
+                    <m:msub>
+                      <m:mrow>
+                        <m:mo>(</m:mo>
+                        <m:mi>x</m:mi>
+                        <m:mo>)</m:mo>
+                      </m:mrow>
+                      <m:mn>1</m:mn>
+                    </m:msub>
+                  </m:mrow>
+                  <m:msqrt>
+                    <m:mi>K</m:mi>
+                  </m:msqrt>
+                </m:mfrac>
+                <m:mo>+</m:mo>
+                <m:mi>β</m:mi>
+                <m:mfrac>
+                  <m:mfenced separators="" open="|" close="|">
+                    <m:mfenced separators="" open="〈" close="〉">
+                      <m:mi>Φ</m:mi>
+                      <m:msub>
+                        <m:mi>h</m:mi>
+                        <m:mi>Λ</m:mi>
+                      </m:msub>
+                      <m:mo>,</m:mo>
+                      <m:mi>Φ</m:mi>
+                      <m:mi>h</m:mi>
+                    </m:mfenced>
+                  </m:mfenced>
+                  <m:msub>
+                    <m:mfenced separators="" open="∥" close="∥">
+                      <m:msub>
+                        <m:mi>h</m:mi>
+                        <m:mi>Λ</m:mi>
+                      </m:msub>
+                    </m:mfenced>
+                    <m:mn>2</m:mn>
+                  </m:msub>
+                </m:mfrac>
+                <m:mo>.</m:mo>
+              </m:mrow>
+            </m:mtd>
+          </m:mtr>
+        </m:mtable>
+      </m:math>
+    </equation>
+    <para id="id180098">
+Since <m:math overflow="scroll"><m:mrow><m:msub><m:mfenced separators="" open="∥" close="∥"><m:msub><m:mi>h</m:mi><m:msub><m:mi>Λ</m:mi><m:mn>0</m:mn></m:msub></m:msub></m:mfenced><m:mn>2</m:mn></m:msub><m:mo>≤</m:mo><m:msub><m:mfenced separators="" open="∥" close="∥"><m:msub><m:mi>h</m:mi><m:mi>Λ</m:mi></m:msub></m:mfenced><m:mn>2</m:mn></m:msub></m:mrow></m:math>,</para>
+    <equation id="id180160">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mn>1</m:mn>
+            <m:mo>-</m:mo>
+            <m:mi>α</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:msub>
+            <m:mfenced separators="" open="∥" close="∥">
+              <m:msub>
+                <m:mi>h</m:mi>
+                <m:mi>Λ</m:mi>
+              </m:msub>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:mo>≤</m:mo>
+          <m:mn>2</m:mn>
+          <m:mi>α</m:mi>
+          <m:mfrac>
+            <m:mrow>
+              <m:msub>
+                <m:mi>σ</m:mi>
+                <m:mi>K</m:mi>
+              </m:msub>
+              <m:msub>
+                <m:mrow>
+                  <m:mo>(</m:mo>
+                  <m:mi>x</m:mi>
+                  <m:mo>)</m:mo>
+                </m:mrow>
+                <m:mn>1</m:mn>
+              </m:msub>
+            </m:mrow>
+            <m:msqrt>
+              <m:mi>K</m:mi>
+            </m:msqrt>
+          </m:mfrac>
+          <m:mo>+</m:mo>
+          <m:mi>β</m:mi>
+          <m:mfrac>
+            <m:mfenced separators="" open="|" close="|">
+              <m:mfenced separators="" open="〈" close="〉">
+                <m:mi>Φ</m:mi>
+                <m:msub>
+                  <m:mi>h</m:mi>
+                  <m:mi>Λ</m:mi>
+                </m:msub>
+                <m:mo>,</m:mo>
+                <m:mi>Φ</m:mi>
+                <m:mi>h</m:mi>
+              </m:mfenced>
+            </m:mfenced>
+            <m:msub>
+              <m:mfenced separators="" open="∥" close="∥">
+                <m:msub>
+                  <m:mi>h</m:mi>
+                  <m:mi>Λ</m:mi>
+                </m:msub>
+              </m:mfenced>
+              <m:mn>2</m:mn>
+            </m:msub>
+          </m:mfrac>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id180298">The assumption that <m:math overflow="scroll"><m:mrow><m:msub><m:mi>δ</m:mi><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:msub><m:mo>&lt;</m:mo><m:msqrt><m:mn>2</m:mn></m:msqrt><m:mo>-</m:mo><m:mn>1</m:mn></m:mrow></m:math> ensures that <m:math overflow="scroll"><m:mrow><m:mi>α</m:mi><m:mo>&lt;</m:mo><m:mn>1</m:mn></m:mrow></m:math>. Dividing by <m:math overflow="scroll"><m:mrow><m:mo>(</m:mo><m:mn>1</m:mn><m:mo>-</m:mo><m:mi>α</m:mi><m:mo>)</m:mo></m:mrow></m:math> and combining with <link target-id="uid8"/> results in</para>
+    <equation id="id180370">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msub>
+            <m:mfenced open="∥" close="∥">
+              <m:mi>h</m:mi>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:mo>≤</m:mo>
+          <m:mfenced separators="" open="(" close=")">
+            <m:mfrac>
+              <m:mrow>
+                <m:mn>4</m:mn>
+                <m:mi>α</m:mi>
+              </m:mrow>
+              <m:mrow>
+                <m:mn>1</m:mn>
+                <m:mo>-</m:mo>
+                <m:mi>α</m:mi>
+              </m:mrow>
+            </m:mfrac>
+            <m:mo>+</m:mo>
+            <m:mn>2</m:mn>
+          </m:mfenced>
+          <m:mfrac>
+            <m:mrow>
+              <m:msub>
+                <m:mi>σ</m:mi>
+                <m:mi>K</m:mi>
+              </m:msub>
+              <m:msub>
+                <m:mrow>
+                  <m:mo>(</m:mo>
+                  <m:mi>x</m:mi>
+                  <m:mo>)</m:mo>
+                </m:mrow>
+                <m:mn>1</m:mn>
+              </m:msub>
+            </m:mrow>
+            <m:msqrt>
+              <m:mi>K</m:mi>
+            </m:msqrt>
+          </m:mfrac>
+          <m:mo>+</m:mo>
+          <m:mfrac>
+            <m:mrow>
+              <m:mn>2</m:mn>
+              <m:mi>β</m:mi>
+            </m:mrow>
+            <m:mrow>
+              <m:mn>1</m:mn>
+              <m:mo>-</m:mo>
+              <m:mi>α</m:mi>
+            </m:mrow>
+          </m:mfrac>
+          <m:mfrac>
+            <m:mfenced separators="" open="|" close="|">
+              <m:mfenced separators="" open="〈" close="〉">
+                <m:mi>Φ</m:mi>
+                <m:msub>
+                  <m:mi>h</m:mi>
+                  <m:mi>Λ</m:mi>
+                </m:msub>
+                <m:mo>,</m:mo>
+                <m:mi>Φ</m:mi>
+                <m:mi>h</m:mi>
+              </m:mfenced>
+            </m:mfenced>
+            <m:msub>
+              <m:mfenced separators="" open="∥" close="∥">
+                <m:msub>
+                  <m:mi>h</m:mi>
+                  <m:mi>Λ</m:mi>
+                </m:msub>
+              </m:mfenced>
+              <m:mn>2</m:mn>
+            </m:msub>
+          </m:mfrac>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id180524">Plugging in for <m:math overflow="scroll"><m:mi>α</m:mi></m:math> and <m:math overflow="scroll"><m:mi>β</m:mi></m:math> yields the desired constants.</para>
+</proof></rule>
+    <para id="id180548"><link target-id="uid2"/> establishes an error bound for the class of <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> minimization algorithms described by <link target-id="uid1"/> when combined with a measurement matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> satisfying the RIP. In order to obtain specific bounds for concrete examples of <m:math overflow="scroll"><m:mrow><m:mi mathvariant="script">B</m:mi><m:mo>(</m:mo><m:mi>y</m:mi><m:mo>)</m:mo></m:mrow></m:math>, we must examine how requiring <m:math overflow="scroll"><m:mrow><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mo>∈</m:mo><m:mi mathvariant="script">B</m:mi><m:mrow><m:mo>(</m:mo><m:mi>y</m:mi><m:mo>)</m:mo></m:mrow></m:mrow></m:math> affects <m:math overflow="scroll"><m:mfenced separators="" open="|" close="|"><m:mfenced separators="" open="〈" close="〉"><m:mi>Φ</m:mi><m:msub><m:mi>h</m:mi><m:mi>Λ</m:mi></m:msub><m:mo>,</m:mo><m:mi>Φ</m:mi><m:mi>h</m:mi></m:mfenced></m:mfenced></m:math>. As an example, in the case of noise-free measurements we obtain the following theorem.</para>
+<rule id="uid10" type="theorem"><title>(Theorem 1.1 of <link target-id="bid0"/>)</title><statement id="fs-id1169497072578">
+    <para id="id180674">  
+Suppose that <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> satisfies the RIP of order <m:math overflow="scroll"><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:math> with <m:math overflow="scroll"><m:mrow><m:msub><m:mi>δ</m:mi><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:msub><m:mo>&lt;</m:mo><m:msqrt><m:mn>2</m:mn></m:msqrt><m:mo>-</m:mo><m:mn>1</m:mn></m:mrow></m:math> and we obtain measurements of the form <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi></m:mrow></m:math>. Then when <m:math overflow="scroll"><m:mrow><m:mi mathvariant="script">B</m:mi><m:mo>(</m:mo><m:mi>y</m:mi><m:mo>)</m:mo><m:mo>=</m:mo><m:mo>{</m:mo><m:mi>z</m:mi><m:mo>:</m:mo><m:mi>Φ</m:mi><m:mi>z</m:mi><m:mo>=</m:mo><m:mi>y</m:mi><m:mo>}</m:mo></m:mrow></m:math>, the solution <m:math overflow="scroll"><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover></m:math> to <link target-id="uid1"/> obeys</para>
+    <equation id="id180817">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msub>
+            <m:mfenced separators="" open="∥" close="∥">
+              <m:mover accent="true">
+                <m:mi>x</m:mi>
+                <m:mo>^</m:mo>
+              </m:mover>
+              <m:mo>-</m:mo>
+              <m:mi>x</m:mi>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:mo>≤</m:mo>
+          <m:msub>
+            <m:mi>C</m:mi>
+            <m:mn>0</m:mn>
+          </m:msub>
+          <m:mfrac>
+            <m:mrow>
+              <m:msub>
+                <m:mi>σ</m:mi>
+                <m:mi>K</m:mi>
+              </m:msub>
+              <m:msub>
+                <m:mrow>
+                  <m:mo>(</m:mo>
+                  <m:mi>x</m:mi>
+                  <m:mo>)</m:mo>
+                </m:mrow>
+                <m:mn>1</m:mn>
+              </m:msub>
+            </m:mrow>
+            <m:msqrt>
+              <m:mi>K</m:mi>
+            </m:msqrt>
+          </m:mfrac>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+</statement>
+<proof id="fs-id1169492477290">
+    <para id="id180900">Since <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>∈</m:mo><m:mi mathvariant="script">B</m:mi><m:mo>(</m:mo><m:mi>y</m:mi><m:mo>)</m:mo></m:mrow></m:math> we can apply <link target-id="uid2"/> to obtain that for <m:math overflow="scroll"><m:mrow><m:mi>h</m:mi><m:mo>=</m:mo><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mo>-</m:mo><m:mi>x</m:mi></m:mrow></m:math>,</para>
+    <equation id="id180957">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msub>
+            <m:mfenced open="∥" close="∥">
+              <m:mi>h</m:mi>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:mo>≤</m:mo>
+          <m:msub>
+            <m:mi>C</m:mi>
+            <m:mn>0</m:mn>
+          </m:msub>
+          <m:mfrac>
+            <m:mrow>
+              <m:msub>
+                <m:mi>σ</m:mi>
+                <m:mi>K</m:mi>
+              </m:msub>
+              <m:msub>
+                <m:mrow>
+                  <m:mo>(</m:mo>
+                  <m:mi>x</m:mi>
+                  <m:mo>)</m:mo>
+                </m:mrow>
+                <m:mn>1</m:mn>
+              </m:msub>
+            </m:mrow>
+            <m:msqrt>
+              <m:mi>K</m:mi>
+            </m:msqrt>
+          </m:mfrac>
+          <m:mo>+</m:mo>
+          <m:msub>
+            <m:mi>C</m:mi>
+            <m:mn>1</m:mn>
+          </m:msub>
+          <m:mfrac>
+            <m:mfenced separators="" open="|" close="|">
+              <m:mfenced separators="" open="〈" close="〉">
+                <m:mi>Φ</m:mi>
+                <m:msub>
+                  <m:mi>h</m:mi>
+                  <m:mi>Λ</m:mi>
+                </m:msub>
+                <m:mo>,</m:mo>
+                <m:mi>Φ</m:mi>
+                <m:mi>h</m:mi>
+              </m:mfenced>
+            </m:mfenced>
+            <m:msub>
+              <m:mfenced separators="" open="∥" close="∥">
+                <m:msub>
+                  <m:mi>h</m:mi>
+                  <m:mi>Λ</m:mi>
+                </m:msub>
+              </m:mfenced>
+              <m:mn>2</m:mn>
+            </m:msub>
+          </m:mfrac>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id181083">Furthermore, since <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>,</m:mo><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mo>∈</m:mo><m:mi mathvariant="script">B</m:mi><m:mrow><m:mo>(</m:mo><m:mi>y</m:mi><m:mo>)</m:mo></m:mrow></m:mrow></m:math> we also have that <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover></m:mrow></m:math> and hence <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:mi>h</m:mi><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math>. Therefore the second term vanishes, and we obtain the desired result.</para>
+</proof></rule>
+    <para id="id181171"><link target-id="uid10"/> is rather remarkable. By considering the case where <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>∈</m:mo><m:msub><m:mi>Σ</m:mi><m:mi>K</m:mi></m:msub>   <m:mo>=</m:mo>
+          <m:mfenced separators="" open="{" close="}">
+            <m:mi>x</m:mi>
+            <m:mo>:</m:mo>
+            <m:msub>
+              <m:mfenced open="∥" close="∥">
+                <m:mi>x</m:mi>
+              </m:mfenced>
+              <m:mn>0</m:mn>
+            </m:msub>
+            <m:mo>≤</m:mo>
+            <m:mi>K</m:mi>
+          </m:mfenced>  </m:mrow></m:math> we can see that provided <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> satisfies the RIP — which as shown earlier allows for as few as <m:math overflow="scroll"><m:mrow><m:mi>O</m:mi><m:mo>(</m:mo><m:mi>K</m:mi><m:mo form="prefix">log</m:mo><m:mo>(</m:mo><m:mi>N</m:mi><m:mo>/</m:mo><m:mi>K</m:mi><m:mo>)</m:mo><m:mo>)</m:mo></m:mrow></m:math> measurements — we can recover any <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-sparse <m:math overflow="scroll"><m:mi>x</m:mi></m:math><emphasis effect="italics">exactly</emphasis>. This result seems improbable on its own, and so one might expect that the procedure would be highly sensitive to noise, but we will see next that <link target-id="uid2"/> can also be used to demonstrate that this approach is actually stable.</para>
+    <para id="id181272">Note that <link target-id="uid10"/> assumes that <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> satisfies the RIP. One could easily modify the argument to replace this with the assumption that <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> satisfies the <link document="m37170" version="latest">null space property</link> (NSP) instead. Specifically, if we are only interested in the noiseless setting, in which case <m:math overflow="scroll"><m:mi>h</m:mi></m:math> lies in the null space of <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>, then <link target-id="uid2"/> simplifies and its proof could be broken into two steps: (<m:math overflow="scroll"><m:mi>i</m:mi></m:math>) show that if <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> satisfies the RIP then it satisfies the NSP (as shown in <link document="m37176" version="latest">"The RIP and the NSP"</link>), and (<m:math overflow="scroll"><m:mrow><m:mi>i</m:mi><m:mi>i</m:mi></m:mrow></m:math>) the NSP implies the simplified version of <link target-id="uid2"/>. This proof directly mirrors that of <link target-id="uid2"/>. Thus, by the same argument as in the proof of <link target-id="uid10"/>, it is straightforward to show that if <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> satisfies the NSP then it will obey the same error bound.
+
+</para>
+  </content>
+  <bib:file>
+    <bib:entry id="bid0">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Candès, E.</bib:author>
+        <bib:title>The restricted isometry property and its implications for compressed sensing</bib:title>
+        <bib:journal>Comptes rendus de l'Académie des Sciences, Série I</bib:journal>
+        <bib:year>2008</bib:year>
+        <!--optional fields-->
+        <bib:volume>346</bib:volume>
+        <bib:number>9-10</bib:number>
+        <bib:pages>589–592</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+  </bib:file>
+</document>

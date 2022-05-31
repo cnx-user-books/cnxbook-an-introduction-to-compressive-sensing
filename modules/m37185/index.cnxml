@@ -1,0 +1,450 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:bib="http://bibtexml.sf.net/">
+  <title>Sub-Gaussian random variables</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37185</md:content-id>
+  <md:title>Sub-Gaussian random variables</md:title>
+  <md:abstract>In this module we introduce the sub-Gaussian and strictly sub-Gaussian distributions.  We provide some simple examples and illustrate some of the key properties of sub-Gaussian random variables.</md:abstract>
+  <md:uuid>84201fc2-9721-426f-955c-17d552c5ee53</md:uuid>
+</metadata>
+
+<content>
+    <para id="id185035">A number of distributions, notably Gaussian and Bernoulli, are known to satisfy certain <link document="m32583" version="latest">concentration of measure</link> inequalities. We will analyze this phenomenon from a more general perspective by considering the class of sub-Gaussian distributions <link target-id="bid0"/>.</para>
+<definition id="fs-id5697618"><term/><meaning id="fs-id1169492438074">
+    <para id="id185051"> 
+A random variable <m:math overflow="scroll"><m:mi>X</m:mi></m:math> is called <emphasis effect="italics">sub-Gaussian</emphasis> if there exists a constant <m:math overflow="scroll"><m:mrow><m:mi>c</m:mi><m:mo>&gt;</m:mo><m:mn>0</m:mn></m:mrow></m:math> such that</para>
+    <equation id="uid2">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">E</m:mi>
+          <m:mfenced separators="" open="(" close=")">
+            <m:mo form="prefix">exp</m:mo>
+            <m:mo>(</m:mo>
+            <m:mi>X</m:mi>
+            <m:mi>t</m:mi>
+            <m:mo>)</m:mo>
+          </m:mfenced>
+          <m:mo>≤</m:mo>
+          <m:mo form="prefix">exp</m:mo>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:msup>
+              <m:mi>c</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+            <m:msup>
+              <m:mi>t</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+            <m:mo>/</m:mo>
+            <m:mn>2</m:mn>
+            <m:mo>)</m:mo>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id185495">holds for all <m:math overflow="scroll"><m:mrow><m:mi>t</m:mi><m:mo>∈</m:mo><m:mi mathvariant="double-struck">R</m:mi></m:mrow></m:math>. We use the notation <m:math overflow="scroll"><m:mrow><m:mi>X</m:mi><m:mo>∼</m:mo><m:mi> Sub </m:mi><m:mo>(</m:mo><m:msup><m:mi>c</m:mi><m:mn>2</m:mn></m:msup><m:mo>)</m:mo></m:mrow></m:math> to denote that <m:math overflow="scroll"><m:mi>X</m:mi></m:math> satisfies <link target-id="uid2"/>.</para>
+</meaning></definition>
+    <para id="id185552">The function <m:math overflow="scroll"><m:mrow><m:mi mathvariant="double-struck">E</m:mi><m:mfenced separators="" open="(" close=")"><m:mo form="prefix">exp</m:mo><m:mo>(</m:mo><m:mi>X</m:mi><m:mi>t</m:mi><m:mo>)</m:mo></m:mfenced></m:mrow></m:math> is the <emphasis effect="italics">moment-generating function</emphasis> of <m:math overflow="scroll"><m:mi>X</m:mi></m:math>, while the upper bound in <link target-id="uid2"/> is the moment-generating function of a Gaussian random variable. Thus, a sub-Gaussian distribution is one whose moment-generating function is bounded by that of a Gaussian. There are a tremendous number of sub-Gaussian distributions, but there are two particularly important examples:</para>
+<example id="fs-id1167012190587">
+    <para id="id185605"> 
+If <m:math overflow="scroll"><m:mrow><m:mi>X</m:mi><m:mo>∼</m:mo><m:mi mathvariant="script">N</m:mi><m:mo>(</m:mo><m:mn>0</m:mn><m:mo>,</m:mo><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup><m:mo>)</m:mo></m:mrow></m:math>, i.e., <m:math overflow="scroll"><m:mi>X</m:mi></m:math> is a zero-mean Gaussian random variable with variance <m:math overflow="scroll"><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup></m:math>, then <m:math overflow="scroll"><m:mrow><m:mi>X</m:mi><m:mo>∼</m:mo><m:mi> Sub </m:mi><m:mo>(</m:mo><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup><m:mo>)</m:mo></m:mrow></m:math>. Indeed, as mentioned above, the moment-generating function of a Gaussian is given by <m:math overflow="scroll"><m:mrow><m:mi mathvariant="double-struck">E</m:mi><m:mfenced separators="" open="(" close=")"><m:mo form="prefix">exp</m:mo><m:mo>(</m:mo><m:mi>X</m:mi><m:mi>t</m:mi><m:mo>)</m:mo></m:mfenced><m:mo>=</m:mo><m:mo form="prefix">exp</m:mo><m:mrow><m:mo>(</m:mo><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup><m:msup><m:mi>t</m:mi><m:mn>2</m:mn></m:msup><m:mo>/</m:mo><m:mn>2</m:mn><m:mo>)</m:mo></m:mrow></m:mrow></m:math>, and thus <link target-id="uid2"/> is trivially satisfied.</para>
+</example>
+<example id="fs-id1167030726583">
+    <para id="id185940"> 
+If <m:math overflow="scroll"><m:mi>X</m:mi></m:math> is a zero-mean, bounded random variable, i.e., one for which there exists a constant <m:math overflow="scroll"><m:mi>B</m:mi></m:math> such that <m:math overflow="scroll"><m:mrow><m:mo>|</m:mo><m:mi>X</m:mi><m:mo>|</m:mo><m:mo>≤</m:mo><m:mi>B</m:mi></m:mrow></m:math> with probability 1, then <m:math overflow="scroll"><m:mrow><m:mi>X</m:mi><m:mo>∼</m:mo><m:mi> Sub </m:mi><m:mo>(</m:mo><m:msup><m:mi>B</m:mi><m:mn>2</m:mn></m:msup><m:mo>)</m:mo></m:mrow></m:math>.</para>
+</example>
+    <para id="id186010">A common way to characterize sub-Gaussian random variables is through analyzing their moments. We consider only the mean and variance in the following elementary lemma, proven in <link target-id="bid0"/>.</para>
+<rule id="uid5" type="lemma"><title>(Buldygin-Kozachenko <link target-id="bid0"/>)</title><statement id="fs-id1167013158485">
+    <para id="id186022">
+
+If <m:math overflow="scroll"><m:mrow><m:mi>X</m:mi><m:mo>∼</m:mo><m:mi> Sub </m:mi><m:mo>(</m:mo><m:msup><m:mi>c</m:mi><m:mn>2</m:mn></m:msup><m:mo>)</m:mo></m:mrow></m:math> then,</para>
+    <equation id="uid6">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">E</m:mi>
+          <m:mo>(</m:mo>
+          <m:mi>X</m:mi>
+          <m:mo>)</m:mo>
+          <m:mo>=</m:mo>
+          <m:mn>0</m:mn>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id186092">and</para>
+    <equation id="uid7">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">E</m:mi>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:msup>
+              <m:mi>X</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mo>≤</m:mo>
+          <m:msup>
+            <m:mi>c</m:mi>
+            <m:mn>2</m:mn>
+          </m:msup>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+</statement></rule>
+    <para id="id186138"><link target-id="uid5"/> shows that if <m:math overflow="scroll"><m:mrow><m:mi>X</m:mi><m:mo>∼</m:mo><m:mi> Sub </m:mi><m:mo>(</m:mo><m:msup><m:mi>c</m:mi><m:mn>2</m:mn></m:msup><m:mo>)</m:mo></m:mrow></m:math> then <m:math overflow="scroll"><m:mrow><m:mi mathvariant="double-struck">E</m:mi><m:mrow><m:mo>(</m:mo><m:msup><m:mi>X</m:mi><m:mn>2</m:mn></m:msup><m:mo>)</m:mo></m:mrow><m:mo>≤</m:mo><m:msup><m:mi>c</m:mi><m:mn>2</m:mn></m:msup></m:mrow></m:math>. In some settings it will be useful to consider a more restrictive class of random variables for which this inequality becomes an equality.</para>
+<definition id="fs-id1167008324715"><term/><meaning id="fs-id1167031738639">
+    <para id="id186205">A random variable <m:math overflow="scroll"><m:mi>X</m:mi></m:math> is called <emphasis effect="italics">strictly sub-Gaussian</emphasis> if <m:math overflow="scroll"><m:mrow><m:mi>X</m:mi><m:mo>∼</m:mo><m:mi> Sub </m:mi><m:mo>(</m:mo><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup><m:mo>)</m:mo></m:mrow></m:math> where <m:math overflow="scroll"><m:mrow><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup><m:mo>=</m:mo><m:mi mathvariant="double-struck">E</m:mi><m:mrow><m:mo>(</m:mo><m:msup><m:mi>X</m:mi><m:mn>2</m:mn></m:msup><m:mo>)</m:mo></m:mrow></m:mrow></m:math>, i.e., the inequality</para>
+    <equation id="uid9">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">E</m:mi>
+          <m:mfenced separators="" open="(" close=")">
+            <m:mo form="prefix">exp</m:mo>
+            <m:mo>(</m:mo>
+            <m:mi>X</m:mi>
+            <m:mi>t</m:mi>
+            <m:mo>)</m:mo>
+          </m:mfenced>
+          <m:mo>≤</m:mo>
+          <m:mo form="prefix">exp</m:mo>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:msup>
+              <m:mi>σ</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+            <m:msup>
+              <m:mi>t</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+            <m:mo>/</m:mo>
+            <m:mn>2</m:mn>
+            <m:mo>)</m:mo>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id186355">holds for all <m:math overflow="scroll"><m:mrow><m:mi>t</m:mi><m:mo>∈</m:mo><m:mi mathvariant="double-struck">R</m:mi></m:mrow></m:math>. To denote that <m:math overflow="scroll"><m:mi>X</m:mi></m:math> is strictly sub-Gaussian with variance <m:math overflow="scroll"><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup></m:math>, we will use the notation <m:math overflow="scroll"><m:mrow><m:mi>X</m:mi><m:mo>∼</m:mo><m:mi> SSub </m:mi><m:mo>(</m:mo><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup><m:mo>)</m:mo></m:mrow></m:math>.</para>
+</meaning></definition>
+<example id="fs-id1167008061656">
+    <para id="id186422"> If <m:math overflow="scroll"><m:mrow><m:mi>X</m:mi><m:mo>∼</m:mo><m:mi mathvariant="script">N</m:mi><m:mo>(</m:mo><m:mn>0</m:mn><m:mo>,</m:mo><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup><m:mo>)</m:mo></m:mrow></m:math>, then <m:math overflow="scroll"><m:mrow><m:mi>X</m:mi><m:mo>∼</m:mo><m:mi> SSub </m:mi><m:mo>(</m:mo><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup><m:mo>)</m:mo></m:mrow></m:math>.</para>
+</example>
+<example id="fs-id1167021200242">
+    <para id="id186490"> 
+If <m:math overflow="scroll"><m:mrow><m:mi>X</m:mi><m:mo>∼</m:mo><m:mi mathvariant="normal">U</m:mi><m:mo>(</m:mo><m:mo>-</m:mo><m:mn>1</m:mn><m:mo>,</m:mo><m:mn>1</m:mn><m:mo>)</m:mo></m:mrow></m:math>, i.e., <m:math overflow="scroll"><m:mi>X</m:mi></m:math> is uniformly distributed on the interval <m:math overflow="scroll"><m:mrow><m:mo>[</m:mo><m:mo>-</m:mo><m:mn>1</m:mn><m:mo>,</m:mo><m:mn>1</m:mn><m:mo>]</m:mo></m:mrow></m:math>, then <m:math overflow="scroll"><m:mrow><m:mi>X</m:mi><m:mo>∼</m:mo><m:mi> SSub </m:mi><m:mo>(</m:mo><m:mn>1</m:mn><m:mo>/</m:mo><m:mn>3</m:mn><m:mo>)</m:mo></m:mrow></m:math>.</para>
+</example>
+<example id="fs-id1167007555981">
+    <para id="id186581"> 
+Now consider the random variable with distribution such that</para>
+    <equation id="id186593">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">P</m:mi>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>X</m:mi>
+            <m:mo>=</m:mo>
+            <m:mn>1</m:mn>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mo>=</m:mo>
+          <m:mi mathvariant="double-struck">P</m:mi>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>X</m:mi>
+            <m:mo>=</m:mo>
+            <m:mo>-</m:mo>
+            <m:mn>1</m:mn>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mo>=</m:mo>
+          <m:mfrac>
+            <m:mrow>
+              <m:mn>1</m:mn>
+              <m:mo>-</m:mo>
+              <m:mi>s</m:mi>
+            </m:mrow>
+            <m:mn>2</m:mn>
+          </m:mfrac>
+          <m:mo>,</m:mo>
+          <m:mspace width="1.em"/>
+          <m:mi mathvariant="double-struck">P</m:mi>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>X</m:mi>
+            <m:mo>=</m:mo>
+            <m:mn>0</m:mn>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mo>=</m:mo>
+          <m:mi>s</m:mi>
+          <m:mo>,</m:mo>
+          <m:mspace width="1.em"/>
+          <m:mi>s</m:mi>
+          <m:mo>∈</m:mo>
+          <m:mrow>
+            <m:mo>[</m:mo>
+            <m:mn>0</m:mn>
+            <m:mo>,</m:mo>
+            <m:mn>1</m:mn>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id186700">For any <m:math overflow="scroll"><m:mrow><m:mi>s</m:mi><m:mo>∈</m:mo><m:mo>[</m:mo><m:mn>0</m:mn><m:mo>,</m:mo><m:mn>2</m:mn><m:mo>/</m:mo><m:mn>3</m:mn><m:mo>]</m:mo></m:mrow></m:math>, <m:math overflow="scroll"><m:mrow><m:mi>X</m:mi><m:mo>∼</m:mo><m:mi> SSub </m:mi><m:mo>(</m:mo><m:mn>1</m:mn><m:mo>-</m:mo><m:mi>s</m:mi><m:mo>)</m:mo></m:mrow></m:math>. For <m:math overflow="scroll"><m:mrow><m:mi>s</m:mi><m:mo>∈</m:mo><m:mo>(</m:mo><m:mn>2</m:mn><m:mo>/</m:mo><m:mn>3</m:mn><m:mo>,</m:mo><m:mn>1</m:mn><m:mo>)</m:mo></m:mrow></m:math>, <m:math overflow="scroll"><m:mi>X</m:mi></m:math> is not strictly sub-Gaussian.</para>
+</example>
+    <para id="id186789">We now provide an equivalent characterization for sub-Gaussian and strictly sub-Gaussian random variables, proven in <link target-id="bid0"/>, that illustrates their concentration of measure behavior.</para>
+<rule id="fs-id1167008764163" type="theorem"><title>(Buldygin-Kozachenko <link target-id="bid0"/>)</title><statement id="fs-id1167019257373">
+    <para id="id186800">
+
+A random variable <m:math overflow="scroll"><m:mrow><m:mi>X</m:mi><m:mo>∼</m:mo><m:mi> Sub </m:mi><m:mo>(</m:mo><m:msup><m:mi>c</m:mi><m:mn>2</m:mn></m:msup><m:mo>)</m:mo></m:mrow></m:math> if and only if there exists a <m:math overflow="scroll"><m:mrow><m:msub><m:mi>t</m:mi><m:mn>0</m:mn></m:msub><m:mo>≥</m:mo><m:mn>0</m:mn></m:mrow></m:math> and a constant <m:math overflow="scroll"><m:mrow><m:mi>a</m:mi><m:mo>≥</m:mo><m:mn>0</m:mn></m:mrow></m:math> such that</para>
+    <equation id="uid14">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">P</m:mi>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mo>|</m:mo>
+            <m:mi>X</m:mi>
+            <m:mo>|</m:mo>
+            <m:mo>≥</m:mo>
+            <m:mi>t</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mo>≤</m:mo>
+          <m:mn>2</m:mn>
+          <m:mo form="prefix">exp</m:mo>
+          <m:mfenced separators="" open="(" close=")">
+            <m:mo>-</m:mo>
+            <m:mfrac>
+              <m:msup>
+                <m:mi>t</m:mi>
+                <m:mn>2</m:mn>
+              </m:msup>
+              <m:mrow>
+                <m:mn>2</m:mn>
+                <m:msup>
+                  <m:mi>a</m:mi>
+                  <m:mn>2</m:mn>
+                </m:msup>
+              </m:mrow>
+            </m:mfrac>
+          </m:mfenced>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id186945">for all <m:math overflow="scroll"><m:mrow><m:mi>t</m:mi><m:mo>≥</m:mo><m:msub><m:mi>t</m:mi><m:mn>0</m:mn></m:msub></m:mrow></m:math>. Moreover, if <m:math overflow="scroll"><m:mrow><m:mi>X</m:mi><m:mo>∼</m:mo><m:mi> SSub </m:mi><m:mo>(</m:mo><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup><m:mo>)</m:mo></m:mrow></m:math>, then <link target-id="uid14"/> holds for all <m:math overflow="scroll"><m:mrow><m:mi>t</m:mi><m:mo>&gt;</m:mo><m:mn>0</m:mn></m:mrow></m:math> with <m:math overflow="scroll"><m:mrow><m:mi>a</m:mi><m:mo>=</m:mo><m:mi>σ</m:mi></m:mrow></m:math>.</para>
+</statement></rule>
+    <para id="id187026">Finally, sub-Gaussian distributions also satisfy one of the fundamental properties of a Gaussian distribution: the sum of two sub-Gaussian random variables is itself a sub-Gaussian random variable. This result is established in more generality in the following lemma.</para>
+<rule id="fs-id1167027610703" type="lemma"><statement id="fs-id1167008025130">
+    <para id="id187032"> 
+Suppose that <m:math overflow="scroll"><m:mrow><m:mi>X</m:mi><m:mo>=</m:mo><m:mo>[</m:mo><m:msub><m:mi>X</m:mi><m:mn>1</m:mn></m:msub><m:mo>,</m:mo><m:msub><m:mi>X</m:mi><m:mn>2</m:mn></m:msub><m:mo>,</m:mo><m:mo>...</m:mo><m:mo>,</m:mo><m:msub><m:mi>X</m:mi><m:mi>N</m:mi></m:msub><m:mo>]</m:mo></m:mrow></m:math>, where each <m:math overflow="scroll"><m:msub><m:mi>X</m:mi><m:mi>i</m:mi></m:msub></m:math> is independent and identically distributed (i.i.d.) with <m:math overflow="scroll"><m:mrow><m:msub><m:mi>X</m:mi><m:mi>i</m:mi></m:msub><m:mo>∼</m:mo><m:mi> Sub </m:mi><m:mrow><m:mo>(</m:mo><m:msup><m:mi>c</m:mi><m:mn>2</m:mn></m:msup><m:mo>)</m:mo></m:mrow></m:mrow></m:math>. Then for any <m:math overflow="scroll"><m:mrow><m:mi>α</m:mi><m:mo>∈</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:mrow></m:math>, <m:math overflow="scroll"><m:mrow><m:mrow><m:mo>〈</m:mo><m:mi>X</m:mi><m:mo>,</m:mo><m:mi>α</m:mi><m:mo>〉</m:mo></m:mrow><m:mo>∼</m:mo><m:mi> Sub </m:mi><m:mfenced separators="" open="(" close=")"><m:msup><m:mi>c</m:mi><m:mn>2</m:mn></m:msup><m:msubsup><m:mrow><m:mo>∥</m:mo><m:mi>α</m:mi><m:mo>∥</m:mo></m:mrow><m:mn>2</m:mn><m:mn>2</m:mn></m:msubsup></m:mfenced></m:mrow></m:math>. Similarly, if each <m:math overflow="scroll"><m:mrow><m:msub><m:mi>X</m:mi><m:mi>i</m:mi></m:msub><m:mo>∼</m:mo><m:mi> SSub </m:mi><m:mrow><m:mo>(</m:mo><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup><m:mo>)</m:mo></m:mrow></m:mrow></m:math>, then for any <m:math overflow="scroll"><m:mrow><m:mi>α</m:mi><m:mo>∈</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:mrow></m:math>, <m:math overflow="scroll"><m:mrow><m:mrow><m:mo>〈</m:mo><m:mi>X</m:mi><m:mo>,</m:mo><m:mi>α</m:mi><m:mo>〉</m:mo></m:mrow><m:mo>∼</m:mo><m:mi> SSub </m:mi><m:mfenced separators="" open="(" close=")"><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup><m:msubsup><m:mrow><m:mo>∥</m:mo><m:mi>α</m:mi><m:mo>∥</m:mo></m:mrow><m:mn>2</m:mn><m:mn>2</m:mn></m:msubsup></m:mfenced></m:mrow></m:math>.</para>
+</statement>
+<proof id="fs-id1167012463868">
+    <para id="id187336">Since the <m:math overflow="scroll"><m:msub><m:mi>X</m:mi><m:mi>i</m:mi></m:msub></m:math> are i.i.d., the joint distribution factors and simplifies as:</para>
+    <equation id="uid16"><m:math overflow="scroll" mode="display">
+        <m:mtable displaystyle="true">
+          <m:mtr>
+            <m:mtd columnalign="right">
+              <m:mrow>
+                <m:mi mathvariant="double-struck">E</m:mi>
+                <m:mfenced separators="" open="(" close=")">
+                  <m:mo form="prefix">exp</m:mo>
+                  <m:mfenced separators="" open="(" close=")">
+                    <m:mi>t</m:mi>
+                    <m:munderover>
+                      <m:mo>∑</m:mo>
+                      <m:mrow>
+                        <m:mi>i</m:mi>
+                        <m:mo>=</m:mo>
+                        <m:mn>1</m:mn>
+                      </m:mrow>
+                      <m:mi>N</m:mi>
+                    </m:munderover>
+                    <m:msub>
+                      <m:mi>α</m:mi>
+                      <m:mi>i</m:mi>
+                    </m:msub>
+                    <m:msub>
+                      <m:mi>X</m:mi>
+                      <m:mi>i</m:mi>
+                    </m:msub>
+                  </m:mfenced>
+                </m:mfenced>
+              </m:mrow>
+            </m:mtd>
+            <m:mtd columnalign="left">
+              <m:mrow>
+                <m:mo>=</m:mo>
+                <m:mi mathvariant="double-struck">E</m:mi>
+                <m:mfenced separators="" open="(" close=")">
+                  <m:munderover>
+                    <m:mrow><m:mi>∏</m:mi></m:mrow>
+                    <m:mrow>
+                      <m:mi>i</m:mi>
+                      <m:mo>=</m:mo>
+                      <m:mn>1</m:mn>
+                    </m:mrow>
+                    <m:mi>N</m:mi>
+                  </m:munderover>
+                  <m:mo form="prefix">exp</m:mo>
+                  <m:mfenced separators="" open="(" close=")">
+                    <m:mi>t</m:mi>
+                    <m:msub>
+                      <m:mi>α</m:mi>
+                      <m:mi>i</m:mi>
+                    </m:msub>
+                    <m:msub>
+                      <m:mi>X</m:mi>
+                      <m:mi>i</m:mi>
+                    </m:msub>
+                  </m:mfenced>
+                </m:mfenced>
+              </m:mrow>
+            </m:mtd>
+          </m:mtr>
+          <m:mtr>
+            <m:mtd/>
+            <m:mtd columnalign="left">
+              <m:mrow>
+                <m:mo>=</m:mo>
+                
+                  <m:munderover>
+                    <m:mrow><m:mi>∏</m:mi></m:mrow>
+                    <m:mrow>
+                      <m:mi>i</m:mi>
+                      <m:mo>=</m:mo>
+                      <m:mn>1</m:mn>
+                    </m:mrow>
+                    <m:mi>N</m:mi>
+                  </m:munderover>
+                <m:mi mathvariant="double-struck">E</m:mi>
+                <m:mfenced separators="" open="(" close=")">
+                  <m:mo form="prefix">exp</m:mo>
+                  <m:mfenced separators="" open="(" close=")">
+                    <m:mi>t</m:mi>
+                    <m:msub>
+                      <m:mi>α</m:mi>
+                      <m:mi>i</m:mi>
+                    </m:msub>
+                    <m:msub>
+                      <m:mi>X</m:mi>
+                      <m:mi>i</m:mi>
+                    </m:msub>
+                  </m:mfenced>
+                </m:mfenced>
+              </m:mrow>
+            </m:mtd>
+          </m:mtr>
+          <m:mtr>
+            <m:mtd/>
+            <m:mtd columnalign="left">
+              <m:mrow>
+                <m:mo>≤</m:mo>
+<m:munderover>
+               <m:mrow> <m:mi>∏</m:mi></m:mrow>
+                
+                
+                  
+                  <m:mrow>
+                    <m:mi>i</m:mi>
+                    <m:mo>=</m:mo>
+                    <m:mn>1</m:mn>
+                  </m:mrow>
+                  <m:mi>N</m:mi>
+                </m:munderover>
+                <m:mo form="prefix">exp</m:mo>
+                <m:mfenced separators="" open="(" close=")">
+                  <m:msup>
+                    <m:mi>c</m:mi>
+                    <m:mn>2</m:mn>
+                  </m:msup>
+                  <m:msup>
+                    <m:mrow>
+                      <m:mo>(</m:mo>
+                      <m:msub>
+                        <m:mi>α</m:mi>
+                        <m:mi>i</m:mi>
+                      </m:msub>
+                      <m:mi>t</m:mi>
+                      <m:mo>)</m:mo>
+                    </m:mrow>
+                    <m:mn>2</m:mn>
+                  </m:msup>
+                  <m:mo>/</m:mo>
+                  <m:mn>2</m:mn>
+                </m:mfenced>
+              </m:mrow>
+            </m:mtd>
+          </m:mtr>
+          <m:mtr>
+            <m:mtd/>
+            <m:mtd columnalign="left">
+              <m:mrow>
+                <m:mo>=</m:mo>
+                <m:mo form="prefix">exp</m:mo>
+                <m:mfenced separators="" open="(" close=")">
+                  <m:mfenced separators="" open="(" close=")">
+                    <m:munderover>
+                      <m:mo>∑</m:mo>
+                      <m:mrow>
+                        <m:mi>i</m:mi>
+                        <m:mo>=</m:mo>
+                        <m:mn>1</m:mn>
+                      </m:mrow>
+                      <m:mi>N</m:mi>
+                    </m:munderover>
+                    <m:msubsup>
+                      <m:mi>α</m:mi>
+                      <m:mi>i</m:mi>
+                      <m:mn>2</m:mn>
+                    </m:msubsup>
+                  </m:mfenced>
+                  <m:msup>
+                    <m:mi>c</m:mi>
+                    <m:mn>2</m:mn>
+                  </m:msup>
+                  <m:msup>
+                    <m:mi>t</m:mi>
+                    <m:mn>2</m:mn>
+                  </m:msup>
+                  <m:mo>/</m:mo>
+                  <m:mn>2</m:mn>
+                </m:mfenced>
+                <m:mo>.</m:mo>
+              </m:mrow>
+            </m:mtd>
+          </m:mtr>
+        </m:mtable>
+      </m:math>
+    </equation>
+    <para id="id187726">
+If the <m:math overflow="scroll"><m:msub><m:mi>X</m:mi><m:mi>i</m:mi></m:msub></m:math> are strictly sub-Gaussian, then the result follows by setting <m:math overflow="scroll"><m:mrow><m:msup><m:mi>c</m:mi><m:mn>2</m:mn></m:msup><m:mo>=</m:mo><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup></m:mrow></m:math> and observing that <m:math overflow="scroll"><m:mrow><m:mi mathvariant="double-struck">E</m:mi><m:mfenced separators="" open="(" close=")"><m:msup><m:mrow><m:mo>〈</m:mo><m:mi>X</m:mi><m:mo>,</m:mo><m:mi>α</m:mi><m:mo>〉</m:mo></m:mrow><m:mn>2</m:mn></m:msup></m:mfenced><m:mo>=</m:mo><m:msup><m:mi>σ</m:mi><m:mn>2</m:mn></m:msup><m:msubsup><m:mrow><m:mo>∥</m:mo><m:mi>α</m:mi><m:mo>∥</m:mo></m:mrow><m:mn>2</m:mn><m:mn>2</m:mn></m:msubsup></m:mrow></m:math>.
+
+
+</para>
+</proof></rule>
+  </content>
+  <bib:file>
+    <bib:entry id="bid0">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Buldygin, V. and Kozachenko, Y.</bib:author>
+        <bib:title>Metric Characterization of Random Variables and Random Processes</bib:title>
+        <bib:publisher>American Mathematical Society</bib:publisher>
+        <bib:year>2000</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address>Providence, RI</bib:address>
+        <bib:edition/>
+        <bib:month/>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+  </bib:file>
+</document>

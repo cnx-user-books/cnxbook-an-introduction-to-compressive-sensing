@@ -1,0 +1,247 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:bib="http://bibtexml.sf.net/">
+  <title>Compressive processing of manifold-modeled data</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37371</md:content-id>
+  <md:title>Compressive processing of manifold-modeled data</md:title>
+  <md:abstract>This module outlines the connection between compressive sensing and random projections of manifolds.</md:abstract>
+  <md:uuid>24ab633d-e8e2-46d3-8ad8-429220d9802a</md:uuid>
+</metadata>
+
+<content>
+    <para id="id323761">A powerful data model for many applications is the geometric notion
+of a low-dimensional <emphasis effect="italics">manifold</emphasis>. Data that possesses merely <m:math overflow="scroll"><m:mi>K</m:mi></m:math>
+intrinsic degrees of freedom” can be assumed to lie on a
+<m:math overflow="scroll"><m:mi>K</m:mi></m:math>-dimensional manifold in the high-dimensional ambient space. Once
+the manifold model is identified, any point on it can be represented
+using essentially <m:math overflow="scroll"><m:mi>K</m:mi></m:math> pieces of information. For instance, suppose a stationary camera of resolution <m:math overflow="scroll"><m:mi>N</m:mi></m:math> observes
+a truck moving down along a straight line on a highway. Then, the set of images captured by the camera forms a 1-dimensional manifold in the image space <m:math overflow="scroll"><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:math>. Another example is the set of images captured by a static camera observing a cube that rotates in 3 dimensions. (<link target-id="uid1"/>).</para>
+    <figure id="uid1" orient="horizontal"><subfigure id="id324231">
+        <media id="id324231_media" alt="">
+          <image mime-type="image/png" src="../../media/squares.png" id="id324231_onlineimage" width="350"><!-- NOTE: attribute width changes image size online (pixels). original width is 481. --></image>
+          <image mime-type="application/postscript" for="pdf" src="../../media/squares.eps" id="id324231_printimage" print-width="3in">
+            <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+          </image>
+        </media>
+      </subfigure>
+      <subfigure id="id324250">
+        <media id="id324250_media" alt="">
+          <image mime-type="image/png" src="../../media/manifold.png" id="id324250_onlineimage" width="200"><!-- NOTE: attribute width changes image size online (pixels). original width is 523. --></image>
+          <image mime-type="application/postscript" for="pdf" src="../../media/manifold.eps" id="id324250_printimage" print-width="3.5in">
+            <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+          </image>
+        </media>
+      </subfigure>
+      
+    <caption><emphasis effect="italics">(a) A rotating cube has 3 degrees of freedom, thus giving rise to a 3-dimensional manifold in image space. (b) Illustration of a manifold <m:math overflow="scroll"><m:mi>F</m:mi></m:math> parametrized by a <m:math overflow="scroll"><m:mrow><m:mi>K</m:mi><m:mo>-</m:mo></m:mrow></m:math>dimensional vector <m:math overflow="scroll"><m:mi>θ</m:mi></m:math>. </emphasis>
+      </caption></figure>
+    <para id="id324260">In many applications, it is beneficial to explicitly characterize the structure (alternately, identify the parameters) of the manifold formed by a set of observed signals. This is known as <emphasis effect="italics">manifold learning</emphasis> and has been the subject of considerable study over the last several years; well-known manifold learning algorithms include Isomap <link target-id="bid0"/>, LLE <link target-id="bid1"/>, and Hessian eigenmaps <link target-id="bid2"/>. An informal example is as follows: if a 2-dimensional manifold were to be imagined as the surface of a twisted sheet of rubber, manifold learning can be described as the process of “unraveling” the sheet and stretching it out on a 2D flat surface. <link target-id="uid2"/> indicates the performance of Isomap on a simple 2-dimensional dataset comprising of images of a translating disk.</para>
+    <figure id="uid2" orient="horizontal"><subfigure id="id324409">
+        <media id="id324409_media" alt="">
+          <image mime-type="image/png" src="../../media/diskexample.png" id="id324409_onlineimage" width="200"><!-- NOTE: attribute width changes image size online (pixels). original width is 182. --></image>
+          <image mime-type="application/postscript" for="pdf" src="../../media/diskexample.eps" id="id324409_printimage" print-width="1.2in">
+            <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+          </image>
+        </media>
+      </subfigure>
+      <subfigure id="id324429">
+        <media id="id324429_media" alt="">
+          <image mime-type="image/png" src="../../media/isomapNIPStrue1.png" id="id324429_onlineimage" width="200"><!-- NOTE: attribute width changes image size online (pixels). original width is 295. --></image>
+          <image mime-type="application/postscript" for="pdf" src="../../media/isomapNIPStrue1.eps" id="id324429_printimage" print-width="2in">
+            <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+          </image>
+        </media>
+      </subfigure>
+      <subfigure id="id324448">
+        <media id="id324448_media" alt="">
+          <image mime-type="image/png" src="../../media/isomapNIPSiso1.png" id="id324448_onlineimage" width="200"><!-- NOTE: attribute width changes image size online (pixels). original width is 282. --></image>
+          <image mime-type="application/postscript" for="pdf" src="../../media/isomapNIPSiso1.eps" id="id324448_printimage" print-width="2in">
+            <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+          </image>
+        </media>
+      </subfigure>
+      
+    <caption>(a) Input data consisting of 1000 images of a disk shifted in <m:math overflow="scroll"><m:mrow><m:mi>K</m:mi><m:mo>=</m:mo><m:mn>2</m:mn></m:mrow></m:math> dimensions, parametrized by an articulation vector <m:math overflow="scroll"><m:mrow><m:mo>(</m:mo><m:msub><m:mi>θ</m:mi><m:mn>1</m:mn></m:msub><m:mo>,</m:mo><m:msub><m:mi>θ</m:mi><m:mn>2</m:mn></m:msub><m:mo>)</m:mo></m:mrow></m:math>. (b) True <m:math overflow="scroll"><m:msub><m:mi>θ</m:mi><m:mn>1</m:mn></m:msub></m:math> and <m:math overflow="scroll"><m:msub><m:mi>θ</m:mi><m:mn>2</m:mn></m:msub></m:math> values
+of the sampled data. (c) Isomap embedding learned from original data in <m:math overflow="scroll"><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:math>.</caption></figure>
+    <para id="id324457">A <emphasis effect="italics">linear, nonadaptive</emphasis> manifold dimensionality reduction technique has recently been introduced that
+employs the technique of random projections <link target-id="bid3"/>. Consider a
+<m:math overflow="scroll"><m:mi>K</m:mi></m:math>-dimensional manifold <m:math overflow="scroll"><m:mi mathvariant="script">M</m:mi></m:math> in the ambient space <m:math overflow="scroll"><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:math> and
+its projection onto a random subspace of dimension <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>=</m:mo><m:mi>C</m:mi><m:mi>K</m:mi><m:mo form="prefix">log</m:mo><m:mo>(</m:mo><m:mi>N</m:mi><m:mo>)</m:mo></m:mrow></m:math>;
+note that <m:math overflow="scroll"><m:mrow><m:mi>K</m:mi><m:mo>&lt;</m:mo><m:mi>M</m:mi><m:mo>&lt;</m:mo><m:mo>&lt;</m:mo><m:mi>N</m:mi></m:mrow></m:math>. The result of <link target-id="bid3"/> is that
+the pairwise metric structure of sample points from <m:math overflow="scroll"><m:mi mathvariant="script">M</m:mi></m:math> is
+preserved with high accuracy under projection from <m:math overflow="scroll"><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:math> to
+<m:math overflow="scroll"><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>M</m:mi></m:msup></m:math>. This is analogous to the result for <link document="m37172" version="latest">compressive sensing</link> of <link document="m37168" version="latest">sparse</link> signals (see <link document="m37171" version="latest">"The restricted isometry property"</link>; however, the difference is that the number of projections required to preserve the ensemble structure does <emphasis effect="italics">not</emphasis> depend on the sparsity of the individual images, but rather on the dimension of the underlying manifold.</para>
+    <para id="id324786">This result has far reaching implications; it suggests that a wide variety of
+signal processing tasks can be performed <emphasis effect="italics">directly on the random
+projections</emphasis> acquired by these devices, thus saving valuable
+sensing, storage and processing costs. In particular, this enables provably efficient manifold learning in the projected domain <link target-id="bid4"/>. <link target-id="uid3"/> illustrates the performance of Isomap on the translating disk dataset under varying numbers of random projections.</para>
+    <figure id="uid3" orient="horizontal"><subfigure id="id324844">
+        <media id="id324844_media" alt="">
+          <image mime-type="image/png" src="../../media/isomap_tr_disk_25rp.png" id="id324844_onlineimage" width="200"><!-- NOTE: attribute width changes image size online (pixels). original width is 640. --></image>
+          <image mime-type="application/postscript" for="pdf" src="../../media/isomap_tr_disk_25rp.eps" id="id324844_printimage" print-width="3in">
+            <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+          </image>
+        </media>
+      </subfigure>
+      <subfigure id="id324863">
+        <media id="id324863_media" alt="">
+          <image mime-type="image/png" src="../../media/isomap_tr_disk_50rp.png" id="id324863_onlineimage" width="200"><!-- NOTE: attribute width changes image size online (pixels). original width is 645. --></image>
+          <image mime-type="application/postscript" for="pdf" src="../../media/isomap_tr_disk_50rp.eps" id="id324863_printimage" print-width="3in">
+            <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+          </image>
+        </media>
+      </subfigure>
+      <subfigure id="id324883">
+        <media id="id324883_media" alt="">
+          <image mime-type="image/png" src="../../media/isomap_tr_disk_100rp.png" id="id324883_onlineimage" width="200"><!-- NOTE: attribute width changes image size online (pixels). original width is 643. --></image>
+          <image mime-type="application/postscript" for="pdf" src="../../media/isomap_tr_disk_100rp.eps" id="id324883_printimage" print-width="3in">
+            <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+          </image>
+        </media>
+      </subfigure>
+      <subfigure id="id324902">
+        <media id="id324902_media" alt="">
+          <image mime-type="image/png" src="../../media/isomap_tr_disk_full.png" id="id324902_onlineimage" width="200"><!-- NOTE: attribute width changes image size online (pixels). original width is 644. --></image>
+          <image mime-type="application/postscript" for="pdf" src="../../media/isomap_tr_disk_full.eps" id="id324902_printimage" print-width="3in">
+            <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+          </image>
+        </media>
+      </subfigure>
+      
+    <caption><emphasis effect="italics">Isomap embeddings learned from random projections of the 625 images of shifting squares. (a) 25 random projections; (b) 50 random projections; (c) 25 random projections; (d) full data.</emphasis>
+      </caption></figure>
+    <para id="id324911">The advantages of random projections extend even to cases where the
+original data is available in the ambient space <m:math overflow="scroll"><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:math>. For
+example, consider a wireless network of cameras observing a static scene. The set of images captured by the cameras can be visualized as living on a low-dimensional manifold in the image space.
+To perform joint image analysis, the following steps might be
+executed:</para>
+    <list id="id324933" display="block" list-type="enumerated">
+      <item id="uid4"><emphasis effect="bold">Collate</emphasis>: Each camera node transmits its respective captured
+image (of size <m:math overflow="scroll"><m:mi>N</m:mi></m:math>) to a central processing unit.
+</item>
+      <item id="uid5"><emphasis effect="bold">Preprocess</emphasis>: The central processor estimates the
+<emphasis effect="italics">intrinsic dimension</emphasis><m:math overflow="scroll"><m:mi>K</m:mi></m:math> of the underlying image manifold.
+</item>
+      <item id="uid6"><emphasis effect="bold">Learn</emphasis>: The central processor performs a nonlinear
+embedding of the data points – for instance, using
+Isomap <link target-id="bid0"/> – into a <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-dimensional Euclidean space,
+using the estimate of <m:math overflow="scroll"><m:mi>K</m:mi></m:math> from the previous step.
+</item>
+    </list>
+    <para id="id325029">In situations where <m:math overflow="scroll"><m:mi>N</m:mi></m:math> is large and communication bandwidth is
+limited, the dominating costs will be in the first
+transmission/collation step. To reduce the
+communication expense, one may perform nonlinear image compression
+(such as JPEG) at each node before transmitting to the central
+processing. However, this requires a good deal of processing power at
+each sensor, and the compression would have to be undone during the
+learning step, thus adding to overall computational costs.</para>
+    <para id="id325044">As an alternative, every camera could encode its image by computing (either
+directly or indirectly) a small number of random projections to
+communicate to the central processor <link target-id="bid5"/>. These random projections are
+obtained by linear operations on the data, and thus are cheaply
+computed. Clearly, in many situations it will be less expensive to
+store, transmit, and process such randomly projected versions of the
+sensed images. The method of random projections is thus a powerful tool for
+ensuring the stable embedding of low-dimensional manifolds into an
+intermediate space of reasonable size. It is now possible to think of settings
+involving a huge number of low-power devices that inexpensively capture, store, and
+transmit a very small number of measurements of high-dimensional
+data.</para>
+  </content>
+  <bib:file>
+    <bib:entry id="bid3">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Baraniuk, R. and Wakin, M.</bib:author>
+        <bib:title>Random Projections of Smooth Manifolds</bib:title>
+        <bib:journal>Found. Comput. Math.</bib:journal>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume>9</bib:volume>
+        <bib:number>1</bib:number>
+        <bib:pages>51–77</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid2">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Donoho, D. and Grimes, C.</bib:author>
+        <bib:title>Hessian eigenmaps: Locally linear embedding techniques for high-dimensional data</bib:title>
+        <bib:journal>Proc. Natl. Acad. Sci.</bib:journal>
+        <bib:year>2003</bib:year>
+        <!--optional fields-->
+        <bib:volume>100</bib:volume>
+        <bib:number>10</bib:number>
+        <bib:pages>5591–5596</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid5">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Davenport, M. and Hegde, C. and Duarte, M. and Baraniuk, R.</bib:author>
+        <bib:title>Joint Manifolds for Data Fusion</bib:title>
+        <bib:journal>IEEE Trans. Image Processing</bib:journal>
+        <bib:year>2010</bib:year>
+        <!--optional fields-->
+        <bib:volume>19</bib:volume>
+        <bib:number>10</bib:number>
+        <bib:pages>2580–2594</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid4">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Hegde, C. and Wakin, M. and Baraniuk, R.</bib:author>
+        <bib:title>Random Projections for Manifold Learning</bib:title>
+        <bib:booktitle>Proc. Adv. in Neural Processing Systems (NIPS)</bib:booktitle>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Vancouver, BC</bib:address>
+        <bib:month>Dec.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid1">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Roweis, S. and Saul, L.</bib:author>
+        <bib:title>Nonlinear dimensionality reduction by locally linear embedding</bib:title>
+        <bib:journal>Science</bib:journal>
+        <bib:year>2000</bib:year>
+        <!--optional fields-->
+        <bib:volume>290</bib:volume>
+        <bib:number>5500</bib:number>
+        <bib:pages>2323–2326</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid0">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Tenenbaum, J. and Silva, V.de and Landford, J.</bib:author>
+        <bib:title>A global geometric framework for nonlinear dimensionality reduction</bib:title>
+        <bib:journal>Science</bib:journal>
+        <bib:year>2000</bib:year>
+        <!--optional fields-->
+        <bib:volume>290</bib:volume>
+        <bib:number/>
+        <bib:pages>2319–2323</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+  </bib:file>
+</document>

@@ -1,0 +1,419 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:bib="http://bibtexml.sf.net/">
+  <title>Combinatorial algorithms</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37295</md:content-id>
+  <md:title>Combinatorial algorithms</md:title>
+  <md:abstract>This module introduces the count-min and count-median sketches as representative examples of combinatorial algorithms for sparse recovery.</md:abstract>
+  <md:uuid>94e51124-3e46-49a5-aa4a-669ebffecae2</md:uuid>
+</metadata>
+
+<content>
+    <para id="id62155">In addition to <link document="m37293" version="latest">convex optimization</link> and <link document="m37294" version="latest">greedy pursuit</link> approaches, there is another important class of sparse recovery algorithms that we will refer to as <emphasis effect="italics">combinatorial algorithms</emphasis>. These algorithms, mostly developed by the theoretical computer science community, in many cases pre-date the <link document="m37172" version="latest">compressive sensing</link> literature but are highly relevant to the <link document="m37292" version="latest">sparse signal recovery problem</link>.</para>
+    <section id="uid1">
+      <title>Setup</title>
+      <para id="id62192">The oldest combinatorial algorithms were developed in the context of <emphasis effect="italics">group testing</emphasis> <link target-id="bid0"/>, <link target-id="bid1"/>, <link target-id="bid2"/>. In the group testing problem, we suppose that there are <m:math overflow="scroll"><m:mi>N</m:mi></m:math> total items, of which an unknown subset of <m:math overflow="scroll"><m:mi>K</m:mi></m:math> elements are anomalous and need to be identified. For example, we might wish to identify defective products in an industrial setting, or identify a subset of diseased tissue samples in a medical context. In both of these cases the vector <m:math overflow="scroll"><m:mi>x</m:mi></m:math> indicates which elements are anomalous, i.e., <m:math overflow="scroll"><m:mrow><m:msub><m:mi>x</m:mi><m:mi>i</m:mi></m:msub><m:mo>≠</m:mo><m:mn>0</m:mn></m:mrow></m:math> for the <m:math overflow="scroll"><m:mi>K</m:mi></m:math> anomalous elements and <m:math overflow="scroll"><m:mrow><m:msub><m:mi>x</m:mi><m:mi>i</m:mi></m:msub><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math> otherwise. Our goal is to design a collection of tests that allow us to identify the support (and possibly the values of the nonzeros) of <m:math overflow="scroll"><m:mi>x</m:mi></m:math> while also minimizing the number of tests performed. In the simplest practical setting these tests are represented by a binary matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> whose entries <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mrow><m:mi>i</m:mi><m:mi>j</m:mi></m:mrow></m:msub></m:math> are equal to 1 if and only if the <m:math overflow="scroll"><m:msup><m:mi>j</m:mi><m:mi> th </m:mi></m:msup></m:math> item is used in the <m:math overflow="scroll"><m:msup><m:mi>i</m:mi><m:mi> th </m:mi></m:msup></m:math> test. If the output of the test is linear with respect to the inputs, then the problem of recovering the vector <m:math overflow="scroll"><m:mi>x</m:mi></m:math> is essentially the same as the standard sparse recovery problem.</para>
+      <para id="id62697">Another application area in which combinatorial algorithms have proven useful is computation on <emphasis effect="italics">data streams</emphasis> <link target-id="bid3"/>, <link target-id="bid4"/>. Suppose that <m:math overflow="scroll"><m:msub><m:mi>x</m:mi><m:mi>i</m:mi></m:msub></m:math> represents the number of packets passing through a network router with destination <m:math overflow="scroll"><m:mi>i</m:mi></m:math>. Simply storing the vector <m:math overflow="scroll"><m:mi>x</m:mi></m:math> is typically infeasible since the total number of possible destinations (represented by a 32-bit IP address) is <m:math overflow="scroll"><m:mrow><m:mi>N</m:mi><m:mo>=</m:mo><m:msup><m:mn>2</m:mn><m:mn>32</m:mn></m:msup></m:mrow></m:math>. Thus, instead of attempting to store <m:math overflow="scroll"><m:mi>x</m:mi></m:math> directly, one can store <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi></m:mrow></m:math> where <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> is an <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>×</m:mo><m:mi>N</m:mi></m:mrow></m:math> matrix with <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>≪</m:mo><m:mi>N</m:mi></m:mrow></m:math>. In this context the vector <m:math overflow="scroll"><m:mi>y</m:mi></m:math> is often called a <emphasis effect="italics">sketch</emphasis>. Note that in this problem <m:math overflow="scroll"><m:mi>y</m:mi></m:math> is computed in a different manner than in the compressive sensing context. Specifically, in the network traffic example we do not ever observe <m:math overflow="scroll"><m:msub><m:mi>x</m:mi><m:mi>i</m:mi></m:msub></m:math> directly; rather, we observe increments to <m:math overflow="scroll"><m:msub><m:mi>x</m:mi><m:mi>i</m:mi></m:msub></m:math> (when a packet with destination <m:math overflow="scroll"><m:mi>i</m:mi></m:math> passes through the router). Thus we construct <m:math overflow="scroll"><m:mi>y</m:mi></m:math> iteratively by adding the <m:math overflow="scroll"><m:msup><m:mi>i</m:mi><m:mi> th </m:mi></m:msup></m:math> column to <m:math overflow="scroll"><m:mi>y</m:mi></m:math> each time we observe an increment to <m:math overflow="scroll"><m:msub><m:mi>x</m:mi><m:mi>i</m:mi></m:msub></m:math>, which we can do since <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi></m:mrow></m:math> is linear. When the network traffic is dominated by traffic to a small number of destinations, the vector <m:math overflow="scroll"><m:mi>x</m:mi></m:math> is compressible, and thus the problem of recovering <m:math overflow="scroll"><m:mi>x</m:mi></m:math> from the sketch <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:mi>x</m:mi></m:mrow></m:math> is again essentially the same as the sparse recovery problem.</para>
+      <para id="id62968">Several combinatorial algorithms for sparse recovery have been developed in the literature. A non-exhaustive list includes Random Fourier Sampling <link target-id="bid5"/>, HHS Pursuit <link target-id="bid5"/>, and Sparse Sequential Matching Pursuit <link target-id="bid7"/>. We do not provide a full discussion of each of these algorithms; instead, we describe two simple methods that highlight the flavors of combinatorial sparse recovery — <emphasis effect="italics">count-min</emphasis> and <emphasis effect="italics">count-median</emphasis>.</para>
+    </section>
+    <section id="uid2">
+      <title>The count-min sketch</title>
+      <para id="id63032">Define <m:math overflow="scroll"><m:mi>H</m:mi></m:math> as the set of all discrete-valued functions <m:math overflow="scroll"><m:mrow><m:mi>h</m:mi><m:mo>:</m:mo><m:mo>{</m:mo><m:mn>1</m:mn><m:mo>,</m:mo><m:mo>...</m:mo><m:mo>,</m:mo><m:mi>N</m:mi><m:mo>}</m:mo><m:mo>→</m:mo><m:mo>{</m:mo><m:mn>1</m:mn><m:mo>,</m:mo><m:mo>...</m:mo><m:mo>,</m:mo><m:mi>m</m:mi><m:mo>}</m:mo></m:mrow></m:math>. Note that <m:math overflow="scroll"><m:mi>H</m:mi></m:math> is a finite set of size <m:math overflow="scroll"><m:msup><m:mi>m</m:mi><m:mi>N</m:mi></m:msup></m:math>. Each function <m:math overflow="scroll"><m:mrow><m:mi>h</m:mi><m:mo>∈</m:mo><m:mi>H</m:mi></m:mrow></m:math> can be specified by a binary <emphasis effect="italics">characteristic matrix</emphasis> <m:math overflow="scroll"><m:mrow><m:mi>φ</m:mi><m:mo>(</m:mo><m:mi>h</m:mi><m:mo>)</m:mo></m:mrow></m:math> of size <m:math overflow="scroll"><m:mrow><m:mi>m</m:mi><m:mo>×</m:mo><m:mi>N</m:mi></m:mrow></m:math>, with each column being a binary vector with exactly one 1 at the location <m:math overflow="scroll"><m:mi>j</m:mi></m:math> , where <m:math overflow="scroll"><m:mrow><m:mi>j</m:mi><m:mo>=</m:mo><m:mi>h</m:mi><m:mo>(</m:mo><m:mi>i</m:mi><m:mo>)</m:mo></m:mrow></m:math>. To construct the overall <emphasis effect="italics">sampling matrix</emphasis> <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>, we choose <m:math overflow="scroll"><m:mi>d</m:mi></m:math> functions <m:math overflow="scroll"><m:mrow><m:msub><m:mi>h</m:mi><m:mn>1</m:mn></m:msub><m:mo>,</m:mo><m:mo>...</m:mo><m:mo>,</m:mo><m:msub><m:mi>h</m:mi><m:mi>d</m:mi></m:msub></m:mrow></m:math> independently from the uniform distribution defined on <m:math overflow="scroll"><m:mi>H</m:mi></m:math>, and vertically concatenate their characteristic matrices. Thus, if <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>=</m:mo><m:mi>m</m:mi><m:mi>d</m:mi></m:mrow></m:math>, <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> is a binary matrix of size <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>×</m:mo><m:mi>N</m:mi></m:mrow></m:math> with each column containing exactly <m:math overflow="scroll"><m:mi>d</m:mi></m:math> ones.</para>
+      <para id="id63465">Now given any signal <m:math overflow="scroll"><m:mi>x</m:mi></m:math>, we acquire linear measurements <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi></m:mrow></m:math>. It is easy to visualize the measurements via the following two properties. First, the coefficients of the measurement vector <m:math overflow="scroll"><m:mi>y</m:mi></m:math> are naturally grouped according to the “mother” binary functions <m:math overflow="scroll"><m:mrow><m:mo>{</m:mo><m:msub><m:mi>h</m:mi><m:mn>1</m:mn></m:msub><m:mo>,</m:mo><m:mo>...</m:mo><m:mo>,</m:mo><m:msub><m:mi>h</m:mi><m:mi>d</m:mi></m:msub><m:mo>}</m:mo></m:mrow></m:math>. Second, consider the <m:math overflow="scroll"><m:msup><m:mi>i</m:mi><m:mrow><m:mi mathvariant="normal">t</m:mi><m:mi>h</m:mi></m:mrow></m:msup></m:math> coefficient of the measurement vector <m:math overflow="scroll"><m:mi>y</m:mi></m:math>, which corresponds to the mother binary function <m:math overflow="scroll"><m:mi>h</m:mi></m:math>. Then, the expression for <m:math overflow="scroll"><m:msub><m:mi>y</m:mi><m:mi>i</m:mi></m:msub></m:math> is simply given by:</para>
+      <equation id="id63582">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:msub>
+              <m:mi>y</m:mi>
+              <m:mi>i</m:mi>
+            </m:msub>
+            <m:mo>=</m:mo>
+            <m:munder>
+              <m:mo>∑</m:mo>
+              <m:mrow>
+                <m:mi>j</m:mi>
+                <m:mo>:</m:mo>
+                <m:mi>h</m:mi>
+                <m:mo>(</m:mo>
+                <m:mi>j</m:mi>
+                <m:mo>)</m:mo>
+                <m:mo>=</m:mo>
+                <m:mi>i</m:mi>
+              </m:mrow>
+            </m:munder>
+            <m:msub>
+              <m:mi>x</m:mi>
+              <m:mi>j</m:mi>
+            </m:msub>
+            <m:mo>.</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id63634">In other words, for a fixed signal coefficient index <m:math overflow="scroll"><m:mi>j</m:mi></m:math>, each measurement <m:math overflow="scroll"><m:msub><m:mi>y</m:mi><m:mi>i</m:mi></m:msub></m:math> as expressed above consists of an observation of <m:math overflow="scroll"><m:msub><m:mi>x</m:mi><m:mi>j</m:mi></m:msub></m:math> corrupted by other signal coefficients mapped to the same <m:math overflow="scroll"><m:mi>i</m:mi></m:math> by the function <m:math overflow="scroll"><m:mi>h</m:mi></m:math>. Signal recovery essentially consists of estimating the signal values from these “corrupted" observations.</para>
+      <para id="id63693">The <emphasis effect="italics">count-min</emphasis> algorithm is useful in the special case where the entries of the original signal are positive. Given measurements <m:math overflow="scroll"><m:mi>y</m:mi></m:math> using the sampling matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> as constructed above, the estimate of the <m:math overflow="scroll"><m:msup><m:mi>j</m:mi><m:mi> th </m:mi></m:msup></m:math> signal entry is given by:</para>
+      <equation id="id63732">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:msub>
+              <m:mover accent="true">
+                <m:mi>x</m:mi>
+                <m:mo>^</m:mo>
+              </m:mover>
+              <m:mi>j</m:mi>
+            </m:msub>
+            <m:mo>=</m:mo>
+            <m:munder>
+              <m:mo movablelimits="true" form="prefix">min</m:mo>
+              <m:mi>l</m:mi>
+            </m:munder>
+            <m:msub>
+              <m:mi>y</m:mi>
+              <m:mi>i</m:mi>
+            </m:msub>
+            <m:mo>:</m:mo>
+            <m:msub>
+              <m:mi>h</m:mi>
+              <m:mi>l</m:mi>
+            </m:msub>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>j</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mo>=</m:mo>
+            <m:mi>i</m:mi>
+            <m:mo>.</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id63799">Intuitively, this means that the estimate of <m:math overflow="scroll"><m:msub><m:mi>x</m:mi><m:mi>j</m:mi></m:msub></m:math> is formed by simply looking at all measurements that comprise of <m:math overflow="scroll"><m:msub><m:mi>x</m:mi><m:mi>j</m:mi></m:msub></m:math> corrupted by other signal values, and picking the one with the lowest magnitude.
+Despite the simplicity of this algorithm, it is accompanied by an arguably powerful instance-optimality guarantee: if <m:math overflow="scroll"><m:mrow><m:mi>d</m:mi><m:mo>=</m:mo><m:mi>C</m:mi><m:mo form="prefix">log</m:mo><m:mi>N</m:mi></m:mrow></m:math> and <m:math overflow="scroll"><m:mrow><m:mi>m</m:mi><m:mo>=</m:mo><m:mn>4</m:mn><m:mo>/</m:mo><m:mrow><m:mi>α</m:mi><m:mi>K</m:mi></m:mrow></m:mrow></m:math>, then with high probability, the recovered signal <m:math overflow="scroll"><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover></m:math> satisfies:</para>
+      <equation id="id63888">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:mrow>
+              <m:mo>∥</m:mo>
+              <m:mi>x</m:mi>
+              <m:mo>-</m:mo>
+            </m:mrow>
+            <m:mover accent="true">
+              <m:mi>x</m:mi>
+              <m:mo>^</m:mo>
+            </m:mover>
+            <m:msub>
+              <m:mrow>
+                <m:mo>∥</m:mo>
+              </m:mrow>
+              <m:mi>∞</m:mi>
+            </m:msub>
+            <m:mo>≤</m:mo>
+            <m:mi>α</m:mi>
+            <m:mo>/</m:mo>
+            <m:mi>K</m:mi>
+            <m:mo>·</m:mo>
+            <m:msub>
+              <m:mrow>
+                <m:mo>∥</m:mo>
+                <m:mi>x</m:mi>
+                <m:mo>-</m:mo>
+                <m:msup>
+                  <m:mi>x</m:mi>
+                  <m:mo>*</m:mo>
+                </m:msup>
+                <m:mo>∥</m:mo>
+              </m:mrow>
+              <m:mn>1</m:mn>
+            </m:msub>
+            <m:mo>,</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id63959">where <m:math overflow="scroll"><m:msup><m:mi>x</m:mi><m:mo>*</m:mo></m:msup></m:math> represents the best <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-term approximation of <m:math overflow="scroll"><m:mi>x</m:mi></m:math> in the <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> sense.</para>
+    </section>
+    <section id="uid3">
+      <title>The count-median sketch</title>
+      <para id="id64020">For the general setting when the coefficients of the original signal could be either positive or negative, a similar algorithm known as <emphasis effect="italics">count-median</emphasis> can be used. Instead of picking the minimum of the measurements, we compute the median of all those measurements that are comprised of a corrupted version of <m:math overflow="scroll"><m:msub><m:mi>x</m:mi><m:mi>j</m:mi></m:msub></m:math> and declare it as the signal coefficient estimate, i.e.,</para>
+      <equation id="id64048"><m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:msub>
+              <m:mover accent="true">
+                <m:mi>x</m:mi>
+                <m:mo>^</m:mo>
+              </m:mover>
+              <m:mi>j</m:mi>
+            </m:msub>
+            <m:mo>=</m:mo>
+            <m:munder>
+              <m:mo movablelimits="true" form="prefix">median</m:mo>
+              <m:mi>l</m:mi>
+            </m:munder>
+            <m:mspace width="3.33333pt"/>
+            <m:msub>
+              <m:mi>y</m:mi>
+              <m:mi>i</m:mi>
+            </m:msub>
+            <m:mo>:</m:mo>
+            <m:msub>
+              <m:mi>h</m:mi>
+              <m:mi>l</m:mi>
+            </m:msub>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>j</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mo>=</m:mo>
+            <m:mi>i</m:mi>
+            <m:mo>.</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id64115">The recovery guarantees for count-median are similar to that for count-min, with a different value of the failure probability constant. An important feature of both count-min and count-median is that they require that the measurements be <emphasis effect="italics">perfectly noiseless</emphasis>, in contrast to optimization/greedy algorithms which can tolerate small amounts of measurement noise.</para>
+    </section>
+    <section id="uid4">
+      <title>Summary</title>
+      <para id="id64138">Although we ultimately wish to recover a sparse signal from a small number of linear measurements in both of these settings, there are some important differences between such settings and the compressive sensing setting studied in this <link document="col11133" version="latest">course</link>. First, in these settings it is natural to assume that the designer of the reconstruction algorithm also has full control over <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>, and is thus free to choose <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> in a manner that reduces the amount of computation required to perform recovery. For example, it is often useful to design <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> so that it has few nonzeros, i.e., the sensing matrix itself is also sparse <link target-id="bid10"/>, <link target-id="bid8"/>, <link target-id="bid9"/>. In general, most methods involve careful construction of the <link document="m37169" version="latest">sensing matrix</link> <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>, which is in contrast with the optimization and greedy methods that work with any matrix satisfying a generic condition such as the <link document="m37171" version="latest">restricted isometry property</link>. This additional degree of freedom can lead to significantly faster algorithms <link target-id="bid12"/>, <link target-id="bid11"/>, <link target-id="bid13"/>, <link target-id="bid14"/>.</para>
+      <para id="id64226">Second, note that the computational complexity of all the convex methods and greedy algorithms described above is always at least linear in <m:math overflow="scroll"><m:mi>N</m:mi></m:math>, since in order to recover <m:math overflow="scroll"><m:mi>x</m:mi></m:math> we must at least incur the computational cost of reading out all <m:math overflow="scroll"><m:mi>N</m:mi></m:math> entries of <m:math overflow="scroll"><m:mi>x</m:mi></m:math>. This may be acceptable in many typical compressive sensing applications, but this becomes impractical when <m:math overflow="scroll"><m:mi>N</m:mi></m:math> is extremely large, as in the network monitoring example. In this context, one may seek to develop algorithms whose complexity is linear only in the <emphasis effect="italics">length of the representation</emphasis> of the signal, i.e., its sparsity <m:math overflow="scroll"><m:mi>K</m:mi></m:math>. In this case the algorithm does not return a complete reconstruction of <m:math overflow="scroll"><m:mi>x</m:mi></m:math> but instead returns only its <m:math overflow="scroll"><m:mi>K</m:mi></m:math> largest elements (and their indices). As surprising as it may seem, such algorithms are indeed possible. See <link target-id="bid13"/>, <link target-id="bid14"/> for examples.</para>
+    </section>
+  </content>
+  <bib:file>
+    <bib:entry id="bid7">
+      <bib:conference>
+        <!--required fields-->
+        <bib:author>Berinde, R. and Indyk, P.</bib:author>
+        <bib:title>Sequential sparse matching pursuit</bib:title>
+        <bib:booktitle>Communication, Control, and Computing, 2009. Allerton 2009. 47th Annual Allerton Conference on</bib:booktitle>
+        <bib:year>2010</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages>36–43</bib:pages>
+        <bib:address/>
+        <bib:month/>
+        <bib:organization>IEEE</bib:organization>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:conference>
+    </bib:entry>
+    <bib:entry id="bid10">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Baron, D. and Sarvotham, S. and Baraniuk, R.</bib:author>
+        <bib:title>Sudocodes - Fast Measurement and Reconstruction of Sparse Signals</bib:title>
+        <bib:booktitle>Proc. IEEE Int. Symp. Inform. Theory (ISIT)</bib:booktitle>
+        <bib:year>2006</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Seattle, WA</bib:address>
+        <bib:month>Jul.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid12">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Charikar, M. and Chen, K. and Farach-Colton, M.</bib:author>
+        <bib:title>Finding frequent items in data streams</bib:title>
+        <bib:booktitle>Proc. Int. Coll. Autom. Lang. Programm.</bib:booktitle>
+        <bib:year>2002</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Málaga, Spain</bib:address>
+        <bib:month>Jul.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid3">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Cormode, G. and Hadjieleftheriou, M.</bib:author>
+        <bib:title>Finding the frequent items in streams of data</bib:title>
+        <bib:journal>Comm. ACM</bib:journal>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume>52</bib:volume>
+        <bib:number>10</bib:number>
+        <bib:pages>97–105</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid11">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Cormode, G. and Muthukrishnan, S.</bib:author>
+        <bib:title>Improved data stream summaries: The count-min sketch and its applications</bib:title>
+        <bib:journal>J. Algorithms</bib:journal>
+        <bib:year>2005</bib:year>
+        <!--optional fields-->
+        <bib:volume>55</bib:volume>
+        <bib:number>1</bib:number>
+        <bib:pages>58–75</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid0">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Erlich, Y. and Shental, N. and Amir, A. and Zuk, O.</bib:author>
+        <bib:title>Compressed sensing approach for high throughput carrier screen</bib:title>
+        <bib:booktitle>Proc. Allerton Conf. Communication, Control, and Computing</bib:booktitle>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Monticello, IL</bib:address>
+        <bib:month>Sept.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid8">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Gilbert, A. and Indyk, P.</bib:author>
+        <bib:title>Sparse recovery using sparse matrices</bib:title>
+        <bib:journal>Proc. IEEE</bib:journal>
+        <bib:year>2010</bib:year>
+        <!--optional fields-->
+        <bib:volume>98</bib:volume>
+        <bib:number>6</bib:number>
+        <bib:pages>937–947</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid13">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Gilbert, A. and Li, Y. and Porat, E. and Strauss, M.</bib:author>
+        <bib:title>Approximate sparse recovery: Optimizaing time and measurements</bib:title>
+        <bib:booktitle>Proc. ACM Symp. Theory of Comput.</bib:booktitle>
+        <bib:year>2010</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Cambridge, MA</bib:address>
+        <bib:month>Jun.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid5">
+      <bib:conference>
+        <!--required fields-->
+        <bib:author>Gilbert, AC and Strauss, MJ and Tropp, JA and Vershynin, R.</bib:author>
+        <bib:title>One sketch for all: fast algorithms for compressed sensing</bib:title>
+        <bib:booktitle>Proceedings of the thirty-ninth annual ACM symposium on Theory of computing</bib:booktitle>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages>237–246</bib:pages>
+        <bib:address/>
+        <bib:month/>
+        <bib:organization>ACM</bib:organization>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:conference>
+    </bib:entry>
+    <bib:entry id="bid14">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Gilbert, A. and Strauss, M. and Tropp, J. and Vershynin, R.</bib:author>
+        <bib:title>One sketch for all: Fast algorithms for compressed sensing</bib:title>
+        <bib:booktitle>Proc. ACM Symp. Theory of Comput.</bib:booktitle>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>San Diego, CA</bib:address>
+        <bib:month>Jun.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid9">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Jafarpour, S. and Xu, W. and Hassibi, B. and Calderbank, R.</bib:author>
+        <bib:title>Efficient and robust compressed sensing using optimized expander graphs</bib:title>
+        <bib:journal>IEEE Trans. Inform. Theory</bib:journal>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume>55</bib:volume>
+        <bib:number/>
+        <bib:pages>4299–4308</bib:pages>
+        <bib:month>Sep.</bib:month>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid1">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Kainkaryam, R. and Breux, A. and Gilbert, A. and Woolf, P. and Schiefelbein, J.</bib:author>
+        <bib:title>poolMC: Smart pooling of mRNA samples in microarray experiments</bib:title>
+        <bib:journal>BMC Bioinformatics</bib:journal>
+        <bib:year>2010</bib:year>
+        <!--optional fields-->
+        <bib:volume>11</bib:volume>
+        <bib:number>1</bib:number>
+        <bib:pages>299</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid4">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Muthukrishnan, S.</bib:author>
+        <bib:title>Data Streams: Algorithms and Applications</bib:title>
+        <bib:publisher>Now Publishers</bib:publisher>
+        <bib:year>2005</bib:year>
+        <!--optional fields-->
+        <bib:volume>1</bib:volume>
+        <bib:series>Found. Trends in Theoretical Comput. Science</bib:series>
+        <bib:address>Boston, MA</bib:address>
+        <bib:edition/>
+        <bib:month/>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid2">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Shental, N. and Amir, A. and Zuk, O.</bib:author>
+        <bib:title>Identification of rare alleles and their carriers using compressed se(que)nsing</bib:title>
+        <bib:journal>Nucleic Acids Research</bib:journal>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume>38</bib:volume>
+        <bib:number>19</bib:number>
+        <bib:pages>e179</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+  </bib:file>
+</document>

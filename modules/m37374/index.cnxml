@@ -1,0 +1,164 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:bib="http://bibtexml.sf.net/">
+  <title>Genomic sensing</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37374</md:content-id>
+  <md:title>Genomic sensing</md:title>
+  <md:abstract>This module describes the application of compressive sensing to the design of new kinds of DNA microarray probes.</md:abstract>
+  <md:uuid>0a05ee82-7c6d-445c-9c2b-2e6b59aa770a</md:uuid>
+</metadata>
+
+<content>
+    <para id="id62155">Biosensing of pathogens is a research area of high consequence. An accurate and rapid biosensing paradigm has the potential to impact several fields, including healthcare, defense and environmental monitoring. In this module we address the concept of biosensing based on <link document="m37172" version="latest">compressive sensing</link> (CS) via the <emphasis effect="italics">Compressive Sensing Microarray</emphasis> (CSM), a DNA microarray adapted to take CS-style measurements.</para>
+    <para id="id62169">DNA microarrays are a frequently applied solution for microbe sensing; they have a significant edge over competitors due to their ability to sense many organisms in parallel <link target-id="bid1"/>, <link target-id="bid0"/>. A DNA microarray consists of genetic sensors or <emphasis effect="italics">spots</emphasis>, each containing DNA sequences termed <emphasis effect="italics">probes</emphasis>. From the perspective of a microarray, each DNA sequence can be viewed as a sequence of four DNA bases {<m:math overflow="scroll"><m:mi>A</m:mi></m:math>, <m:math overflow="scroll"><m:mi>T</m:mi></m:math>, <m:math overflow="scroll"><m:mi>G</m:mi></m:math>, <m:math overflow="scroll"><m:mi>C</m:mi></m:math>} that tend to bind with one another in complementary pairs: <m:math overflow="scroll"><m:mi>A</m:mi></m:math> with <m:math overflow="scroll"><m:mi>T</m:mi></m:math> and <m:math overflow="scroll"><m:mi>G</m:mi></m:math> with <m:math overflow="scroll"><m:mi>C</m:mi></m:math>. Therefore, a DNA subsequence in a target organism's genetic sample will tend to bind or “hybridize” with its complementary subsequence on a microarray to form a stable structure. The target DNA sample to be identified is fluorescently tagged before it is flushed over the microarray. The extraneous DNA is washed away so that only the bound DNA is left on the array. The array is then scanned using laser light of a wavelength designed to trigger fluorescence in the spots where binding has occurred. A specific pattern of array spots will fluoresce, which is then used to infer the genetic makeup in the test sample.</para>
+    <figure id="uid1"><media id="uid1_media" alt="">
+        <image mime-type="image/jpg" src="../../media/tradDNAmicroarray.jpg" id="uid1_onlineimage" width="500"><!-- NOTE: attribute width changes image size online (pixels). original width is 577. --></image>
+        <image mime-type="application/postscript" for="pdf" src="../../media/tradDNAmicroarray.eps" print-width="3in" id="uid1_printimage"/>
+      </media>
+      
+    <caption>Cartoon of traditional DNA microarray showing strong and weak hybridization of the unique pathogen identifier at different microarray spots</caption></figure>
+    <para id="id62628">There are three issues with the traditional microarray design. Each spot consists of probes that can uniquely identify only one target of interest (each spot contains multiple copies of a probe for robustness.) The first concern with this design is that very often the targets in a test sample have similar base sequences, causing them to hybridize with the wrong probe (see <link target-id="uid1"/>). These cross-hybridization events lead to errors in the array readout. Current microarray design methods do not address cross-matches between similar DNA sequences.</para>
+    <para id="id62644">The second concern in choosing unique identifier based DNA probes is its restriction on the number of organisms that can be identified. In typical biosensing applications multiple organisms must be identified; therefore a large number of DNA targets requires a microarray with a large number of spots. In fact, there are over 1000 known harmful microbes, many with more than 100 strains.
+The implementation cost and processing speed of microarray data is directly related to its number of spots, representing a significant problem for commercial deployment of microarray-based biosensors.
+As a consequence readout systems for
+traditional DNA arrays cannot be miniaturized or implemented using electronic components and require complicated fluorescent tagging.</para>
+    <para id="id62660">The third concern is the inefficient utilization of the large number of array spots in traditional microarrays. Although the number of potential agents in a sample is very large, <emphasis effect="italics">not all agents</emphasis> are expected to be present in a significant concentration at a given time and location, or in an air/water/soil sample to be tested. Therefore, in a traditionally designed microarray only a small fraction of spots will be active at a given time, corresponding to the few targets present.</para>
+    <para id="id62672">To combat these problems, a Compressive Sensing DNA Microarray (CSM) uses “combinatorial testing sensors” in order to reduce the number of sensor spots <link target-id="bid2"/>, <link target-id="bid3"/>, <link target-id="bid4"/>. Each spot in the CSM identifies a <emphasis effect="italics">group</emphasis> of target organisms, and several spots together generate a unique pattern identifier for a single target.  (See also <link document="m37362" version="latest">"Group testing and data stream algorithms"</link>.) Designing the probes that perform this combinatorial sensing is the essence of the microarray design process, and what we aim to describe in this module.</para>
+    <para id="id62701">To obtain a CS-type measurement scheme, we can choose each probe in a CSM to be a group identifier such that the readout of each probe is a probabilistic combination of all the targets in its group. The probabilities are representative of each probe's hybridization affinity (or stickiness) to those targets in its group; the targets that are not in its group have low affinity to the probe. The readout signal at each spot of the microarray is a linear combination of hybridization affinities between its probe sequence and each of the target agents.</para>
+    <figure id="uid2"><media id="uid2_media" alt="">
+        <image mime-type="image/png" src="../../media/sensingmatrix3.png" id="uid2_onlineimage" width="400"><!-- NOTE: attribute width changes image size online (pixels). original width is 412. --></image>
+        <image mime-type="application/postscript" for="pdf" src="../../media/sensingmatrix3.eps" id="uid2_printimage" print-width="2.5in">
+          <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+        </image>
+      </media>
+      
+    <caption>Structure of the CSM sensing matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> with <m:math overflow="scroll"><m:mi>M</m:mi></m:math> spots identifying <m:math overflow="scroll"><m:mi>N</m:mi></m:math> targets</caption></figure>
+    <para id="id62753"><link target-id="uid2"/> illustrates the sensing process. To formalize, we assume there are <m:math overflow="scroll"><m:mi>M</m:mi></m:math>
+spots on the CSM and <m:math overflow="scroll"><m:mi>N</m:mi></m:math> targets; we have far fewer spots than target agents.
+For <m:math overflow="scroll"><m:mrow><m:mn>1</m:mn><m:mo>≤</m:mo><m:mi>i</m:mi><m:mo>≤</m:mo><m:mi>M</m:mi></m:mrow></m:math> and <m:math overflow="scroll"><m:mrow><m:mn>1</m:mn><m:mo>≤</m:mo><m:mi>j</m:mi><m:mo>≤</m:mo><m:mi>N</m:mi></m:mrow></m:math>, the
+probe at spot <m:math overflow="scroll"><m:mi>i</m:mi></m:math> hybridizes with target <m:math overflow="scroll"><m:mi>j</m:mi></m:math> with affinity
+<m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mrow><m:mi>i</m:mi><m:mo>,</m:mo><m:mi>j</m:mi></m:mrow></m:msub></m:math>. The target <m:math overflow="scroll"><m:mi>j</m:mi></m:math> occurs in the tested DNA sample with
+concentration <m:math overflow="scroll"><m:msub><m:mi>x</m:mi><m:mi>j</m:mi></m:msub></m:math>, so that the total hybridization of spot <m:math overflow="scroll"><m:mi>i</m:mi></m:math> is <m:math overflow="scroll"><m:mrow><m:msub><m:mi>y</m:mi><m:mi>i</m:mi></m:msub><m:mo>=</m:mo><m:msubsup><m:mo>∑</m:mo><m:mrow><m:mi>j</m:mi><m:mo>=</m:mo><m:mn>1</m:mn></m:mrow><m:mi>N</m:mi></m:msubsup><m:msub><m:mi>φ</m:mi><m:mrow><m:mi>i</m:mi><m:mo>,</m:mo><m:mi>j</m:mi></m:mrow></m:msub><m:msub><m:mi>x</m:mi><m:mi>j</m:mi></m:msub><m:mo>=</m:mo><m:msub><m:mi>φ</m:mi><m:mi>i</m:mi></m:msub><m:mi>x</m:mi></m:mrow></m:math>, where <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mi>j</m:mi></m:msub></m:math> and <m:math overflow="scroll"><m:mi>x</m:mi></m:math> are a row and column vector, respectively. The resulting measured microarray signal intensity
+vector <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>=</m:mo><m:mo>{</m:mo><m:msub><m:mrow><m:msub><m:mi>y</m:mi><m:mi>i</m:mi></m:msub><m:mrow><m:mo>}</m:mo></m:mrow></m:mrow><m:mi>i</m:mi></m:msub><m:mo>=</m:mo><m:mn>1</m:mn><m:mo>,</m:mo><m:mo>...</m:mo><m:mo>,</m:mo><m:mi>M</m:mi></m:mrow></m:math> fits the CS measurement model <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi></m:mrow></m:math>.</para>
+    <para id="id63201">While group testing has previously been proposed for microarrays <link target-id="bid5"/>, the sparsity in the target signal is key in applying CS. The chief advantage of a CS-based approach over regular group testing is in its information scalability. We are able to not just detect, but <emphasis effect="italics">estimate</emphasis> the target signal with a reduced number of measurements similar to that of group testing <link target-id="bid6"/>. This is important since there are always minute quantities of certain pathogens in the environment, but it is only their large concentrations that may be harmful to us. Furthermore, we are able to use CS recovery methods such as <link document="m37359" version="latest">Belief Propagation</link> that decode <m:math overflow="scroll"><m:mi>x</m:mi></m:math> while accounting for experimental noise and measurement nonlinearities due to excessive target molecules <link target-id="bid4"/>.</para>
+  </content>
+  <bib:file>
+    <bib:entry id="bid6">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Du, D.-Z. and Hwang, F.</bib:author>
+        <bib:title>Combinatorial group testing and its applications</bib:title>
+        <bib:publisher>World Scientific Publishing Co.</bib:publisher>
+        <bib:year>2000</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address>Singapore</bib:address>
+        <bib:edition/>
+        <bib:month/>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid1">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Lander, E.</bib:author>
+        <bib:title>Array of Hope</bib:title>
+        <bib:journal>Nature Genetics</bib:journal>
+        <bib:year>1999</bib:year>
+        <!--optional fields-->
+        <bib:volume>21</bib:volume>
+        <bib:number/>
+        <bib:pages>3–4</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid2">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Milenkovic, O. and Baraniuk, R. and Simunic-Rosing, T.</bib:author>
+        <bib:title>Compressed sensing meets bioinformatics: A novel DNA microarray design.</bib:title>
+        <bib:booktitle>Proc. Work. Inform. Theory and Applications (ITA)</bib:booktitle>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>San Diego, CA</bib:address>
+        <bib:month>Jan.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid3">
+      <bib:techreport>
+        <!--required fields-->
+        <bib:author>Sheikh, M. and Milenkovic, O. and Sarvotham, S. and Baraniuk, R.</bib:author>
+        <bib:title>Compressed Sensing DNA Microarrays</bib:title>
+        <bib:institution>Rice Univ., ECE Dept.</bib:institution>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:type>Technical report</bib:type>
+        <bib:number>TREE-0706</bib:number>
+        <bib:address/>
+        <bib:month>May</bib:month>
+        <bib:note/>
+      </bib:techreport>
+    </bib:entry>
+    <bib:entry id="bid0">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Schena, M. and Shalon, D. and Davis, R. and Brown, P.</bib:author>
+        <bib:title>Quantitative Monitoring of Gene Expression Patterns with a Complementary DNA Microarray</bib:title>
+        <bib:journal>Science</bib:journal>
+        <bib:year>1995</bib:year>
+        <!--optional fields-->
+        <bib:volume>270</bib:volume>
+        <bib:number>5235</bib:number>
+        <bib:pages>467–470</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid4">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Sheikh, M. and Sarvotham, S. and Milenkovic, O. and Baraniuk, R.</bib:author>
+        <bib:title>DNA Array Decoding From Nonlinear Measurements By Belief Propagation</bib:title>
+        <bib:booktitle>Proc. IEEE Work. Stat. Signal Processing</bib:booktitle>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Madison, WI</bib:address>
+        <bib:month>Aug.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid5">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Schliep, A. and Torney, D. and Rahmann, S.</bib:author>
+        <bib:title>Group Testing with DNA Chips: Generating Designs and Decoding Experiments</bib:title>
+        <bib:booktitle>Proc. Conf. Comput. Systems Bioinformatics</bib:booktitle>
+        <bib:year>2003</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Stanford, CA</bib:address>
+        <bib:month>Aug.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+  </bib:file>
+</document>

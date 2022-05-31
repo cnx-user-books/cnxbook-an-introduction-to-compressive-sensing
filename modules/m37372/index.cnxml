@@ -1,0 +1,216 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:bib="http://bibtexml.sf.net/">
+  <title>Inference using compressive measurements</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37372</md:content-id>
+  <md:title>Inference using compressive measurements</md:title>
+  <md:abstract>This module provides an introduction to some simple algorithms for compressive signal processing, i.e., processing compressive measurements directly without first recovering the signal to solve an inference problem.</md:abstract>
+  <md:uuid>6cdfce99-2594-41cd-97c5-034674728aa8</md:uuid>
+</metadata>
+
+<content>
+    <para id="id339625">While the <link document="m37172" version="latest">compressive sensing</link> (CS) literature has focused almost exclusively on problems
+in <link document="m37292" version="latest">signal reconstruction/approximation</link>, this is frequently not
+necessary. For instance, in many signal processing applications
+(including computer vision, digital communications and radar systems), signals are
+acquired only for the purpose of making a detection or
+classification decision. Tasks such as detection do not require a
+reconstruction of the signal, but only require estimates of the
+relevant <emphasis effect="italics">sufficient statistics</emphasis> for the problem at hand.</para>
+    <para id="id339641">As a simple example, suppose a surveillance system (based on compressive imaging) observes the motion of a person across a static background. The relevant information to be extracted from the data acquired by this system would be, for example, the identity of the person, or the location of this person with respect to a predefined frame of coordinates. There are two ways of doing this:</para>
+    <list id="id339647" display="block" list-type="bulleted"><item id="uid1">Reconstruct the full data using standard <link document="m37292" version="latest">sparse recovery</link> techniques and apply standard computer vision/inference algorithms on the reconstructed images.
+</item>
+      <item id="uid2">Develop an inference test which operates <emphasis effect="italics">directly</emphasis> on the compressive measurements, without ever reconstructing the full images.
+</item>
+    </list>
+    <para id="id340020">A crucial property that enables the design of compressive inference algorithms is the <emphasis effect="italics">information scalability</emphasis> property of compressive measurements. This property arises from the following two observations:</para>
+    <list id="id340030" display="block" list-type="bulleted">
+      <item id="uid3">For certain signal models, the action of a <emphasis effect="italics">random</emphasis> linear function on the set of signals of interest preserves enough information to perform inference tasks on the observed measurements.
+</item>
+      <item id="uid4">The <emphasis effect="italics">number</emphasis> of random measurements required to perform the inference task usually depends on the nature of the inference task. Informally, we observe that more sophisticated tasks require more measurements.
+</item>
+    </list>
+    <para id="id340071">We examine three possible inference problems for which algorithms that <emphasis effect="italics">directly operate on the compressive measurements </emphasis> can be developed: detection (determining the presence or absence of an information-bearing signal), classification (assigning the observed signal to one of two (or more) signal classes), and parameter estimation (calculating a <emphasis effect="italics">function</emphasis> of the observed signal).</para>
+    <section id="uid5">
+      <title>Detection</title>
+      <para id="id340095">In detection one simply wishes to
+answer the question: is a (known) signal present in the observations?
+To solve this problem, it suffices to estimate a
+relevant <emphasis effect="italics">sufficient statistic</emphasis>. Based on a concentration of measure inequality, it is possible to show that such sufficient statistics for a detection problem can be accurately estimated from random projections, where the quality of this estimate depends on
+the signal to noise ratio (SNR) <link target-id="bid0"/>. We make no assumptions on the signal of interest <m:math overflow="scroll"><m:mi>s</m:mi></m:math>, and
+hence we can build systems capable of detecting <m:math overflow="scroll"><m:mi>s</m:mi></m:math> even when it is
+not known in advance. Thus, we can use random projections for
+dimensionality-reduction in the detection setting without knowing
+the relevant structure.</para>
+      <para id="id340134">In the case where the class of signals of interest corresponds to a low dimensional subspace, a truncated, simplified sparse approximation can be applied as a detection algorithm; this has been dubbed as IDEA <link target-id="bid1"/>. In simple terms, the algorithm will mark a detection when a large enough amount of energy from the measurements lies in the projected subspace. Since this problem does not require accurate estimation of the signal values, but rather whether it belongs in the subspace of interest or not, the number of measurements necessary is much smaller than that required for reconstruction, as shown in <link target-id="uid6"/>.</para>
+      <figure id="uid6" orient="horizontal"><subfigure id="id340241">
+          <media id="id340241_media" alt="">
+            <image mime-type="image/png" src="../../media/chirps.png" id="id340241_onlineimage" width="224"><!-- NOTE: attribute width changes image size online (pixels). original width is 448. --></image>
+            <image mime-type="application/postscript" for="pdf" src="../../media/chirps.eps" id="id340241_printimage" print-width="3in">
+              <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+            </image>
+          </media>
+        </subfigure>
+        <subfigure id="id340252">
+          <media id="id340252_media" alt="">
+            <image mime-type="image/png" src="../../media/chirpssines.png" id="id340252_onlineimage" width="224"><!-- NOTE: attribute width changes image size online (pixels). original width is 132. --></image>
+            <image mime-type="application/postscript" for="pdf" src="../../media/chirpssines.eps" id="id340252_printimage" print-width="3in">
+              <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+            </image>
+          </media>
+        </subfigure>
+        <subfigure id="id340267">
+          <media id="id340267_media" alt="">
+            <image mime-type="image/png" src="../../media/dipvsrip.png" id="id340267_onlineimage" width="400"><!-- NOTE: attribute width changes image size online (pixels). original width is 377. --></image>
+            <image mime-type="application/postscript" for="pdf" src="../../media/dipvsrip.eps" id="id340267_printimage" print-width="3in">
+              <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+            </image>
+          </media>
+        </subfigure>
+        
+      <caption><emphasis effect="italics">Performance for IDEA. (Top) Sample wideband </emphasis>
+chirp
+<emphasis effect="italics">
+signal and same chirp embedded in strong narrowband interference.
+(Bottom) Probability of error to reconstruct and detect chirp
+signals embedded in strong sinusoidal interference (<m:math overflow="scroll"><m:mrow><m:mi> SIR </m:mi><m:mo>=</m:mo><m:mo>-</m:mo><m:mn>6</m:mn></m:mrow></m:math>
+dB) using greedy algorithms. In this case, detection requires
+<m:math overflow="scroll"><m:mrow><m:mn>3</m:mn><m:mo>×</m:mo></m:mrow></m:math> fewer measurements and <m:math overflow="scroll"><m:mrow><m:mn>4</m:mn><m:mo>×</m:mo></m:mrow></m:math> fewer computations than
+reconstruction for an equivalent probability of success. Taken from <link target-id="bid1"/>.</emphasis></caption></figure>
+    </section>
+    <section id="uid7">
+      <title>Classification</title>
+      <para id="id340285">Similarly, random projections have long been used for a variety of classification and clustering problems. The Johnson-Lindenstrauss Lemma is often exploited in this setting to compute approximate nearest neighbors, which is naturally related to
+classification. The key result that random
+projections result in an isometric embedding allows us to generalize
+this work to several new classification algorithms and settings <link target-id="bid0"/>.</para>
+      <para id="id340301">Classification can also be performed when more elaborate models are used for the different classes. Suppose the signal/image class of interest can be modeled as a low-dimensional <link document="m37371" version="latest">manifold</link> in the ambient space. In such case it can be shown that, even under random projections, certain geometric properties of the signal class are preserved up to a small distortion; for example, interpoint Euclidean (<m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>2</m:mn></m:msub></m:math>) distances are preserved <link target-id="bid2"/>. This enables the design of classification algorithms in the <emphasis effect="italics">projected</emphasis> domain. One such algorithm is known as the smashed filter <link target-id="bid3"/>. As an example, under equal distribution among classes and a gaussian noise setting, the smashed filter is equivalent to building a nearest-neighbor (NN) classifier in the measurement domain. Further, it has been shown that for a <m:math overflow="scroll"><m:mrow><m:mi>K</m:mi><m:mo>-</m:mo></m:mrow></m:math>dimensional manifold, <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>=</m:mo><m:mi>O</m:mi><m:mo>(</m:mo><m:mi>K</m:mi><m:mo form="prefix">log</m:mo><m:mi>N</m:mi><m:mo>)</m:mo></m:mrow></m:math> measurements are sufficient to perform reliable compressive classification. Thus, the number of measurements scales as the dimension of the signal class, as opposed to the <emphasis effect="italics">sparsity</emphasis> of the individual signal.
+Some example results are shown in <link target-id="uid8"/>(a).</para>
+      <figure id="uid8" orient="horizontal"><subfigure id="id340469">
+          <media id="id340469_media" alt="">
+            <image mime-type="image/png" src="../../media/shift_classrate.png" id="id340469_onlineimage" width="400"><!-- NOTE: attribute width changes image size online (pixels). original width is 448. --></image>
+            <image mime-type="application/postscript" for="pdf" src="../../media/shift_classrate.eps" id="id340469_printimage" print-width="3in">
+              <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+            </image>
+          </media>
+        </subfigure>
+        <subfigure id="id340480">
+          <media id="id340480_media" alt="">
+            <image mime-type="image/png" src="../../media/shift_esterror.png" id="id340480_onlineimage" width="400"><!-- NOTE: attribute width changes image size online (pixels). original width is 448. --></image>
+            <image mime-type="application/postscript" for="pdf" src="../../media/shift_esterror.eps" id="id340480_printimage" print-width="3in">
+              <!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+            </image>
+          </media>
+        </subfigure>
+        
+      <caption><emphasis effect="italics">Results for smashed filter image
+classification and parameter estimation experiments. (a) Classification rates and
+(b) average estimation error for varying number of measurements <m:math overflow="scroll"><m:mi>M</m:mi></m:math>
+and noise levels <m:math overflow="scroll"><m:mi>σ</m:mi></m:math> for a set of images of several objects under varying shifts. As <m:math overflow="scroll"><m:mi>M</m:mi></m:math> increases, the distances between the manifolds increase as well, thus increasing the noise tolerance and enabling more accurate estimation and classification.
+Thus, the classification and estimation performances improve as
+<m:math overflow="scroll"><m:mi>σ</m:mi></m:math> decreases and <m:math overflow="scroll"><m:mi>M</m:mi></m:math> increases in all cases. Taken from <link target-id="bid4"/>.</emphasis>
+        </caption></figure>
+    </section>
+    <section id="uid9">
+      <title>Estimation</title>
+      <para id="id340517">Consider a signal <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>∈</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:mrow></m:math>, and suppose that we wish to estimate some function <m:math overflow="scroll"><m:mrow><m:mi>f</m:mi><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow></m:math> but only
+observe the measurements <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi></m:mrow></m:math>, where <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> is again an
+<m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>×</m:mo><m:mi>N</m:mi></m:mrow></m:math> matrix. The <link document="m37371" version="latest">data streaming</link> community has previously analyzed this problem for
+many common functions, such as linear functions, <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math> norms, and
+histograms. These estimates are often based on so-called <emphasis effect="italics">sketches</emphasis>, which can be thought of as random projections.</para>
+      <para id="id340800">As an example, in the case where <m:math overflow="scroll"><m:mi>f</m:mi></m:math> is a <emphasis effect="italics">linear</emphasis> function, one
+can show that the estimation error (relative to the norms of <m:math overflow="scroll"><m:mi>x</m:mi></m:math> and
+<m:math overflow="scroll"><m:mi>f</m:mi></m:math>) can be bounded by a constant determined by <m:math overflow="scroll"><m:mi>M</m:mi></m:math>. This result holds for a wide class of random matrices, and can be viewed as a straightforward consequence of the same <link document="m32583" version="latest">concentration of measure inequality</link> that has proven useful for CS
+and in proving the JL Lemma <link target-id="bid0"/>.</para>
+      <para id="id340850">Parameter estimation can also be performed when the signal class is modeled as a low-dimensional manifold. Suppose an observed signal <m:math overflow="scroll"><m:mi>x</m:mi></m:math> can be parameterized by a <m:math overflow="scroll"><m:mrow><m:mi>K</m:mi><m:mo>-</m:mo></m:mrow></m:math>dimensional parameter vector <m:math overflow="scroll"><m:mi>θ</m:mi></m:math>, where <m:math overflow="scroll"><m:mrow><m:mi>K</m:mi><m:mo>≪</m:mo><m:mi>N</m:mi></m:mrow></m:math>. Then, it can be shown that with 0<m:math overflow="scroll"><m:mrow><m:mo>(</m:mo><m:mi>K</m:mi><m:mo form="prefix">log</m:mo><m:mi>N</m:mi><m:mo>)</m:mo></m:mrow></m:math> measurements, the parameter vector can be obtained via <emphasis effect="italics">multiscale manifold navigation</emphasis> in the compressed domain <link target-id="bid4"/>. Some example results are shown in <link target-id="uid8"/>(b).</para>
+    </section>
+  </content>
+  <bib:file>
+    <bib:entry id="bid2">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Baraniuk, R. and Wakin, M.</bib:author>
+        <bib:title>Random Projections of Smooth Manifolds</bib:title>
+        <bib:journal>Found. Comput. Math.</bib:journal>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume>9</bib:volume>
+        <bib:number>1</bib:number>
+        <bib:pages>51–77</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid0">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Davenport, M. and Boufounos, P. and Wakin, M. and Baraniuk, R.</bib:author>
+        <bib:title>Signal processing with compressive measurements</bib:title>
+        <bib:journal>IEEE J. Select. Top. Signal Processing</bib:journal>
+        <bib:year>2010</bib:year>
+        <!--optional fields-->
+        <bib:volume>4</bib:volume>
+        <bib:number>2</bib:number>
+        <bib:pages>445–460</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid3">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Davenport, M. and Duarte, M. and Wakin, M. and Laska, J. and Takhar, D. and Kelly, K. and Baraniuk, R.</bib:author>
+        <bib:title>The Smashed Filter for Compressive Classification and Target Recognition</bib:title>
+        <bib:booktitle>Proc. IS&amp;T/SPIE Symp. Elec. Imag.: Comp. Imag.</bib:booktitle>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>San Jose, CA</bib:address>
+        <bib:month>Jan.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid4">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Duarte, M. and Davenport, M. and Wakin, M. and Laska, J. and Takhar, D. and Kelly, K. and Baraniuk, R.</bib:author>
+        <bib:title>Multiscale Random Projections for Compressive Classification</bib:title>
+        <bib:booktitle>Proc. IEEE Int. Conf. Image Processing (ICIP)</bib:booktitle>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>San Antonio, TX</bib:address>
+        <bib:month>Sept.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid1">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Duarte, M. and Davenport, M. and Wakin, M. and Baraniuk, R.</bib:author>
+        <bib:title>Sparse Signal Detection From Incoherent Projections</bib:title>
+        <bib:booktitle>Proc. IEEE Int. Conf. Acoust., Speech, and Signal Processing (ICASSP)</bib:booktitle>
+        <bib:year>2006</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Toulouse, France</bib:address>
+        <bib:month>May</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+  </bib:file>
+</document>

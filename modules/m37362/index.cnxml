@@ -1,0 +1,103 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:bib="http://bibtexml.sf.net/">
+  <title>Group testing and data stream algorithms</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37362</md:content-id>
+  <md:title>Group testing and data stream algorithms</md:title>
+  <md:abstract>This module provides an overview of the relationship between compressive sensing and problems in theoretical computer science including combinatorial group testing and computation on data streams.</md:abstract>
+  <md:uuid>dafcde10-d997-4233-a069-b5a2c294324e</md:uuid>
+</metadata>
+
+<content>
+    <para id="id318121">Another scenario where <link document="m37172" version="latest">compressive sensing</link> and <link document="m37292" version="latest">sparse recovery algorithms</link> can be potentially useful is the context of <emphasis effect="italics">group testing</emphasis> and the related problem of <emphasis effect="italics">computation on data streams</emphasis>.</para>
+    <section id="uid1">
+      <title>Group testing</title>
+      <para id="id318147">Among the historically oldest of all sparse recovery algorithms were developed in the context of <emphasis effect="italics">combinatorial group testing</emphasis> <link target-id="bid0"/>, <link target-id="bid1"/>, <link target-id="bid2"/>. In this problem we suppose that there are <m:math overflow="scroll"><m:mi>N</m:mi></m:math> total items and <m:math overflow="scroll"><m:mi>K</m:mi></m:math> anomalous elements that we wish to find. For example, we might wish to identify defective products in an industrial setting, or identify a subset of diseased tissue samples in a medical context. In both of these cases the vector <m:math overflow="scroll"><m:mi>x</m:mi></m:math> indicates which elements are anomalous, i.e., <m:math overflow="scroll"><m:mrow><m:msub><m:mi>x</m:mi><m:mi>i</m:mi></m:msub><m:mo>≠</m:mo><m:mn>0</m:mn></m:mrow></m:math> for the <m:math overflow="scroll"><m:mi>K</m:mi></m:math> anomalous elements and <m:math overflow="scroll"><m:mrow><m:msub><m:mi>x</m:mi><m:mi>i</m:mi></m:msub><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math> otherwise. Our goal is to design a collection of tests that allow us to identify the support (and possibly the values of the nonzeros) of <m:math overflow="scroll"><m:mi>x</m:mi></m:math> while also minimizing the number of tests performed. In the simplest practical setting these tests are represented by a binary matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> whose entries <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mrow><m:mi>i</m:mi><m:mi>j</m:mi></m:mrow></m:msub></m:math> are equal to 1 if and only if the <m:math overflow="scroll"><m:msup><m:mi>j</m:mi><m:mi> th </m:mi></m:msup></m:math> item is used in the <m:math overflow="scroll"><m:msup><m:mi>i</m:mi><m:mi> th </m:mi></m:msup></m:math> test. If the output of the test is linear with respect to the inputs, then the problem of recovering the vector <m:math overflow="scroll"><m:mi>x</m:mi></m:math> is essentially the same as the standard sparse recovery problem in compressive sensing.</para>
+    </section>
+    <section id="uid2">
+      <title>Computation on data streams</title>
+      <para id="id318662">Another application area in which ideas related to compressive sensing have proven useful is computation on <emphasis effect="italics">data streams</emphasis> <link target-id="bid3"/>, <link target-id="bid4"/>. As an example of a typical data streaming problem, suppose that <m:math overflow="scroll"><m:msub><m:mi>x</m:mi><m:mi>i</m:mi></m:msub></m:math> represents the number of packets passing through a network router with destination <m:math overflow="scroll"><m:mi>i</m:mi></m:math>. Simply storing the vector <m:math overflow="scroll"><m:mi>x</m:mi></m:math> is typically infeasible since the total number of possible destinations (represented by a 32-bit IP address) is <m:math overflow="scroll"><m:mrow><m:mi>N</m:mi><m:mo>=</m:mo><m:msup><m:mn>2</m:mn><m:mn>32</m:mn></m:msup></m:mrow></m:math>. Thus, instead of attempting to store <m:math overflow="scroll"><m:mi>x</m:mi></m:math> directly, one can store <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi></m:mrow></m:math> where <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> is an <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>×</m:mo><m:mi>N</m:mi></m:mrow></m:math> matrix with <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>≪</m:mo><m:mi>N</m:mi></m:mrow></m:math>. In this context the vector <m:math overflow="scroll"><m:mi>y</m:mi></m:math> is often called a <emphasis effect="italics">sketch</emphasis>. Note that in this problem <m:math overflow="scroll"><m:mi>y</m:mi></m:math> is computed in a different manner than in the compressive sensing context. Specifically, in the network traffic example we do not ever observe <m:math overflow="scroll"><m:msub><m:mi>x</m:mi><m:mi>i</m:mi></m:msub></m:math> directly, rather we observe increments to <m:math overflow="scroll"><m:msub><m:mi>x</m:mi><m:mi>i</m:mi></m:msub></m:math> (when a packet with destination <m:math overflow="scroll"><m:mi>i</m:mi></m:math> passes through the router). Thus we construct <m:math overflow="scroll"><m:mi>y</m:mi></m:math> iteratively by adding the <m:math overflow="scroll"><m:msup><m:mi>i</m:mi><m:mi> th </m:mi></m:msup></m:math> column to <m:math overflow="scroll"><m:mi>y</m:mi></m:math> each time we observe an increment to <m:math overflow="scroll"><m:msub><m:mi>x</m:mi><m:mi>i</m:mi></m:msub></m:math>, which we can do since <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi></m:mrow></m:math> is linear. When the network traffic is dominated by traffic to a small number of destinations, the vector <m:math overflow="scroll"><m:mi>x</m:mi></m:math> is compressible, and thus the problem of recovering <m:math overflow="scroll"><m:mi>x</m:mi></m:math> from the sketch <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:mi>x</m:mi></m:mrow></m:math> is again essentially the same as the sparse recovery problem in compressive sensing.</para>
+    </section>
+  </content>
+  <bib:file>
+    <bib:entry id="bid3">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Cormode, G. and Hadjieleftheriou, M.</bib:author>
+        <bib:title>Finding the frequent items in streams of data</bib:title>
+        <bib:journal>Comm. ACM</bib:journal>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume>52</bib:volume>
+        <bib:number>10</bib:number>
+        <bib:pages>97–105</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid0">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Erlich, Y. and Shental, N. and Amir, A. and Zuk, O.</bib:author>
+        <bib:title>Compressed sensing approach for high throughput carrier screen</bib:title>
+        <bib:booktitle>Proc. Allerton Conf. Communication, Control, and Computing</bib:booktitle>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Monticello, IL</bib:address>
+        <bib:month>Sept.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid1">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Kainkaryam, R. and Breux, A. and Gilbert, A. and Woolf, P. and Schiefelbein, J.</bib:author>
+        <bib:title>poolMC: Smart pooling of mRNA samples in microarray experiments</bib:title>
+        <bib:journal>BMC Bioinformatics</bib:journal>
+        <bib:year>2010</bib:year>
+        <!--optional fields-->
+        <bib:volume>11</bib:volume>
+        <bib:number>1</bib:number>
+        <bib:pages>299</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid4">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Muthukrishnan, S.</bib:author>
+        <bib:title>Data Streams: Algorithms and Applications</bib:title>
+        <bib:publisher>Now Publishers</bib:publisher>
+        <bib:year>2005</bib:year>
+        <!--optional fields-->
+        <bib:volume>1</bib:volume>
+        <bib:series>Found. Trends in Theoretical Comput. Science</bib:series>
+        <bib:address>Boston, MA</bib:address>
+        <bib:edition/>
+        <bib:month/>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid2">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Shental, N. and Amir, A. and Zuk, O.</bib:author>
+        <bib:title>Identification of rare alleles and their carriers using compressed se(que)nsing</bib:title>
+        <bib:journal>Nucleic Acids Research</bib:journal>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume>38</bib:volume>
+        <bib:number>19</bib:number>
+        <bib:pages>e179</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+  </bib:file>
+</document>

@@ -1,0 +1,855 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:bib="http://bibtexml.sf.net/">
+  <title>Instance-optimal guarantees revisited</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37183</md:content-id>
+  <md:title>Instance-optimal guarantees revisited</md:title>
+  <md:abstract>In this module we demonstrate the difficulty of obtaining instance-optimal guarantees in the L2 norm.  We then show that it is much easier to obtain such guarantees in the probabilistic setting.</md:abstract>
+  <md:uuid>08deb356-4bc6-4459-9efe-ed87ded75ffd</md:uuid>
+</metadata>
+
+<content>
+    <para id="id62155">We now briefly return to the <link document="m37181" version="latest">noise-free</link> setting to take a closer look at instance-optimal guarantees for recovering non-sparse signals. To begin, recall that in Theorem 1 from <link document="m37181" version="latest">"Noise-free signal recovery"</link> we bounded the <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>2</m:mn></m:msub></m:math>-norm of the reconstruction error of</para>
+    <equation id="uid1"><m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mover accent="true">
+            <m:mi>x</m:mi>
+            <m:mo>^</m:mo>
+          </m:mover>
+          <m:mo>=</m:mo>
+          <m:mo form="prefix">arg</m:mo>
+          <m:munder>
+            <m:mo movablelimits="true" form="prefix">min</m:mo>
+            <m:mi>z</m:mi>
+          </m:munder>
+          <m:mspace width="4pt"/>
+          <m:msub>
+            <m:mfenced open="∥" close="∥">
+              <m:mi>z</m:mi>
+            </m:mfenced>
+            <m:mn>1</m:mn>
+          </m:msub>
+          <m:mspace width="1.em"/>
+          <m:mi> subject to </m:mi>
+          <m:mspace width="1.em"/>
+          <m:mi>z</m:mi>
+          <m:mo>∈</m:mo>
+          <m:mi mathvariant="script">B</m:mi>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>y</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id62602">as</para>
+    <equation id="id62608">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msub>
+            <m:mfenced separators="" open="∥" close="∥">
+              <m:mover accent="true">
+                <m:mi>x</m:mi>
+                <m:mo>^</m:mo>
+              </m:mover>
+              <m:mo>-</m:mo>
+              <m:mi>x</m:mi>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:mo>≤</m:mo>
+          <m:msub>
+            <m:mi>C</m:mi>
+            <m:mn>0</m:mn>
+          </m:msub>
+          <m:msub>
+            <m:mi>σ</m:mi>
+            <m:mi>K</m:mi>
+          </m:msub>
+          <m:msub>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>x</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mn>1</m:mn>
+          </m:msub>
+          <m:mo>/</m:mo>
+          <m:msqrt>
+            <m:mi>K</m:mi>
+          </m:msqrt>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id62677">when <m:math overflow="scroll"><m:mrow><m:mi mathvariant="script">B</m:mi><m:mo>(</m:mo><m:mi>y</m:mi><m:mo>)</m:mo><m:mo>=</m:mo><m:mo>{</m:mo><m:mi>z</m:mi><m:mo>:</m:mo><m:mi>Φ</m:mi><m:mi>z</m:mi><m:mo>=</m:mo><m:mi>y</m:mi><m:mo>}</m:mo></m:mrow></m:math>. One can generalize this result to measure the reconstruction error using the <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mi>p</m:mi></m:msub></m:math>-norm for any <m:math overflow="scroll"><m:mrow><m:mi>p</m:mi><m:mo>∈</m:mo><m:mo>[</m:mo><m:mn>1</m:mn><m:mo>,</m:mo><m:mn>2</m:mn><m:mo>]</m:mo></m:mrow></m:math>. For example, by a slight modification of these arguments, one can also show that <m:math overflow="scroll"><m:mrow><m:msub><m:mfenced separators="" open="∥" close="∥"><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mo>-</m:mo><m:mi>x</m:mi></m:mfenced><m:mn>1</m:mn></m:msub><m:mo>≤</m:mo><m:msub><m:mi>C</m:mi><m:mn>0</m:mn></m:msub><m:msub><m:mi>σ</m:mi><m:mi>K</m:mi></m:msub><m:msub><m:mrow><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow><m:mn>1</m:mn></m:msub></m:mrow></m:math> (see <link target-id="bid0"/>). This leads us to ask whether we might replace the bound for the <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>2</m:mn></m:msub></m:math> error with a result of the form <m:math overflow="scroll"><m:mrow><m:msub><m:mfenced separators="" open="∥" close="∥"><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mo>-</m:mo><m:mi>x</m:mi></m:mfenced><m:mn>2</m:mn></m:msub><m:mo>≤</m:mo><m:mi>C</m:mi><m:msub><m:mi>σ</m:mi><m:mi>K</m:mi></m:msub><m:msub><m:mrow><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow><m:mn>2</m:mn></m:msub></m:mrow></m:math>. Unfortunately, obtaining such a result requires an unreasonably large number of measurements, as quantified by the following theorem of <link target-id="bid1"/>.</para>
+<rule id="uid2" type="theorem"><title>(Theorem 5.1 of <link target-id="bid1"/>)</title><statement id="fs-id1164679612034">
+    <para id="id62900">
+Suppose that <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> is an <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>×</m:mo><m:mi>N</m:mi></m:mrow></m:math> matrix and that <m:math overflow="scroll"><m:mrow><m:mi>Δ</m:mi><m:mo>:</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>M</m:mi></m:msup><m:mo>→</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:mrow></m:math> is a recovery algorithm that satisfies</para>
+    <equation id="uid3">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msub>
+            <m:mfenced separators="" open="∥" close="∥">
+              <m:mi>x</m:mi>
+              <m:mo>-</m:mo>
+              <m:mi>Δ</m:mi>
+              <m:mo>(</m:mo>
+              <m:mi>Φ</m:mi>
+              <m:mi>x</m:mi>
+              <m:mo>)</m:mo>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:mo>≤</m:mo>
+          <m:mi>C</m:mi>
+          <m:msub>
+            <m:mi>σ</m:mi>
+            <m:mi>K</m:mi>
+          </m:msub>
+          <m:msub>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>x</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mn>2</m:mn>
+          </m:msub>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id63214">for some <m:math overflow="scroll"><m:mrow><m:mi>K</m:mi><m:mo>≥</m:mo><m:mn>1</m:mn></m:mrow></m:math>, then <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>&gt;</m:mo><m:mfenced separators="" open="(" close=")"><m:mn>1</m:mn><m:mo>-</m:mo><m:msqrt><m:mrow><m:mn>1</m:mn><m:mo>-</m:mo><m:mn>1</m:mn><m:mo>/</m:mo><m:msup><m:mi>C</m:mi><m:mn>2</m:mn></m:msup></m:mrow></m:msqrt></m:mfenced><m:mi>N</m:mi></m:mrow></m:math>.</para>
+</statement>
+<proof id="fs-id2526403">
+    <para id="id63282">We begin by letting <m:math overflow="scroll"><m:mrow><m:mi>h</m:mi><m:mo>∈</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:mrow></m:math> denote any vector in <m:math overflow="scroll"><m:mrow><m:mi mathvariant="script">N</m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow></m:math>. We write <m:math overflow="scroll"><m:mrow><m:mi>h</m:mi><m:mo>=</m:mo><m:msub><m:mi>h</m:mi><m:mi>Λ</m:mi></m:msub><m:mo>+</m:mo><m:msub><m:mi>h</m:mi><m:msup><m:mi>Λ</m:mi><m:mi>c</m:mi></m:msup></m:msub></m:mrow></m:math> where <m:math overflow="scroll"><m:mi>Λ</m:mi></m:math> is an arbitrary set of indices satisfying <m:math overflow="scroll"><m:mrow><m:mo>|</m:mo><m:mi>Λ</m:mi><m:mo>|</m:mo><m:mo>≤</m:mo><m:mi>K</m:mi></m:mrow></m:math>. Set <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>=</m:mo><m:msub><m:mi>h</m:mi><m:msup><m:mi>Λ</m:mi><m:mi>c</m:mi></m:msup></m:msub></m:mrow></m:math>, and note that <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:mi>x</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:msub><m:mi>h</m:mi><m:msup><m:mi>Λ</m:mi><m:mi>c</m:mi></m:msup></m:msub><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>h</m:mi><m:mo>-</m:mo><m:mi>Φ</m:mi><m:msub><m:mi>h</m:mi><m:mi>Λ</m:mi></m:msub><m:mo>=</m:mo><m:mo>-</m:mo><m:mi>Φ</m:mi><m:msub><m:mi>h</m:mi><m:mi>Λ</m:mi></m:msub></m:mrow></m:math> since <m:math overflow="scroll"><m:mrow><m:mi>h</m:mi><m:mo>∈</m:mo><m:mi mathvariant="script">N</m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow></m:math>. Since <m:math overflow="scroll"><m:mrow><m:msub><m:mi>h</m:mi><m:mi>Λ</m:mi></m:msub><m:mo>∈</m:mo><m:msub><m:mi>Σ</m:mi><m:mi>K</m:mi></m:msub></m:mrow></m:math>, <link target-id="uid3"/> implies that <m:math overflow="scroll"><m:mrow><m:mi>Δ</m:mi><m:mrow><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow><m:mo>=</m:mo><m:mi>Δ</m:mi><m:mrow><m:mo>(</m:mo><m:mo>-</m:mo><m:mi>Φ</m:mi><m:msub><m:mi>h</m:mi><m:mi>Λ</m:mi></m:msub><m:mo>)</m:mo></m:mrow><m:mo>=</m:mo><m:mo>-</m:mo><m:msub><m:mi>h</m:mi><m:mi>Λ</m:mi></m:msub></m:mrow></m:math>. Hence, <m:math overflow="scroll"><m:mrow><m:msub><m:mfenced separators="" open="∥" close="∥"><m:mi>x</m:mi><m:mo>-</m:mo><m:mi>Δ</m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi><m:mo>)</m:mo></m:mfenced><m:mn>2</m:mn></m:msub><m:mo>=</m:mo><m:msub><m:mfenced separators="" open="∥" close="∥"><m:msub><m:mi>h</m:mi><m:msup><m:mi>Λ</m:mi><m:mi>c</m:mi></m:msup></m:msub><m:mo>-</m:mo><m:mrow><m:mo>(</m:mo><m:mo>-</m:mo><m:msub><m:mi>h</m:mi><m:mi>Λ</m:mi></m:msub><m:mo>)</m:mo></m:mrow></m:mfenced><m:mn>2</m:mn></m:msub><m:mo>=</m:mo><m:msub><m:mfenced open="∥" close="∥"><m:mi>h</m:mi></m:mfenced><m:mn>2</m:mn></m:msub></m:mrow></m:math>. Furthermore, we observe that <m:math overflow="scroll"><m:mrow><m:msub><m:mi>σ</m:mi><m:mi>K</m:mi></m:msub><m:msub><m:mrow><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow><m:mn>2</m:mn></m:msub><m:mo>≤</m:mo><m:msub><m:mfenced open="∥" close="∥"><m:mi>x</m:mi></m:mfenced><m:mn>2</m:mn></m:msub></m:mrow></m:math>, since by definition <m:math overflow="scroll"><m:mrow><m:msub><m:mi>σ</m:mi><m:mi>K</m:mi></m:msub><m:msub><m:mrow><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow><m:mn>2</m:mn></m:msub><m:mo>≤</m:mo><m:msub><m:mfenced separators="" open="∥" close="∥"><m:mi>x</m:mi><m:mo>-</m:mo><m:mover accent="true"><m:mi>x</m:mi><m:mo>˜</m:mo></m:mover></m:mfenced><m:mn>2</m:mn></m:msub></m:mrow></m:math> for all <m:math overflow="scroll"><m:mrow><m:mover accent="true"><m:mi>x</m:mi><m:mo>˜</m:mo></m:mover><m:mo>∈</m:mo><m:msub><m:mi>Σ</m:mi><m:mi>K</m:mi></m:msub></m:mrow></m:math>, including <m:math overflow="scroll"><m:mrow><m:mover accent="true"><m:mi>x</m:mi><m:mo>˜</m:mo></m:mover><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math>. Thus <m:math overflow="scroll"><m:mrow><m:msub><m:mfenced open="∥" close="∥"><m:mi>h</m:mi></m:mfenced><m:mn>2</m:mn></m:msub><m:mo>≤</m:mo><m:mi>C</m:mi><m:msub><m:mfenced separators="" open="∥" close="∥"><m:msub><m:mi>h</m:mi><m:msup><m:mi>Λ</m:mi><m:mi>c</m:mi></m:msup></m:msub></m:mfenced><m:mn>2</m:mn></m:msub></m:mrow></m:math>. Since <m:math overflow="scroll"><m:mrow><m:msubsup><m:mfenced open="∥" close="∥"><m:mi>h</m:mi></m:mfenced><m:mn>2</m:mn><m:mn>2</m:mn></m:msubsup><m:mo>=</m:mo><m:msubsup><m:mfenced separators="" open="∥" close="∥"><m:msub><m:mi>h</m:mi><m:mi>Λ</m:mi></m:msub></m:mfenced><m:mn>2</m:mn><m:mn>2</m:mn></m:msubsup><m:mo>+</m:mo><m:msubsup><m:mfenced separators="" open="∥" close="∥"><m:msub><m:mi>h</m:mi><m:msup><m:mi>Λ</m:mi><m:mi>c</m:mi></m:msup></m:msub></m:mfenced><m:mn>2</m:mn><m:mn>2</m:mn></m:msubsup></m:mrow></m:math>, this yields</para>
+    <equation id="id63933">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msubsup>
+            <m:mfenced separators="" open="∥" close="∥">
+              <m:msub>
+                <m:mi>h</m:mi>
+                <m:mi>Λ</m:mi>
+              </m:msub>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+            <m:mn>2</m:mn>
+          </m:msubsup>
+          <m:mo>=</m:mo>
+          <m:msubsup>
+            <m:mfenced open="∥" close="∥">
+              <m:mi>h</m:mi>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+            <m:mn>2</m:mn>
+          </m:msubsup>
+          <m:mo>-</m:mo>
+          <m:msubsup>
+            <m:mfenced separators="" open="∥" close="∥">
+              <m:msub>
+                <m:mi>h</m:mi>
+                <m:msup>
+                  <m:mi>Λ</m:mi>
+                  <m:mi>c</m:mi>
+                </m:msup>
+              </m:msub>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+            <m:mn>2</m:mn>
+          </m:msubsup>
+          <m:mo>≤</m:mo>
+          <m:msubsup>
+            <m:mfenced open="∥" close="∥">
+              <m:mi>h</m:mi>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+            <m:mn>2</m:mn>
+          </m:msubsup>
+          <m:mo>-</m:mo>
+          <m:mfrac>
+            <m:mn>1</m:mn>
+            <m:msup>
+              <m:mi>C</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+          </m:mfrac>
+          <m:msubsup>
+            <m:mfenced open="∥" close="∥">
+              <m:mi>h</m:mi>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+            <m:mn>2</m:mn>
+          </m:msubsup>
+          <m:mo>=</m:mo>
+          <m:mfenced separators="" open="(" close=")">
+            <m:mn>1</m:mn>
+            <m:mo>-</m:mo>
+            <m:mfrac>
+              <m:mn>1</m:mn>
+              <m:msup>
+                <m:mi>C</m:mi>
+                <m:mn>2</m:mn>
+              </m:msup>
+            </m:mfrac>
+          </m:mfenced>
+          <m:msubsup>
+            <m:mfenced open="∥" close="∥">
+              <m:mi>h</m:mi>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+            <m:mn>2</m:mn>
+          </m:msubsup>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id64108">This must hold for any vector <m:math overflow="scroll"><m:mrow><m:mi>h</m:mi><m:mo>∈</m:mo><m:mi mathvariant="script">N</m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow></m:math> and for any set of indices <m:math overflow="scroll"><m:mi>Λ</m:mi></m:math> such that <m:math overflow="scroll"><m:mrow><m:mo>|</m:mo><m:mi>Λ</m:mi><m:mo>|</m:mo><m:mo>≤</m:mo><m:mi>K</m:mi></m:mrow></m:math>. In particular, let <m:math overflow="scroll"><m:msubsup><m:mrow><m:mo>{</m:mo><m:msub><m:mi>v</m:mi><m:mi>i</m:mi></m:msub><m:mo>}</m:mo></m:mrow><m:mrow><m:mi>i</m:mi><m:mo>=</m:mo><m:mn>1</m:mn></m:mrow><m:mrow><m:mi>N</m:mi><m:mo>-</m:mo><m:mi>M</m:mi></m:mrow></m:msubsup></m:math> be an orthonormal basis for <m:math overflow="scroll"><m:mrow><m:mi mathvariant="script">N</m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow></m:math>, and define the vectors <m:math overflow="scroll"><m:msubsup><m:mrow><m:mo>{</m:mo><m:msub><m:mi>h</m:mi><m:mi>i</m:mi></m:msub><m:mo>}</m:mo></m:mrow><m:mrow><m:mi>i</m:mi><m:mo>=</m:mo><m:mn>1</m:mn></m:mrow><m:mi>N</m:mi></m:msubsup></m:math> as follows:</para>
+    <equation id="uid4">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msub>
+            <m:mi>h</m:mi>
+            <m:mi>j</m:mi>
+          </m:msub>
+          <m:mo>=</m:mo>
+          <m:munderover>
+            <m:mo>∑</m:mo>
+            <m:mrow>
+              <m:mi>i</m:mi>
+              <m:mo>=</m:mo>
+              <m:mn>1</m:mn>
+            </m:mrow>
+            <m:mrow>
+              <m:mi>N</m:mi>
+              <m:mo>-</m:mo>
+              <m:mi>M</m:mi>
+            </m:mrow>
+          </m:munderover>
+          <m:msub>
+            <m:mi>v</m:mi>
+            <m:mi>i</m:mi>
+          </m:msub>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>j</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:msub>
+            <m:mi>v</m:mi>
+            <m:mi>i</m:mi>
+          </m:msub>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id64313">We note that <m:math overflow="scroll"><m:mrow><m:msub><m:mi>h</m:mi><m:mi>j</m:mi></m:msub><m:mo>=</m:mo><m:msubsup><m:mo>∑</m:mo><m:mrow><m:mi>i</m:mi><m:mo>=</m:mo><m:mn>1</m:mn></m:mrow><m:mrow><m:mi>N</m:mi><m:mo>-</m:mo><m:mi>M</m:mi></m:mrow></m:msubsup><m:mrow><m:mo>〈</m:mo><m:msub><m:mi>e</m:mi><m:mi>j</m:mi></m:msub><m:mo>,</m:mo><m:msub><m:mi>v</m:mi><m:mi>i</m:mi></m:msub><m:mo>〉</m:mo></m:mrow><m:msub><m:mi>v</m:mi><m:mi>i</m:mi></m:msub></m:mrow></m:math> where <m:math overflow="scroll"><m:msub><m:mi>e</m:mi><m:mi>j</m:mi></m:msub></m:math> denotes the vector of all zeros except for a 1 in the <m:math overflow="scroll"><m:mi>j</m:mi></m:math>-th entry. Thus we see that <m:math overflow="scroll"><m:mrow><m:msub><m:mi>h</m:mi><m:mi>j</m:mi></m:msub><m:mo>=</m:mo><m:msub><m:mi>P</m:mi><m:mi mathvariant="script">N</m:mi></m:msub><m:msub><m:mi>e</m:mi><m:mi>j</m:mi></m:msub></m:mrow></m:math> where <m:math overflow="scroll"><m:msub><m:mi>P</m:mi><m:mi mathvariant="script">N</m:mi></m:msub></m:math> denotes an orthogonal projection onto <m:math overflow="scroll"><m:mrow><m:mi mathvariant="script">N</m:mi><m:mo>(</m:mo><m:mi>Φ</m:mi><m:mo>)</m:mo></m:mrow></m:math>. Since <m:math overflow="scroll"><m:mrow><m:msubsup><m:mfenced separators="" open="∥" close="∥"><m:msub><m:mi>P</m:mi><m:mi mathvariant="script">N</m:mi></m:msub><m:msub><m:mi>e</m:mi><m:mi>j</m:mi></m:msub></m:mfenced><m:mn>2</m:mn><m:mn>2</m:mn></m:msubsup><m:mo>+</m:mo><m:msubsup><m:mfenced separators="" open="∥" close="∥"><m:msubsup><m:mi>P</m:mi><m:mi mathvariant="script">N</m:mi><m:mi>⊥</m:mi></m:msubsup><m:msub><m:mi>e</m:mi><m:mi>j</m:mi></m:msub></m:mfenced><m:mn>2</m:mn><m:mn>2</m:mn></m:msubsup><m:mo>=</m:mo><m:msubsup><m:mfenced separators="" open="∥" close="∥"><m:msub><m:mi>e</m:mi><m:mi>j</m:mi></m:msub></m:mfenced><m:mn>2</m:mn><m:mn>2</m:mn></m:msubsup><m:mo>=</m:mo><m:mn>1</m:mn></m:mrow></m:math>, we have that <m:math overflow="scroll"><m:mrow><m:msub><m:mfenced separators="" open="∥" close="∥"><m:msub><m:mi>h</m:mi><m:mi>j</m:mi></m:msub></m:mfenced><m:mn>2</m:mn></m:msub><m:mo>≤</m:mo><m:mn>1</m:mn></m:mrow></m:math>. Thus, by setting <m:math overflow="scroll"><m:mrow><m:mi>Λ</m:mi><m:mo>=</m:mo><m:mo>{</m:mo><m:mi>j</m:mi><m:mo>}</m:mo></m:mrow></m:math> for <m:math overflow="scroll"><m:msub><m:mi>h</m:mi><m:mi>j</m:mi></m:msub></m:math> we observe that</para>
+    <equation id="id64653">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msup>
+            <m:mfenced separators="" open="|" close="|">
+              <m:munderover>
+                <m:mo>∑</m:mo>
+                <m:mrow>
+                  <m:mi>i</m:mi>
+                  <m:mo>=</m:mo>
+                  <m:mn>1</m:mn>
+                </m:mrow>
+                <m:mrow>
+                  <m:mi>N</m:mi>
+                  <m:mo>-</m:mo>
+                  <m:mi>M</m:mi>
+                </m:mrow>
+              </m:munderover>
+              <m:msup>
+                <m:mrow>
+                  <m:mo>|</m:mo>
+                  <m:msub>
+                    <m:mi>v</m:mi>
+                    <m:mi>i</m:mi>
+                  </m:msub>
+                  <m:mrow>
+                    <m:mo>(</m:mo>
+                    <m:mi>j</m:mi>
+                    <m:mo>)</m:mo>
+                  </m:mrow>
+                  <m:mo>|</m:mo>
+                </m:mrow>
+                <m:mn>2</m:mn>
+              </m:msup>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+          </m:msup>
+          <m:mo>=</m:mo>
+          <m:msup>
+            <m:mrow>
+              <m:mo>|</m:mo>
+              <m:msub>
+                <m:mi>h</m:mi>
+                <m:mi>j</m:mi>
+              </m:msub>
+              <m:mrow>
+                <m:mo>(</m:mo>
+                <m:mi>j</m:mi>
+                <m:mo>)</m:mo>
+              </m:mrow>
+              <m:mo>|</m:mo>
+            </m:mrow>
+            <m:mn>2</m:mn>
+          </m:msup>
+          <m:mo>≤</m:mo>
+          <m:mfenced separators="" open="(" close=")">
+            <m:mn>1</m:mn>
+            <m:mo>-</m:mo>
+            <m:mfrac>
+              <m:mn>1</m:mn>
+              <m:msup>
+                <m:mi>C</m:mi>
+                <m:mn>2</m:mn>
+              </m:msup>
+            </m:mfrac>
+          </m:mfenced>
+          <m:msubsup>
+            <m:mfenced separators="" open="∥" close="∥">
+              <m:msub>
+                <m:mi>h</m:mi>
+                <m:mi>j</m:mi>
+              </m:msub>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+            <m:mn>2</m:mn>
+          </m:msubsup>
+          <m:mo>≤</m:mo>
+          <m:mn>1</m:mn>
+          <m:mo>-</m:mo>
+          <m:mfrac>
+            <m:mn>1</m:mn>
+            <m:msup>
+              <m:mi>C</m:mi>
+              <m:mn>2</m:mn>
+            </m:msup>
+          </m:mfrac>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id64819">Summing over <m:math overflow="scroll"><m:mrow><m:mi>j</m:mi><m:mo>=</m:mo><m:mn>1</m:mn><m:mo>,</m:mo><m:mn>2</m:mn><m:mo>,</m:mo><m:mo>...</m:mo><m:mo>,</m:mo><m:mi>N</m:mi></m:mrow></m:math>, we obtain</para>
+    <equation id="id64852"><m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi>N</m:mi>
+          <m:msqrt>
+            <m:mrow>
+              <m:mn>1</m:mn>
+              <m:mo>-</m:mo>
+              <m:mn>1</m:mn>
+              <m:mo>/</m:mo>
+              <m:msup>
+                <m:mi>C</m:mi>
+                <m:mn>2</m:mn>
+              </m:msup>
+            </m:mrow>
+          </m:msqrt>
+          <m:mo>≥</m:mo>
+          <m:munderover>
+            <m:mo>∑</m:mo>
+            <m:mrow>
+              <m:mi>j</m:mi>
+              <m:mo>=</m:mo>
+              <m:mn>1</m:mn>
+            </m:mrow>
+            <m:mi>N</m:mi>
+          </m:munderover>
+          <m:munderover>
+            <m:mo>∑</m:mo>
+            <m:mrow>
+              <m:mi>i</m:mi>
+              <m:mo>=</m:mo>
+              <m:mn>1</m:mn>
+            </m:mrow>
+            <m:mrow>
+              <m:mi>N</m:mi>
+              <m:mo>-</m:mo>
+              <m:mi>M</m:mi>
+            </m:mrow>
+          </m:munderover>
+          <m:msup>
+            <m:mrow>
+              <m:mo>|</m:mo>
+              <m:msub>
+                <m:mi>v</m:mi>
+                <m:mi>i</m:mi>
+              </m:msub>
+              <m:mrow>
+                <m:mo>(</m:mo>
+                <m:mi>j</m:mi>
+                <m:mo>)</m:mo>
+              </m:mrow>
+              <m:mo>|</m:mo>
+            </m:mrow>
+            <m:mn>2</m:mn>
+          </m:msup>
+          <m:mo>=</m:mo>
+          <m:munderover>
+            <m:mo>∑</m:mo>
+            <m:mrow>
+              <m:mi>i</m:mi>
+              <m:mo>=</m:mo>
+              <m:mn>1</m:mn>
+            </m:mrow>
+            <m:mrow>
+              <m:mi>N</m:mi>
+              <m:mo>-</m:mo>
+              <m:mi>M</m:mi>
+            </m:mrow>
+          </m:munderover>
+          <m:munderover>
+            <m:mo>∑</m:mo>
+            <m:mrow>
+              <m:mi>j</m:mi>
+              <m:mo>=</m:mo>
+              <m:mn>1</m:mn>
+            </m:mrow>
+            <m:mi>N</m:mi>
+          </m:munderover>
+          <m:msup>
+            <m:mrow>
+              <m:mo>|</m:mo>
+              <m:msub>
+                <m:mi>v</m:mi>
+                <m:mi>i</m:mi>
+              </m:msub>
+              <m:mrow>
+                <m:mo>(</m:mo>
+                <m:mi>j</m:mi>
+                <m:mo>)</m:mo>
+              </m:mrow>
+              <m:mo>|</m:mo>
+            </m:mrow>
+            <m:mn>2</m:mn>
+          </m:msup>
+          <m:mo>=</m:mo>
+          <m:munderover>
+            <m:mo>∑</m:mo>
+            <m:mrow>
+              <m:mi>i</m:mi>
+              <m:mo>=</m:mo>
+              <m:mn>1</m:mn>
+            </m:mrow>
+            <m:mrow>
+              <m:mi>N</m:mi>
+              <m:mo>-</m:mo>
+              <m:mi>M</m:mi>
+            </m:mrow>
+          </m:munderover>
+          <m:msubsup>
+            <m:mfenced separators="" open="∥" close="∥">
+              <m:msub>
+                <m:mi>v</m:mi>
+                <m:mi>i</m:mi>
+              </m:msub>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+            <m:mn>2</m:mn>
+          </m:msubsup>
+          <m:mo>=</m:mo>
+          <m:mi>N</m:mi>
+          <m:mo>-</m:mo>
+          <m:mi>M</m:mi>
+          <m:mo>,</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id65073">and thus <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>≥</m:mo><m:mfenced separators="" open="(" close=")"><m:mn>1</m:mn><m:mo>-</m:mo><m:msqrt><m:mrow><m:mn>1</m:mn><m:mo>-</m:mo><m:mn>1</m:mn><m:mo>/</m:mo><m:msup><m:mi>C</m:mi><m:mn>2</m:mn></m:msup></m:mrow></m:msqrt></m:mfenced><m:mi>N</m:mi></m:mrow></m:math> as desired.</para>
+</proof></rule>
+    <para id="id65122">Thus, if we want a bound of the form <link target-id="uid3"/> that holds for <emphasis effect="italics">all</emphasis> signals <m:math overflow="scroll"><m:mi>x</m:mi></m:math> with a constant <m:math overflow="scroll"><m:mrow><m:mi>C</m:mi><m:mo>≈</m:mo><m:mn>1</m:mn></m:mrow></m:math>, then regardless of what recovery algorithm we use we will need to take <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>≈</m:mo><m:mi>N</m:mi></m:mrow></m:math> measurements. However, in a sense this result is overly pessimistic, and we will now see that the results we just established for signal recovery in noise can actually allow us to overcome this limitation by essentially treating the approximation error as noise.</para>
+    <para id="id65176">Towards this end, notice that all the results concerning <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> minimization stated thus far are deterministic instance-optimal guarantees that apply simultaneously to all <m:math overflow="scroll"><m:mi>x</m:mi></m:math> given any matrix that satisfies the <link document="m37177" version="latest">restricted isometry property</link> (RIP). This is an important theoretical property, but as noted in <link document="m37177" version="latest">"Matrices that satisfy the RIP"</link>, in practice it is very difficult to obtain a deterministic guarantee that the matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> satisfies the RIP. In particular, constructions that rely on randomness are only known to satisfy the RIP with high probability. As an example, recall Theorem 1 from <link document="m37177">"Matrices that satisfy the RIP"</link>, which opens the door to slightly weaker results that hold only with high probability.</para>
+<rule id="uid5" type="theorem"><statement id="fs-id1169487532389">
+    <para id="id65222">Fix <m:math overflow="scroll"><m:mrow><m:mi>δ</m:mi><m:mo>∈</m:mo><m:mo>(</m:mo><m:mn>0</m:mn><m:mo>,</m:mo><m:mn>1</m:mn><m:mo>)</m:mo></m:mrow></m:math>. Let <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> be an <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>×</m:mo><m:mi>N</m:mi></m:mrow></m:math> random matrix whose entries <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mrow><m:mi>i</m:mi><m:mi>j</m:mi></m:mrow></m:msub></m:math> are i.i.d. with <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mrow><m:mi>i</m:mi><m:mi>j</m:mi></m:mrow></m:msub></m:math> drawn according to a <link document="m37185" version="latest">strictly sub-Gaussian distribution</link> with <m:math overflow="scroll"><m:mrow><m:msup><m:mi>c</m:mi><m:mn>2</m:mn></m:msup><m:mo>=</m:mo><m:mn>1</m:mn><m:mo>/</m:mo><m:mi>M</m:mi></m:mrow></m:math>. If</para>
+    <equation id="uid6">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi>M</m:mi>
+          <m:mo>≥</m:mo>
+          <m:msub>
+            <m:mi>κ</m:mi>
+            <m:mn>1</m:mn>
+          </m:msub>
+          <m:mi>K</m:mi>
+          <m:mo form="prefix">log</m:mo>
+          <m:mfenced separators="" open="(" close=")">
+            <m:mfrac>
+              <m:mi>N</m:mi>
+              <m:mi>K</m:mi>
+            </m:mfrac>
+          </m:mfenced>
+          <m:mo>,</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id65389">then <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> satisfies the RIP of order <m:math overflow="scroll"><m:mi>K</m:mi></m:math> with the prescribed <m:math overflow="scroll"><m:mi>δ</m:mi></m:math> with probability exceeding <m:math overflow="scroll"><m:mrow><m:mn>1</m:mn><m:mo>-</m:mo><m:mn>2</m:mn><m:msup><m:mi>e</m:mi><m:mrow><m:mo>-</m:mo><m:msub><m:mi>κ</m:mi><m:mn>2</m:mn></m:msub><m:mi>M</m:mi></m:mrow></m:msup></m:mrow></m:math>, where <m:math overflow="scroll"><m:msub><m:mi>κ</m:mi><m:mn>1</m:mn></m:msub></m:math> is arbitrary and <m:math overflow="scroll"><m:mrow><m:msub><m:mi>κ</m:mi><m:mn>2</m:mn></m:msub><m:mo>=</m:mo><m:msup><m:mi>δ</m:mi><m:mn>2</m:mn></m:msup><m:mo>/</m:mo><m:mn>2</m:mn><m:msup><m:mi>κ</m:mi><m:mo>*</m:mo></m:msup><m:mo>-</m:mo><m:mo form="prefix">log</m:mo><m:mrow><m:mo>(</m:mo><m:mn>42</m:mn><m:mi>e</m:mi><m:mo>/</m:mo><m:mi>δ</m:mi><m:mo>)</m:mo></m:mrow><m:mo>/</m:mo><m:msub><m:mi>κ</m:mi><m:mn>1</m:mn></m:msub></m:mrow></m:math>.</para>
+</statement></rule>
+    <para id="id65537">Even within the class of probabilistic results, there are two distinct flavors. The typical approach is to combine a probabilistic construction of a matrix that will satisfy the RIP with high probability with the previous results in this chapter. This yields a procedure that, with high probability, will satisfy a deterministic guarantee applying to all possible signals <m:math overflow="scroll"><m:mi>x</m:mi></m:math>. A weaker kind of result is one that states that given a signal <m:math overflow="scroll"><m:mi>x</m:mi></m:math>, we can draw a random matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> and with high probability expect certain performance <emphasis effect="italics">for that signal <m:math overflow="scroll"><m:mi>x</m:mi></m:math></emphasis>. This type of guarantee is sometimes called <emphasis effect="italics">instance-optimal in probability</emphasis>. The distinction is essentially whether or not we need to draw a new random <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> for each signal <m:math overflow="scroll"><m:mi>x</m:mi></m:math>. This may be an important distinction in practice, but if we assume for the moment that it is permissible to draw a new matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> for each <m:math overflow="scroll"><m:mi>x</m:mi></m:math>, then we can see that <link target-id="uid2"/> may be somewhat pessimistic. In order to establish our main result we will rely on the fact, previously used in <link document="m37177">"Matrices that satisfy the RIP"</link>, that sub-Gaussian matrices preserve the norm of an arbitrary vector with high probability. Specifically, a slight modification of Corollary 1 from <link document="m37177">"Matrices that satisfy the RIP"</link> shows that for any <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>∈</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:mrow></m:math>, if we choose <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> according to the procedure in <link target-id="uid5"/>, then we also have that</para>
+    <equation id="uid7">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi mathvariant="double-struck">P</m:mi>
+          <m:mfenced separators="" open="(" close=")">
+            <m:msubsup>
+              <m:mrow>
+                <m:mo>∥</m:mo>
+                <m:mi>Φ</m:mi>
+                <m:mi>x</m:mi>
+                <m:mo>∥</m:mo>
+              </m:mrow>
+              <m:mn>2</m:mn>
+              <m:mn>2</m:mn>
+            </m:msubsup>
+            <m:mo>≥</m:mo>
+            <m:mn>2</m:mn>
+            <m:msubsup>
+              <m:mrow>
+                <m:mo>∥</m:mo>
+                <m:mi>x</m:mi>
+                <m:mo>∥</m:mo>
+              </m:mrow>
+              <m:mn>2</m:mn>
+              <m:mn>2</m:mn>
+            </m:msubsup>
+          </m:mfenced>
+          <m:mo>≤</m:mo>
+          <m:mo form="prefix">exp</m:mo>
+          <m:mfenced separators="" open="(" close=")">
+            <m:mo>-</m:mo>
+            <m:msub>
+              <m:mi>κ</m:mi>
+              <m:mn>3</m:mn>
+            </m:msub>
+            <m:mi>M</m:mi>
+          </m:mfenced>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id65774">with <m:math overflow="scroll"><m:mrow><m:msub><m:mi>κ</m:mi><m:mn>3</m:mn></m:msub><m:mo>=</m:mo><m:mn>4</m:mn><m:mo>/</m:mo><m:msup><m:mi>κ</m:mi><m:mo>*</m:mo></m:msup></m:mrow></m:math>. Using this we obtain the following result.</para>
+<rule id="uid8" type="theorem"><statement id="fs-id1163750719125">
+    <para id="id65811"> 
+Let <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>∈</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>N</m:mi></m:msup></m:mrow></m:math> be fixed. Set <m:math overflow="scroll"><m:mrow><m:msub><m:mi>δ</m:mi><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:msub><m:mo>&lt;</m:mo><m:msqrt><m:mn>2</m:mn></m:msqrt><m:mo>-</m:mo><m:mn>1</m:mn></m:mrow></m:math> Suppose that <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> is an <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>×</m:mo><m:mi>N</m:mi></m:mrow></m:math> sub-Gaussian random matrix with <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>≥</m:mo><m:msub><m:mi>κ</m:mi><m:mn>1</m:mn></m:msub><m:mi>K</m:mi><m:mo form="prefix">log</m:mo><m:mfenced separators="" open="(" close=")"><m:mi>N</m:mi><m:mo>/</m:mo><m:mi>K</m:mi></m:mfenced></m:mrow></m:math>. Suppose we obtain measurements of the form <m:math overflow="scroll"><m:mrow><m:mi>y</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:mi>x</m:mi></m:mrow></m:math>. Set <m:math overflow="scroll"><m:mrow><m:mi>ϵ</m:mi><m:mo>=</m:mo><m:mn>2</m:mn><m:msub><m:mi>σ</m:mi><m:mi>K</m:mi></m:msub><m:msub><m:mrow><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow><m:mn>2</m:mn></m:msub></m:mrow></m:math>. Then with probability exceeding <m:math overflow="scroll"><m:mrow><m:mn>1</m:mn><m:mo>-</m:mo><m:mn>2</m:mn><m:mo form="prefix">exp</m:mo><m:mrow><m:mo>(</m:mo><m:mo>-</m:mo><m:msub><m:mi>κ</m:mi><m:mn>2</m:mn></m:msub><m:mi>M</m:mi><m:mo>)</m:mo></m:mrow><m:mo>-</m:mo><m:mo form="prefix">exp</m:mo><m:mrow><m:mo>(</m:mo><m:mo>-</m:mo><m:msub><m:mi>κ</m:mi><m:mn>3</m:mn></m:msub><m:mi>M</m:mi><m:mo>)</m:mo></m:mrow></m:mrow></m:math>, when <m:math overflow="scroll"><m:mrow><m:mi mathvariant="script">B</m:mi><m:mrow><m:mo>(</m:mo><m:mi>y</m:mi><m:mo>)</m:mo></m:mrow><m:mo>=</m:mo><m:mrow><m:mo>{</m:mo><m:mi>z</m:mi><m:mo>:</m:mo><m:msub><m:mfenced separators="" open="∥" close="∥"><m:mi>Φ</m:mi><m:mi>z</m:mi><m:mo>-</m:mo><m:mi>y</m:mi></m:mfenced><m:mn>2</m:mn></m:msub><m:mo>≤</m:mo><m:mi>ϵ</m:mi><m:mo>}</m:mo></m:mrow></m:mrow></m:math>, the solution <m:math overflow="scroll"><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover></m:math> to <link target-id="uid1"/> obeys</para>
+    <equation id="uid9">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msub>
+            <m:mfenced separators="" open="∥" close="∥">
+              <m:mover accent="true">
+                <m:mi>x</m:mi>
+                <m:mo>^</m:mo>
+              </m:mover>
+              <m:mo>-</m:mo>
+              <m:mi>x</m:mi>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:mo>≤</m:mo>
+          <m:mfrac>
+            <m:mrow>
+              <m:mn>8</m:mn>
+              <m:msqrt>
+                <m:mrow>
+                  <m:mn>1</m:mn>
+                  <m:mo>+</m:mo>
+                  <m:msub>
+                    <m:mi>δ</m:mi>
+                    <m:mrow>
+                      <m:mn>2</m:mn>
+                      <m:mi>K</m:mi>
+                    </m:mrow>
+                  </m:msub>
+                </m:mrow>
+              </m:msqrt>
+              <m:mo>-</m:mo>
+              <m:mrow>
+                <m:mo>(</m:mo>
+                <m:mn>1</m:mn>
+                <m:mo>+</m:mo>
+                <m:msqrt>
+                  <m:mn>2</m:mn>
+                </m:msqrt>
+                <m:mo>)</m:mo>
+              </m:mrow>
+              <m:msub>
+                <m:mi>δ</m:mi>
+                <m:mrow>
+                  <m:mn>2</m:mn>
+                  <m:mi>K</m:mi>
+                </m:mrow>
+              </m:msub>
+            </m:mrow>
+            <m:mrow>
+              <m:mn>1</m:mn>
+              <m:mo>-</m:mo>
+              <m:mrow>
+                <m:mo>(</m:mo>
+                <m:mn>1</m:mn>
+                <m:mo>+</m:mo>
+                <m:msqrt>
+                  <m:mn>2</m:mn>
+                </m:msqrt>
+                <m:mo>)</m:mo>
+              </m:mrow>
+              <m:msub>
+                <m:mi>δ</m:mi>
+                <m:mrow>
+                  <m:mn>2</m:mn>
+                  <m:mi>K</m:mi>
+                </m:mrow>
+              </m:msub>
+            </m:mrow>
+          </m:mfrac>
+          <m:msub>
+            <m:mi>σ</m:mi>
+            <m:mi>K</m:mi>
+          </m:msub>
+          <m:msub>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>x</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+</statement>
+<proof id="fs-id1163748147219">
+    <para id="id66279">First we recall that, as noted above, from <link target-id="uid5"/> we have that <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> will satisfy the RIP of order <m:math overflow="scroll"><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:math> with probability at least <m:math overflow="scroll"><m:mrow><m:mn>1</m:mn><m:mo>-</m:mo><m:mn>2</m:mn><m:mo form="prefix">exp</m:mo><m:mo>(</m:mo><m:mo>-</m:mo><m:msub><m:mi>κ</m:mi><m:mn>2</m:mn></m:msub><m:mi>M</m:mi><m:mo>)</m:mo></m:mrow></m:math>. Next, let <m:math overflow="scroll"><m:mi>Λ</m:mi></m:math> denote the index set corresponding to the <m:math overflow="scroll"><m:mi>K</m:mi></m:math> entries of <m:math overflow="scroll"><m:mi>x</m:mi></m:math> with largest magnitude and write <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>=</m:mo><m:msub><m:mi>x</m:mi><m:mi>Λ</m:mi></m:msub><m:mo>+</m:mo><m:msub><m:mi>x</m:mi><m:msup><m:mi>Λ</m:mi><m:mi>c</m:mi></m:msup></m:msub></m:mrow></m:math>. Since <m:math overflow="scroll"><m:mrow><m:msub><m:mi>x</m:mi><m:mi>Λ</m:mi></m:msub><m:mo>∈</m:mo><m:msub><m:mi>Σ</m:mi><m:mi>K</m:mi></m:msub></m:mrow></m:math>, we can write <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:mi>x</m:mi><m:mo>=</m:mo><m:mi>Φ</m:mi><m:msub><m:mi>x</m:mi><m:mi>Λ</m:mi></m:msub><m:mo>+</m:mo><m:mi>Φ</m:mi><m:msub><m:mi>x</m:mi><m:msup><m:mi>Λ</m:mi><m:mi>c</m:mi></m:msup></m:msub><m:mo>=</m:mo><m:mi>Φ</m:mi><m:msub><m:mi>x</m:mi><m:mi>Λ</m:mi></m:msub><m:mo>+</m:mo><m:mi>e</m:mi></m:mrow></m:math>. If <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> is sub-Gaussian then from Lemma 2 from <link document="m37185" version="latest">"Sub-Gaussian random variables"</link> we have that <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:msub><m:mi>x</m:mi><m:msup><m:mi>Λ</m:mi><m:mi>c</m:mi></m:msup></m:msub></m:mrow></m:math> is also sub-Gaussian, and one can apply <link target-id="uid7"/> to obtain that with probability at least <m:math overflow="scroll"><m:mrow><m:mn>1</m:mn><m:mo>-</m:mo><m:mo form="prefix">exp</m:mo><m:mo>(</m:mo><m:mo>-</m:mo><m:msub><m:mi>κ</m:mi><m:mn>3</m:mn></m:msub><m:mi>M</m:mi><m:mo>)</m:mo></m:mrow></m:math>, <m:math overflow="scroll"><m:mrow><m:msub><m:mfenced separators="" open="∥" close="∥"><m:mi>Φ</m:mi><m:msub><m:mi>x</m:mi><m:msup><m:mi>Λ</m:mi><m:mi>c</m:mi></m:msup></m:msub></m:mfenced><m:mn>2</m:mn></m:msub><m:mo>≤</m:mo><m:mn>2</m:mn><m:msub><m:mfenced separators="" open="∥" close="∥"><m:msub><m:mi>x</m:mi><m:msup><m:mi>Λ</m:mi><m:mi>c</m:mi></m:msup></m:msub></m:mfenced><m:mn>2</m:mn></m:msub><m:mo>=</m:mo><m:mn>2</m:mn><m:msub><m:mi>σ</m:mi><m:mi>K</m:mi></m:msub><m:msub><m:mrow><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow><m:mn>2</m:mn></m:msub></m:mrow></m:math>. Thus, applying the union bound we have that with probability exceeding <m:math overflow="scroll"><m:mrow><m:mn>1</m:mn><m:mo>-</m:mo><m:mn>2</m:mn><m:mo form="prefix">exp</m:mo><m:mrow><m:mo>(</m:mo><m:mo>-</m:mo><m:msub><m:mi>κ</m:mi><m:mn>2</m:mn></m:msub><m:mi>M</m:mi><m:mo>)</m:mo></m:mrow><m:mo>-</m:mo><m:mo form="prefix">exp</m:mo><m:mrow><m:mo>(</m:mo><m:mo>-</m:mo><m:msub><m:mi>κ</m:mi><m:mn>3</m:mn></m:msub><m:mi>M</m:mi><m:mo>)</m:mo></m:mrow></m:mrow></m:math>, we satisfy the necessary conditions to apply Theorem 1 from <link document="m37182" version="latest">"Signal recovery in noise"</link> to <m:math overflow="scroll"><m:msub><m:mi>x</m:mi><m:mi>Λ</m:mi></m:msub></m:math>, in which case <m:math overflow="scroll"><m:mrow><m:msub><m:mi>σ</m:mi><m:mi>K</m:mi></m:msub><m:msub><m:mrow><m:mo>(</m:mo><m:msub><m:mi>x</m:mi><m:mi>Λ</m:mi></m:msub><m:mo>)</m:mo></m:mrow><m:mn>1</m:mn></m:msub><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math> and hence</para>
+    <equation id="id66776">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msub>
+            <m:mfenced separators="" open="∥" close="∥">
+              <m:mover accent="true">
+                <m:mi>x</m:mi>
+                <m:mo>^</m:mo>
+              </m:mover>
+              <m:mo>-</m:mo>
+              <m:msub>
+                <m:mi>x</m:mi>
+                <m:mi>Λ</m:mi>
+              </m:msub>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:mo>≤</m:mo>
+          <m:mn>2</m:mn>
+          <m:msub>
+            <m:mi>C</m:mi>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:msub>
+            <m:mi>σ</m:mi>
+            <m:mi>K</m:mi>
+          </m:msub>
+          <m:msub>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>x</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id66852">From the triangle inequality we thus obtain</para>
+    <equation id="id66858">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msub>
+            <m:mfenced separators="" open="∥" close="∥">
+              <m:mover accent="true">
+                <m:mi>x</m:mi>
+                <m:mo>^</m:mo>
+              </m:mover>
+              <m:mo>-</m:mo>
+              <m:mi>x</m:mi>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:mo>=</m:mo>
+          <m:msub>
+            <m:mfenced separators="" open="∥" close="∥">
+              <m:mover accent="true">
+                <m:mi>x</m:mi>
+                <m:mo>^</m:mo>
+              </m:mover>
+              <m:mo>-</m:mo>
+              <m:msub>
+                <m:mi>x</m:mi>
+                <m:mi>Λ</m:mi>
+              </m:msub>
+              <m:mo>+</m:mo>
+              <m:msub>
+                <m:mi>x</m:mi>
+                <m:mi>Λ</m:mi>
+              </m:msub>
+              <m:mo>-</m:mo>
+              <m:mi>x</m:mi>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:mo>≤</m:mo>
+          <m:msub>
+            <m:mfenced separators="" open="∥" close="∥">
+              <m:mover accent="true">
+                <m:mi>x</m:mi>
+                <m:mo>^</m:mo>
+              </m:mover>
+              <m:mo>-</m:mo>
+              <m:msub>
+                <m:mi>x</m:mi>
+                <m:mi>Λ</m:mi>
+              </m:msub>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:mo>+</m:mo>
+          <m:msub>
+            <m:mfenced separators="" open="∥" close="∥">
+              <m:msub>
+                <m:mi>x</m:mi>
+                <m:mi>Λ</m:mi>
+              </m:msub>
+              <m:mo>-</m:mo>
+              <m:mi>x</m:mi>
+            </m:mfenced>
+            <m:mn>2</m:mn>
+          </m:msub>
+          <m:mo>≤</m:mo>
+          <m:mfenced separators="" open="(" close=")">
+            <m:mn>2</m:mn>
+            <m:msub>
+              <m:mi>C</m:mi>
+              <m:mn>2</m:mn>
+            </m:msub>
+            <m:mo>+</m:mo>
+            <m:mn>1</m:mn>
+          </m:mfenced>
+          <m:msub>
+            <m:mi>σ</m:mi>
+            <m:mi>K</m:mi>
+          </m:msub>
+          <m:msub>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:mi>x</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mn>2</m:mn>
+          </m:msub>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id67047">which establishes the theorem.</para>
+</proof></rule>
+    <para id="id67053">Thus, although it is not possible to achieve a deterministic guarantee of the form in <link target-id="uid3"/> without taking a prohibitively large number of measurements, it <emphasis effect="italics">is</emphasis> possible to show that such performance guarantees can hold with high probability while simultaneously taking far fewer measurements than would be suggested by <link target-id="uid2"/>. Note that the above result applies only to the case where the parameter is selected correctly, which requires some limited knowledge of <m:math overflow="scroll"><m:mi>x</m:mi></m:math>, namely <m:math overflow="scroll"><m:mrow><m:msub><m:mi>σ</m:mi><m:mi>K</m:mi></m:msub><m:msub><m:mrow><m:mo>(</m:mo><m:mi>x</m:mi><m:mo>)</m:mo></m:mrow><m:mn>2</m:mn></m:msub></m:mrow></m:math>. In practice this limitation can easily be overcome through a parameter selection technique such as cross-validation <link target-id="bid2"/>, but there also exist more intricate analyses of <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> minimization that show it is possible to obtain similar performance without requiring an oracle for parameter selection <link target-id="bid3"/>. Note that <link target-id="uid8"/> can also be generalized to handle other measurement matrices and to the case where <m:math overflow="scroll"><m:mi>x</m:mi></m:math> is compressible rather than sparse. Moreover, this proof technique is applicable to a variety of the greedy algorithms described later in this course that do not require knowledge of the noise level to establish similar results <link target-id="bid5"/>, <link target-id="bid4"/>.
+
+</para>
+  </content>
+  <bib:file>
+    <bib:entry id="bid0">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Candès, E.</bib:author>
+        <bib:title>The restricted isometry property and its implications for compressed sensing</bib:title>
+        <bib:journal>Comptes rendus de l'Académie des Sciences, Série I</bib:journal>
+        <bib:year>2008</bib:year>
+        <!--optional fields-->
+        <bib:volume>346</bib:volume>
+        <bib:number>9-10</bib:number>
+        <bib:pages>589–592</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid5">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Cohen, A. and Dahmen, W. and DeVore, R.</bib:author>
+        <bib:title>Instance optimal decoding by thresholding in compressed sensing</bib:title>
+        <bib:booktitle>Int. Conf. Harmonic Analysis and Partial Differential Equations</bib:booktitle>
+        <bib:year>2008</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Madrid, Spain</bib:address>
+        <bib:month>Jun.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid1">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Cohen, A. and Dahmen, W. and DeVore, R.</bib:author>
+        <bib:title>Compressed Sensing and Best <!--no math allowed in bib entries-->-term Approximation</bib:title>
+        <bib:journal>J. Amer. Math. Soc.</bib:journal>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume>22</bib:volume>
+        <bib:number>1</bib:number>
+        <bib:pages>211–231</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid4">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Needell, D. and Tropp, J.</bib:author>
+        <bib:title>CoSaMP: Iterative signal recovery from incomplete and inaccurate samples</bib:title>
+        <bib:journal>Appl. Comput. Harmon. Anal.</bib:journal>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume>26</bib:volume>
+        <bib:number>3</bib:number>
+        <bib:pages>301–321</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid2">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Ward, R.</bib:author>
+        <bib:title>Compressive sensing with cross validation</bib:title>
+        <bib:journal>IEEE Trans. Inform. Theory</bib:journal>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume>55</bib:volume>
+        <bib:number>12</bib:number>
+        <bib:pages>5773–5782</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid3">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Wojtaszczyk, P.</bib:author>
+        <bib:title>Stability and instance optimality for Gaussian measurements in compressed sensing</bib:title>
+        <bib:journal>Found. Comput. Math.</bib:journal>
+        <bib:year>2010</bib:year>
+        <!--optional fields-->
+        <bib:volume>10</bib:volume>
+        <bib:number>1</bib:number>
+        <bib:pages>1–13</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+  </bib:file>
+</document>

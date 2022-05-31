@@ -1,0 +1,218 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:bib="http://bibtexml.sf.net/">
+  <title>The cross-polytope and phase transitions</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37184</md:content-id>
+  <md:title>The cross-polytope and phase transitions</md:title>
+  <md:abstract>In this module we provide an overview of the relationship between L1 minimization and random projections of the cross-polytope.</md:abstract>
+  <md:uuid>70163803-c685-4bc3-9ee8-1c8159a305d5</md:uuid>
+</metadata>
+
+<content>
+    <para id="id156158">The analysis of <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> minimization based on the <link document="m37171" version="latest">restricted isometry property</link> (RIP) described in <link document="m37182" version="latest">"Signal recovery in noise"</link> allows us to establish a variety of guarantees under different noise settings, but one drawback is that the analysis of how many measurements are actually required for a matrix to satisfy the RIP is relatively loose. An alternative approach to analyzing <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> minimization algorithms is to examine them from a more geometric perspective. Towards this end, we define the closed <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> ball, also known as the <emphasis effect="italics">cross-polytope</emphasis>:</para>
+    <equation id="uid1">
+      <m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:msup>
+            <m:mi>C</m:mi>
+            <m:mi>N</m:mi>
+          </m:msup>
+          <m:mo>=</m:mo>
+          <m:mfenced separators="" open="{" close="}">
+            <m:mi>x</m:mi>
+            <m:mo>∈</m:mo>
+            <m:msup>
+              <m:mi mathvariant="double-struck">R</m:mi>
+              <m:mi>N</m:mi>
+            </m:msup>
+            <m:mo>:</m:mo>
+            <m:msub>
+              <m:mfenced open="∥" close="∥">
+                <m:mi>x</m:mi>
+              </m:mfenced>
+              <m:mn>1</m:mn>
+            </m:msub>
+            <m:mo>≤</m:mo>
+            <m:mn>1</m:mn>
+          </m:mfenced>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id156617">Note that <m:math overflow="scroll"><m:msup><m:mi>C</m:mi><m:mi>N</m:mi></m:msup></m:math> is the convex hull of <m:math overflow="scroll"><m:mrow><m:mn>2</m:mn><m:mi>N</m:mi></m:mrow></m:math> points <m:math overflow="scroll"><m:msubsup><m:mrow><m:mo>{</m:mo><m:msub><m:mi>p</m:mi><m:mi>i</m:mi></m:msub><m:mo>}</m:mo></m:mrow><m:mrow><m:mi>i</m:mi><m:mo>=</m:mo><m:mn>1</m:mn></m:mrow><m:mrow><m:mn>2</m:mn><m:mi>N</m:mi></m:mrow></m:msubsup></m:math>. Let <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:msup><m:mi>C</m:mi><m:mi>N</m:mi></m:msup><m:mo>⊆</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>M</m:mi></m:msup></m:mrow></m:math> denote the convex polytope defined as either the convex hull of <m:math overflow="scroll"><m:msubsup><m:mrow><m:mo>{</m:mo><m:mi>Φ</m:mi><m:msub><m:mi>p</m:mi><m:mi>i</m:mi></m:msub><m:mo>}</m:mo></m:mrow><m:mrow><m:mi>i</m:mi><m:mo>=</m:mo><m:mn>1</m:mn></m:mrow><m:mrow><m:mn>2</m:mn><m:mi>N</m:mi></m:mrow></m:msubsup></m:math> or equivalently as</para>
+    <equation id="uid2"><m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mi>Φ</m:mi>
+          <m:msup>
+            <m:mi>C</m:mi>
+            <m:mi>N</m:mi>
+          </m:msup>
+          <m:mo>=</m:mo>
+          <m:mfenced separators="" open="{" close="}">
+            <m:mi>y</m:mi>
+            <m:mo>∈</m:mo>
+            <m:msup>
+              <m:mi mathvariant="double-struck">R</m:mi>
+              <m:mi>M</m:mi>
+            </m:msup>
+            <m:mo>:</m:mo>
+            <m:mi>y</m:mi>
+            <m:mo>=</m:mo>
+            <m:mi>Φ</m:mi>
+            <m:mi>x</m:mi>
+            <m:mo>,</m:mo>
+            <m:mi>x</m:mi>
+            <m:mo>∈</m:mo>
+            <m:msup>
+              <m:mi>C</m:mi>
+              <m:mi>N</m:mi>
+            </m:msup>
+          </m:mfenced>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id157012">For any <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>∈</m:mo><m:msub><m:mi>Σ</m:mi><m:mi>K</m:mi></m:msub> <m:mo>=</m:mo>
+          <m:mfenced separators="" open="{" close="}">
+            <m:mi>x</m:mi>
+            <m:mo>:</m:mo>
+            <m:msub>
+              <m:mfenced open="∥" close="∥">
+                <m:mi>x</m:mi>
+              </m:mfenced>
+              <m:mn>0</m:mn>
+            </m:msub>
+            <m:mo>≤</m:mo>
+            <m:mi>K</m:mi>
+          </m:mfenced> </m:mrow></m:math>, we can associate a <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-face of <m:math overflow="scroll"><m:msup><m:mi>C</m:mi><m:mi>N</m:mi></m:msup></m:math> with the support and sign pattern of <m:math overflow="scroll"><m:mi>x</m:mi></m:math>. One can show that the number of <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-faces of <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:msup><m:mi>C</m:mi><m:mi>N</m:mi></m:msup></m:mrow></m:math> is precisely the number of index sets of size <m:math overflow="scroll"><m:mi>K</m:mi></m:math> for which signals supported on them can be recovered by</para>
+    <equation id="id157096"><m:math overflow="scroll" mode="display">
+        <m:mrow>
+          <m:mover accent="true">
+            <m:mi>x</m:mi>
+            <m:mo>^</m:mo>
+          </m:mover>
+          <m:mo>=</m:mo>
+          <m:munder>
+            <m:mi> argmin </m:mi>
+            <m:mi>z</m:mi>
+          </m:munder>
+          <m:mspace width="4pt"/>
+          <m:msub>
+            <m:mfenced open="∥" close="∥">
+              <m:mi>z</m:mi>
+            </m:mfenced>
+            <m:mn>1</m:mn>
+          </m:msub>
+          <m:mspace width="1.em"/>
+          <m:mi> subject to </m:mi>
+          <m:mspace width="1.em"/>
+          <m:mi>z</m:mi>
+          <m:mo>∈</m:mo>
+          <m:mi mathvariant="script">B</m:mi>
+          <m:mrow>
+            <m:mo>(</m:mo>
+            <m:mi>y</m:mi>
+            <m:mo>)</m:mo>
+          </m:mrow>
+          <m:mo>.</m:mo>
+        </m:mrow>
+      </m:math>
+    </equation>
+    <para id="id157172">with <m:math overflow="scroll"><m:mrow><m:mi mathvariant="script">B</m:mi><m:mo>(</m:mo><m:mi>y</m:mi><m:mo>)</m:mo><m:mo>=</m:mo><m:mo>{</m:mo><m:mi>z</m:mi><m:mo>:</m:mo><m:mi>Φ</m:mi><m:mi>z</m:mi><m:mo>=</m:mo><m:mi>y</m:mi><m:mo>}</m:mo></m:mrow></m:math>. Thus, <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> minimization yields the same solution as <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>0</m:mn></m:msub></m:math> minimization for all <m:math overflow="scroll"><m:mrow><m:mi>x</m:mi><m:mo>∈</m:mo><m:msub><m:mi>Σ</m:mi><m:mi>K</m:mi></m:msub></m:mrow></m:math> if and only if the number of <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-faces of <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:msup><m:mi>C</m:mi><m:mi>N</m:mi></m:msup></m:mrow></m:math> is identical to the number of <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-faces of <m:math overflow="scroll"><m:msup><m:mi>C</m:mi><m:mi>N</m:mi></m:msup></m:math>. Moreover, by counting the number of <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-faces of <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:msup><m:mi>C</m:mi><m:mi>N</m:mi></m:msup></m:mrow></m:math>, we can quantify exactly what fraction of sparse vectors can be recovered using <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> minimization with <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> as our sensing matrix. See <link target-id="bid1"/>, <link target-id="bid0"/>, <link target-id="bid2"/>, <link target-id="bid3"/>, <link target-id="bid4"/> for more details and <link target-id="bid5"/> for an overview of the implications of this body of work. Note also that by replacing the cross-polytope with certain other polytopes (the simplex and the hypercube), one can apply the same technique to obtain results concerning the recovery of more limited signal classes, such as sparse signals with nonnegative or bounded entries <link target-id="bid5"/>.</para>
+    <para id="id157406">Given this result, one can then study random matrix constructions from this perspective to obtain probabilistic bounds on the number of <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-faces of <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:msup><m:mi>C</m:mi><m:mi>N</m:mi></m:msup></m:mrow></m:math> with <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> is generated at random, such as from a Gaussian distribution. Under the assumption that <m:math overflow="scroll"><m:mrow><m:mi>K</m:mi><m:mo>=</m:mo><m:mi>ρ</m:mi><m:mi>M</m:mi></m:mrow></m:math> and <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>=</m:mo><m:mi>γ</m:mi><m:mi>N</m:mi></m:mrow></m:math>, one can obtain asymptotic results as <m:math overflow="scroll"><m:mrow><m:mi>N</m:mi><m:mo>→</m:mo><m:mi>∞</m:mi></m:mrow></m:math>. This analysis leads to the <emphasis effect="italics">phase transition</emphasis> phenomenon, where for large problem sizes there are sharp thresholds dictating that the fraction of <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-faces preserved will tend to either one or zero with high probability, depending on <m:math overflow="scroll"><m:mi>ρ</m:mi></m:math> and <m:math overflow="scroll"><m:mi>γ</m:mi></m:math> <link target-id="bid5"/>.</para>
+    <para id="id157523">These results provide sharp bounds on the minimum number of measurements required in the noiseless setting. In general, these bounds are significantly stronger than the corresponding measurement bounds obtained within the RIP-based framework given in <link document="m37181" version="latest">"Noise-free signal recovery"</link>, which tend to be extremely loose in terms of the constants involved. However, these sharper bounds also require somewhat more intricate analysis and typically more restrictive assumptions on <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> (such as it being Gaussian). Thus, one of the main strengths of the RIP-based analysis presented in <link document="m37181" version="latest">"Noise-free signal recovery"</link> and <link document="m37182" version="latest">"Signal recovery in noise"</link> is that it gives results for a broad class of matrices that can also be extended to noisy settings.
+
+</para>
+  </content>
+  <bib:file>
+    <bib:entry id="bid1">
+      <bib:techreport>
+        <!--required fields-->
+        <bib:author>Donoho, D.</bib:author>
+        <bib:title>Neighborly polytopes and sparse solutions of underdetermined linear equations</bib:title>
+        <bib:institution>Stanford Univ., Stat. Dept.</bib:institution>
+        <bib:year>2005</bib:year>
+        <!--optional fields-->
+        <bib:type>Technical report</bib:type>
+        <bib:number>2005-04</bib:number>
+        <bib:address/>
+        <bib:month>Jan.</bib:month>
+        <bib:note/>
+      </bib:techreport>
+    </bib:entry>
+    <bib:entry id="bid0">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Donoho, D.</bib:author>
+        <bib:title>High-dimensional centrally symmetric polytopes with neighborliness proportional to dimension</bib:title>
+        <bib:journal>Discrete and Comput. Geometry</bib:journal>
+        <bib:year>2006</bib:year>
+        <!--optional fields-->
+        <bib:volume>35</bib:volume>
+        <bib:number>4</bib:number>
+        <bib:pages>617–652</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid2">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Donoho, D. and Tanner, J.</bib:author>
+        <bib:title>Neighborliness of randomly projected simplices in high dimensions</bib:title>
+        <bib:journal>Proc. Natl. Acad. Sci.</bib:journal>
+        <bib:year>2005</bib:year>
+        <!--optional fields-->
+        <bib:volume>102</bib:volume>
+        <bib:number>27</bib:number>
+        <bib:pages>9452–9457</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid3">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Donoho, D. and Tanner, J.</bib:author>
+        <bib:title>Sparse Nonnegative Solutions of Undetermined Linear Equations by Linear Programming</bib:title>
+        <bib:journal>Proc. Natl. Acad. Sci.</bib:journal>
+        <bib:year>2005</bib:year>
+        <!--optional fields-->
+        <bib:volume>102</bib:volume>
+        <bib:number>27</bib:number>
+        <bib:pages>9446–9451</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid4">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Donoho, D. and Tanner, J.</bib:author>
+        <bib:title>Counting faces of randomly-projected polytopes when the projection radically lowers dimension</bib:title>
+        <bib:journal>J. Amer. Math. Soc.</bib:journal>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume>22</bib:volume>
+        <bib:number>1</bib:number>
+        <bib:pages>1–53</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid5">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Donoho, D. and Tanner, J.</bib:author>
+        <bib:title>Precise undersampling theorems</bib:title>
+        <bib:journal>Proc. IEEE</bib:journal>
+        <bib:year>2010</bib:year>
+        <!--optional fields-->
+        <bib:volume>98</bib:volume>
+        <bib:number>6</bib:number>
+        <bib:pages>913–924</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+  </bib:file>
+</document>

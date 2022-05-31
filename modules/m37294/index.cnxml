@@ -1,0 +1,701 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:bib="http://bibtexml.sf.net/">
+  <title>Greedy algorithms</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m37294</md:content-id>
+  <md:title>Greedy algorithms</md:title>
+  <md:abstract>In this module we provide an overview of some of the most common greedy algorithms and their application to the problem of sparse recovery.</md:abstract>
+  <md:uuid>6f076bcc-62b0-4f45-a26b-e9ff412f645b</md:uuid>
+</metadata>
+
+<content>
+    <section id="uid1">
+      <title>Setup</title>
+      <para id="id62167">As opposed to solving a (possibly computationally expensive) <link document="m37293" version="latest">convex optimization</link> program, an alternate flavor to <link document="m37292" version="latest">sparse recovery</link> is to apply methods of <emphasis effect="italics">sparse approximation</emphasis>. Recall that the goal of sparse recovery is to recover the <emphasis effect="italics">sparsest</emphasis> vector <m:math overflow="scroll"><m:mi>x</m:mi></m:math> which explains the linear measurements <m:math overflow="scroll"><m:mi>y</m:mi></m:math>. In other words, we aim to solve the (nonconvex) problem:</para>
+      <equation id="uid2">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:munder>
+              <m:mo movablelimits="true" form="prefix">min</m:mo>
+              <m:mi mathvariant="script">I</m:mi>
+            </m:munder>
+            <m:mfenced separators="" open="{" close="}">
+              <m:mrow>
+                <m:mo>|</m:mo>
+                <m:mi mathvariant="script">I</m:mi>
+                <m:mo>|</m:mo>
+                <m:mo>:</m:mo>
+                <m:mi>y</m:mi>
+              </m:mrow>
+              <m:mo>=</m:mo>
+              <m:munder>
+                <m:mo>∑</m:mo>
+                <m:mrow>
+                  <m:mi>i</m:mi>
+                  <m:mo>∈</m:mo>
+                  <m:mi mathvariant="script">I</m:mi>
+                </m:mrow>
+              </m:munder>
+              <m:msub>
+                <m:mi>φ</m:mi>
+                <m:mi>i</m:mi>
+              </m:msub>
+              <m:msub>
+                <m:mi>x</m:mi>
+                <m:mi>i</m:mi>
+              </m:msub>
+            </m:mfenced>
+            <m:mo>,</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id62619">where <m:math overflow="scroll"><m:mi mathvariant="script">I</m:mi></m:math> denotes a particular subset of the indices <m:math overflow="scroll"><m:mrow><m:mi>i</m:mi><m:mo>=</m:mo><m:mn>1</m:mn><m:mo>,</m:mo><m:mo>...</m:mo><m:mo>,</m:mo><m:mi>N</m:mi></m:mrow></m:math>, and <m:math overflow="scroll"><m:msub><m:mi>φ</m:mi><m:mi>i</m:mi></m:msub></m:math> denotes the <m:math overflow="scroll"><m:msup><m:mi>i</m:mi><m:mi> th </m:mi></m:msup></m:math> column of <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>. It is well known that searching over the power set formed by the columns of <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> for the optimal subset <m:math overflow="scroll"><m:msup><m:mi mathvariant="script">I</m:mi><m:mo>*</m:mo></m:msup></m:math> with smallest cardinality is NP-hard. Instead, classical sparse approximation methods tackle this problem by <emphasis effect="italics">greedily</emphasis> selecting columns of <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> and forming successively better approximations to <m:math overflow="scroll"><m:mi>y</m:mi></m:math>.</para>
+    </section>
+    <section id="uid3"><title>Matching Pursuit</title><para id="id62746">Matching Pursuit (MP), named and introduced to the signal processing community by Mallat and Zhang <link target-id="bid1"/>, <link target-id="bid0"/>, is an iterative greedy algorithm that decomposes a signal into a linear combination of elements from a dictionary. In sparse recovery, this dictionary is merely the sampling matrix <m:math overflow="scroll"><m:mrow><m:mi>Φ</m:mi><m:mo>∈</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mrow><m:mi>M</m:mi><m:mo>×</m:mo><m:mi>N</m:mi></m:mrow></m:msup></m:mrow></m:math>; we seek a sparse representation (<m:math overflow="scroll"><m:mi>x</m:mi></m:math>) of our “signal” <m:math overflow="scroll"><m:mi>y</m:mi></m:math>.</para>
+      <para id="id62126">MP is conceptually very simple. A key quantity in MP is the <emphasis effect="italics">residual</emphasis> <m:math overflow="scroll"><m:mrow><m:mi>r</m:mi><m:mo>∈</m:mo><m:msup><m:mi mathvariant="double-struck">R</m:mi><m:mi>M</m:mi></m:msup></m:mrow></m:math>; the residual represents the as-yet “unexplained” portion of the measurements. At each iteration of the algorithm,
+we select a vector from the dictionary that is maximally correlated with the residual <m:math overflow="scroll"><m:mi>r</m:mi></m:math>:</para>
+      <equation id="id63025">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:msub>
+              <m:mi>λ</m:mi>
+              <m:mi>k</m:mi>
+            </m:msub>
+            <m:mo>=</m:mo>
+            <m:mo form="prefix">arg</m:mo>
+            <m:munder>
+              <m:mo movablelimits="true" form="prefix">max</m:mo>
+              <m:mi>λ</m:mi>
+            </m:munder>
+            <m:mfrac>
+              <m:mrow>
+                <m:mrow>
+                  <m:mo>〈</m:mo>
+                  <m:msub>
+                    <m:mi>r</m:mi>
+                    <m:mi>k</m:mi>
+                  </m:msub>
+                  <m:mo>,</m:mo>
+                  <m:msub>
+                    <m:mi>φ</m:mi>
+                    <m:mi>λ</m:mi>
+                  </m:msub>
+                  <m:mo>〉</m:mo>
+                </m:mrow>
+                <m:msub>
+                  <m:mi>φ</m:mi>
+                  <m:mi>λ</m:mi>
+                </m:msub>
+              </m:mrow>
+              <m:mrow>
+                <m:mrow>
+                  <m:mo>∥</m:mo>
+                </m:mrow>
+                <m:msub>
+                  <m:mi>φ</m:mi>
+                  <m:mi>λ</m:mi>
+                </m:msub>
+                <m:msup>
+                  <m:mrow>
+                    <m:mo>∥</m:mo>
+                  </m:mrow>
+                  <m:mn>2</m:mn>
+                </m:msup>
+              </m:mrow>
+            </m:mfrac>
+            <m:mo>.</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id63116">Once this column is selected, we possess a “better” representation of the signal, since a new coefficient indexed by <m:math overflow="scroll"><m:msub><m:mi>λ</m:mi><m:mi>k</m:mi></m:msub></m:math> has been added to our signal approximation. Thus, we update both the residual and the approximation as follows:</para>
+      <equation id="uid4">
+        <m:math overflow="scroll" mode="display">
+          <m:mtable displaystyle="true">
+            <m:mtr>
+              <m:mtd columnalign="right">
+                <m:msub>
+                  <m:mi>r</m:mi>
+                  <m:mi>k</m:mi>
+                </m:msub>
+              </m:mtd>
+              <m:mtd columnalign="left">
+                <m:mrow>
+                  <m:mo>=</m:mo>
+                  <m:msub>
+                    <m:mi>r</m:mi>
+                    <m:mrow>
+                      <m:mi>k</m:mi>
+                      <m:mo>-</m:mo>
+                      <m:mn>1</m:mn>
+                    </m:mrow>
+                  </m:msub>
+                  <m:mo>-</m:mo>
+                  <m:mfrac>
+                    <m:mrow>
+                      <m:mrow>
+                        <m:mo>〈</m:mo>
+                        <m:msub>
+                          <m:mi>r</m:mi>
+                          <m:mrow>
+                            <m:mi>k</m:mi>
+                            <m:mo>-</m:mo>
+                            <m:mn>1</m:mn>
+                          </m:mrow>
+                        </m:msub>
+                        <m:mo>,</m:mo>
+                        <m:msub>
+                          <m:mi>φ</m:mi>
+                          <m:msub>
+                            <m:mi>λ</m:mi>
+                            <m:mi>k</m:mi>
+                          </m:msub>
+                        </m:msub>
+                        <m:mo>〉</m:mo>
+                      </m:mrow>
+                      <m:msub>
+                        <m:mi>φ</m:mi>
+                        <m:msub>
+                          <m:mi>λ</m:mi>
+                          <m:mi>k</m:mi>
+                        </m:msub>
+                      </m:msub>
+                    </m:mrow>
+                    <m:mrow>
+                      <m:mrow>
+                        <m:mo>∥</m:mo>
+                      </m:mrow>
+                      <m:msub>
+                        <m:mi>φ</m:mi>
+                        <m:msub>
+                          <m:mi>λ</m:mi>
+                          <m:mi>k</m:mi>
+                        </m:msub>
+                      </m:msub>
+                      <m:msup>
+                        <m:mrow>
+                          <m:mo>∥</m:mo>
+                        </m:mrow>
+                        <m:mn>2</m:mn>
+                      </m:msup>
+                    </m:mrow>
+                  </m:mfrac>
+                  <m:mo>,</m:mo>
+                </m:mrow>
+              </m:mtd>
+            </m:mtr>
+            <m:mtr>
+              <m:mtd columnalign="right">
+                <m:msub>
+                  <m:mover accent="true">
+                    <m:mi>x</m:mi>
+                    <m:mo>^</m:mo>
+                  </m:mover>
+                  <m:msub>
+                    <m:mi>λ</m:mi>
+                    <m:mi>k</m:mi>
+                  </m:msub>
+                </m:msub>
+              </m:mtd>
+              <m:mtd columnalign="left">
+                <m:mrow>
+                  <m:mo>=</m:mo>
+                  <m:msub>
+                    <m:mover accent="true">
+                      <m:mi>x</m:mi>
+                      <m:mo>^</m:mo>
+                    </m:mover>
+                    <m:msub>
+                      <m:mi>λ</m:mi>
+                      <m:mi>k</m:mi>
+                    </m:msub>
+                  </m:msub>
+                  <m:mo>+</m:mo>
+                  <m:mrow>
+                    <m:mo>〈</m:mo>
+                    <m:msub>
+                      <m:mi>r</m:mi>
+                      <m:mrow>
+                        <m:mi>k</m:mi>
+                        <m:mo>-</m:mo>
+                        <m:mn>1</m:mn>
+                      </m:mrow>
+                    </m:msub>
+                    <m:mo>,</m:mo>
+                    <m:msub>
+                      <m:mi>φ</m:mi>
+                      <m:msub>
+                        <m:mi>λ</m:mi>
+                        <m:mi>k</m:mi>
+                      </m:msub>
+                    </m:msub>
+                    <m:mo>〉</m:mo>
+                  </m:mrow>
+                  <m:mo>.</m:mo>
+                </m:mrow>
+              </m:mtd>
+            </m:mtr>
+          </m:mtable>
+        </m:math>
+      </equation>
+      <para id="id63349">and repeat the iteration. A suitable stopping criterion is when the norm of <m:math overflow="scroll"><m:mi>r</m:mi></m:math> becomes smaller than some quantity. MP is described in pseudocode form below.</para>
+<code id="eip-id1172228534309" display="block">Inputs: Measurement matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>, signal measurements <m:math overflow="scroll"><m:mi>y</m:mi></m:math>
+Outputs: Sparse signal <m:math overflow="scroll"><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover></m:math>
+initialize: <m:math overflow="scroll"><m:mrow><m:msub><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mn>0</m:mn></m:msub><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math>, <m:math overflow="scroll"><m:mrow><m:mi>r</m:mi><m:mo>=</m:mo><m:mi>y</m:mi></m:mrow></m:math>, <m:math overflow="scroll"><m:mrow><m:mi>i</m:mi><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math>.
+<emphasis effect="bold">while</emphasis> ħalting criterion false <emphasis effect="bold">do</emphasis>
+    1. <m:math overflow="scroll"><m:mrow><m:mi>i</m:mi><m:mo>←</m:mo><m:mi>i</m:mi><m:mo>+</m:mo><m:mn>1</m:mn></m:mrow></m:math>
+    2. <m:math overflow="scroll"><m:mrow><m:mi>b</m:mi><m:mo>←</m:mo><m:msup><m:mi>Φ</m:mi><m:mi>T</m:mi></m:msup><m:mi>r</m:mi></m:mrow></m:math> {form residual signal estimate}
+    3. <m:math overflow="scroll"><m:mrow><m:msub><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mi>i</m:mi></m:msub><m:mo>←</m:mo><m:msub><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mrow><m:mi>i</m:mi><m:mo>-</m:mo><m:mn>1</m:mn></m:mrow></m:msub><m:mo>+</m:mo><m:mi mathvariant="bold">T</m:mi><m:mrow><m:mo>(</m:mo><m:mn>1</m:mn><m:mo>)</m:mo></m:mrow></m:mrow></m:math> {update largest magnitude coefficient}
+    4. <m:math overflow="scroll"><m:mrow><m:mi>r</m:mi><m:mo>←</m:mo><m:mi>r</m:mi><m:mo>-</m:mo><m:mi>Φ</m:mi><m:msub><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mi>i</m:mi></m:msub></m:mrow></m:math> {update measurement residual}
+<emphasis effect="bold">end while</emphasis>
+return <m:math overflow="scroll"><m:mrow><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mo>←</m:mo><m:msub><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mi>i</m:mi></m:msub></m:mrow></m:math>
+</code>
+      <para id="id63699">Although MP is intuitive and can find an accurate approximation of the signal, it possesses two major drawbacks: (i) it offers no guarantees in terms of recovery error; indeed, it does not exploit the special structure present in the dictionary <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>; (ii) the required number of iterations required can be quite large. The complexity of MP is <m:math overflow="scroll"><m:mrow><m:mi>O</m:mi><m:mo>(</m:mo><m:mi>M</m:mi><m:mi>N</m:mi><m:mi>T</m:mi><m:mo>)</m:mo></m:mrow></m:math> <link target-id="bid2"/> , where <m:math overflow="scroll"><m:mi>T</m:mi></m:math> is the number of MP iterations</para>
+    </section>
+    <section id="uid9"><title>Orthogonal Matching Pursuit (OMP)</title><para id="id63755">Matching Pursuit (MP) can prove to be computationally infeasible for many problems, since the complexity of MP grows linearly in the number of iterations <m:math overflow="scroll"><m:mi>T</m:mi></m:math>. By employing a simple modification of MP, the maximum number of MP iterations can be upper bounded as follows.
+At any iteration <m:math overflow="scroll"><m:mi>k</m:mi></m:math>, Instead of subtracting the contribution of the dictionary element with which the residual <m:math overflow="scroll"><m:mi>r</m:mi></m:math> is maximally correlated, we compute the projection of <m:math overflow="scroll"><m:mi>r</m:mi></m:math> onto the <emphasis effect="italics">orthogonal subspace</emphasis> to the linear span of the currently selected dictionary elements. This quantity thus better represents the “unexplained” portion of the residual, and is subtracted from <m:math overflow="scroll"><m:mi>r</m:mi></m:math> to form a new residual, and the process is repeated. If <m:math overflow="scroll"><m:msub><m:mi>Φ</m:mi><m:mi>Ω</m:mi></m:msub></m:math> is the submatrix formed by the columns of <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> selected at time step <m:math overflow="scroll"><m:mi>t</m:mi></m:math>, the following operations are performed:</para>
+      <equation id="uid10">
+        <m:math overflow="scroll" mode="display">
+          <m:mtable displaystyle="true">
+            <m:mtr>
+              <m:mtd columnalign="right">
+                <m:msub>
+                  <m:mi>x</m:mi>
+                  <m:mi>k</m:mi>
+                </m:msub>
+              </m:mtd>
+              <m:mtd columnalign="left">
+                <m:mrow>
+                  <m:mo>=</m:mo>
+                  <m:mo form="prefix">arg</m:mo>
+                  <m:munder>
+                    <m:mo movablelimits="true" form="prefix">min</m:mo>
+                    <m:mi>x</m:mi>
+                  </m:munder>
+                  <m:msub>
+                    <m:mrow>
+                      <m:mo>∥</m:mo>
+                      <m:mi>y</m:mi>
+                      <m:mo>-</m:mo>
+                      <m:msub>
+                        <m:mi>Φ</m:mi>
+                        <m:mi>Ω</m:mi>
+                      </m:msub>
+                      <m:mi>x</m:mi>
+                      <m:mo>∥</m:mo>
+                    </m:mrow>
+                    <m:mn>2</m:mn>
+                  </m:msub>
+                  <m:mo>,</m:mo>
+                </m:mrow>
+              </m:mtd>
+            </m:mtr>
+            <m:mtr>
+              <m:mtd columnalign="right">
+                <m:msub>
+                  <m:mover accent="true">
+                    <m:mi>α</m:mi>
+                    <m:mo>^</m:mo>
+                  </m:mover>
+                  <m:mi>t</m:mi>
+                </m:msub>
+              </m:mtd>
+              <m:mtd columnalign="left">
+                <m:mrow>
+                  <m:mo>=</m:mo>
+                  <m:msub>
+                    <m:mi>Φ</m:mi>
+                    <m:mi>Ω</m:mi>
+                  </m:msub>
+                  <m:msub>
+                    <m:mi>x</m:mi>
+                    <m:mi>t</m:mi>
+                  </m:msub>
+                  <m:mo>,</m:mo>
+                </m:mrow>
+              </m:mtd>
+            </m:mtr>
+            <m:mtr>
+              <m:mtd columnalign="right">
+                <m:msub>
+                  <m:mi>r</m:mi>
+                  <m:mi>t</m:mi>
+                </m:msub>
+              </m:mtd>
+              <m:mtd columnalign="left">
+                <m:mrow>
+                  <m:mo>=</m:mo>
+                  <m:mi>y</m:mi>
+                  <m:mo>-</m:mo>
+                  <m:msub>
+                    <m:mover accent="true">
+                      <m:mi>α</m:mi>
+                      <m:mo>^</m:mo>
+                    </m:mover>
+                    <m:mi>t</m:mi>
+                  </m:msub>
+                  <m:mo>.</m:mo>
+                </m:mrow>
+              </m:mtd>
+            </m:mtr>
+          </m:mtable>
+        </m:math>
+      </equation>
+      <para id="id63995">These steps are repeated until convergence. This is known as Orthogonal Matching Pursuit (OMP) <link target-id="bid3"/>. Tropp and Gilbert <link target-id="bid4"/> proved that OMP can be used to recover a sparse signal with high probability using compressive measurements. The algorithm converges in at most <m:math overflow="scroll"><m:mi>K</m:mi></m:math> iterations, where K is the sparsity, but requires the added computational cost of orthogonalization at each iteration. Indeed, the total complexity of OMP can be shown to be <m:math overflow="scroll"><m:mrow><m:mi>O</m:mi><m:mo>(</m:mo><m:mi>M</m:mi><m:mi>N</m:mi><m:mi>K</m:mi><m:mo>)</m:mo><m:mo>.</m:mo></m:mrow></m:math></para>
+      <para id="id64044">While OMP is provably fast and can be shown to lead to exact recovery, the guarantees accompanying OMP for sparse recovery are weaker than <link document="m37179" version="latest">those associated with optimization techniques</link>. In particular, the reconstruction guarantees are <emphasis effect="italics">not uniform</emphasis>, i.e., it cannot be shown that a single measurement matrix with <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>=</m:mo><m:mi>C</m:mi><m:mi>K</m:mi><m:mo form="prefix">log</m:mo><m:mi>N</m:mi></m:mrow></m:math> rows can be used to recover every possible <m:math overflow="scroll"><m:mrow><m:mi>K</m:mi><m:mo>-</m:mo></m:mrow></m:math>sparse signal with <m:math overflow="scroll"><m:mrow><m:mi>M</m:mi><m:mo>=</m:mo><m:mi>C</m:mi><m:mi>K</m:mi><m:mo form="prefix">log</m:mo><m:mi>N</m:mi></m:mrow></m:math> measurements. (Although it is possible to obtain such uniform guarantees when it is acceptable to take more measurements.  For example, see <link target-id="bid19"/>.) Another issue with OMP is robustness to noise; it is unknown whether the solution obtained by OMP will only be perturbed slightly by the addition of a small amount of noise in the measurements. Nevertheless, OMP is an efficient method for CS recovery, especially when the signal sparsity <m:math overflow="scroll"><m:mi>K</m:mi></m:math> is low. A pseudocode representation of OMP is shown below.</para>
+<code id="eip-id1171265623978" display="block">Inputs: Measurement matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>, signal measurements <m:math overflow="scroll"><m:mi>y</m:mi></m:math>
+Outputs: Sparse representation <m:math overflow="scroll"><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover></m:math>
+Initialize: <m:math overflow="scroll"><m:mrow><m:msub><m:mover accent="true"><m:mi>θ</m:mi><m:mo>^</m:mo></m:mover><m:mn>0</m:mn></m:msub><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math>, <m:math overflow="scroll"><m:mrow><m:mi>r</m:mi><m:mo>=</m:mo><m:mi>y</m:mi></m:mrow></m:math>, <m:math overflow="scroll"><m:mrow><m:mi>Ω</m:mi><m:mo>=</m:mo><m:mi>∅</m:mi></m:mrow></m:math>, <m:math overflow="scroll"><m:mrow><m:mi>i</m:mi><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math>.
+<emphasis effect="bold">while</emphasis> ħalting criterion false <emphasis effect="bold">do</emphasis>
+    1. <m:math overflow="scroll"><m:mrow><m:mi>i</m:mi><m:mo>←</m:mo><m:mi>i</m:mi><m:mo>+</m:mo><m:mn>1</m:mn></m:mrow></m:math>
+    2. <m:math overflow="scroll"><m:mrow><m:mi>b</m:mi><m:mo>←</m:mo><m:msup><m:mi>Φ</m:mi><m:mi>T</m:mi></m:msup><m:mi>r</m:mi></m:mrow></m:math> {form residual signal estimate}
+    3. <m:math overflow="scroll"><m:mrow><m:mi>Ω</m:mi><m:mo>←</m:mo><m:mi>Ω</m:mi><m:mo>∪</m:mo><m:mi> supp </m:mi><m:mo>(</m:mo><m:mi mathvariant="bold">T</m:mi><m:mo>(</m:mo><m:mi>b</m:mi><m:mo>,</m:mo><m:mn>1</m:mn><m:mo>)</m:mo><m:mo>)</m:mo></m:mrow></m:math> {add index of residual's largest magnitude entry to signal support}
+    4. <m:math overflow="scroll"><m:mrow><m:msub><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mi>i</m:mi></m:msub><m:msub><m:mrow><m:mo>|</m:mo></m:mrow><m:mi>Ω</m:mi></m:msub><m:mo>←</m:mo><m:msubsup><m:mi>Φ</m:mi><m:mi>Ω</m:mi><m:mo>†</m:mo></m:msubsup><m:mi>x</m:mi></m:mrow></m:math>, <m:math overflow="scroll"><m:mrow><m:msub><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mi>i</m:mi></m:msub><m:msub><m:mrow><m:mo>|</m:mo></m:mrow><m:msup><m:mi>Ω</m:mi><m:mi>C</m:mi></m:msup></m:msub><m:mo>←</m:mo><m:mn>0</m:mn></m:mrow></m:math> {form signal estimate}
+    5. <m:math overflow="scroll"><m:mrow><m:mi>r</m:mi><m:mo>←</m:mo><m:mi>y</m:mi><m:mo>-</m:mo><m:mi>Φ</m:mi><m:msub><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mi>i</m:mi></m:msub></m:mrow></m:math> {update measurement residual}
+<emphasis effect="bold">end while</emphasis>
+return <m:math overflow="scroll"><m:mrow><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mo>←</m:mo><m:msub><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mi>i</m:mi></m:msub></m:mrow></m:math>
+</code></section>
+    <section id="uid17">
+      <title>Stagewise Orthogonal Matching Pursuit (StOMP)</title>
+      <para id="id64592">Orthogonal Matching Pursuit is ineffective when the signal is not very sparse as the computational cost increases quadratically with the number of nonzeros <m:math overflow="scroll"><m:mi>K</m:mi></m:math>. In this setting, Stagewise Orthogonal Matching Pursuit (StOMP) <link target-id="bid12"/> is a better choice for approximately sparse signals in a large-scale setting.</para>
+      <para id="id64613">StOMP offers considerable computational advantages over <link document="m37293" version="latest"><m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> minimization</link> and Orthogonal Matching Pursuit for large scale problems with sparse solutions.
+The algorithm starts with an initial residual <m:math overflow="scroll"><m:mrow><m:msub><m:mi>r</m:mi><m:mn>0</m:mn></m:msub><m:mo>=</m:mo><m:mi>y</m:mi></m:mrow></m:math> and calculates the set of all projections <m:math overflow="scroll"><m:mrow><m:msup><m:mi>Φ</m:mi><m:mi>T</m:mi></m:msup><m:msub><m:mi>r</m:mi><m:mrow><m:mi>k</m:mi><m:mo>-</m:mo><m:mn>1</m:mn></m:mrow></m:msub></m:mrow></m:math> at the <m:math overflow="scroll"><m:msup><m:mi>k</m:mi><m:mrow><m:mi>t</m:mi><m:mi>h</m:mi></m:mrow></m:msup></m:math> stage (as in OMP). However, instead of picking a single dictionary element, it uses a threshold parameter <m:math overflow="scroll"><m:mi>τ</m:mi></m:math> to determine the next best <emphasis effect="italics">set of columns</emphasis> of <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> whose correlations with the current residual exceed <m:math overflow="scroll"><m:mi>τ</m:mi></m:math>. The new residual is calculated using a least squares estimate of the signal using this expanded set of columns, just as before.</para>
+      <para id="id64733">Unlike OMP, the number of iterations in StOMP is fixed and chosen before hand; <m:math overflow="scroll"><m:mrow><m:mi>S</m:mi><m:mo>=</m:mo><m:mn>10</m:mn></m:mrow></m:math> is recommended in <link target-id="bid12"/>. In general, the complexity of StOMP is <m:math overflow="scroll"><m:mrow><m:mi>O</m:mi><m:mo>(</m:mo><m:mi>K</m:mi><m:mi>N</m:mi><m:mo form="prefix">log</m:mo><m:mi>N</m:mi><m:mo>)</m:mo></m:mrow></m:math> , a significant improvement over OMP. However, StOMP does not bring in its wake any reconstruction guarantees. StOMP also has moderate memory requirements compared to OMP where the orthogonalization requires the maintenance of a Cholesky factorization of the dictionary elements.</para>
+    </section>
+    <section id="uid18"><title>Compressive Sampling Matching Pursuit (CoSaMP)</title><para id="id64795">Greedy pursuit algorithms (such as MP and OMP) alleviate the issue of computational complexity encountered in optimization-based sparse recovery, but lose the associated strong guarantees for uniform signal recovery, given a requisite number of measurements of the signal. In addition, it is unknown whether these greedy algorithms are robust to signal and/or measurement noise.</para>
+      <para id="id64801">There have been some recent attempts to develop greedy algorithms (Regularized OMP <link target-id="bid6"/>, <link target-id="bid7"/>, Compressive Sampling Matching Pursuit (CoSaMP) <link target-id="bid8"/> and Subspace Pursuit <link target-id="bid9"/>) that bridge this gap between uniformity and complexity. Intriguingly, the <link document="m37171" version="latest">restricted isometry property</link> (RIP), developed in the context of analyzing <link document="m37179" version="latest"><m:math overflow="scroll"><m:mrow><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:mrow></m:math> minimization</link>, plays a central role in such algorithms. Indeed, if the matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> satisfies the RIP of order <m:math overflow="scroll"><m:mi>K</m:mi></m:math>, this implies that every subset of <m:math overflow="scroll"><m:mi>K</m:mi></m:math> columns of the matrix is approximately orthonormal. This property is used to prove strong convergence results of these greedy-like methods.</para>
+      <para id="id64891">One variant of such an approach is employed by the CoSaMP algorithm. An interesting feature of CoSaMP is that unlike MP, OMP and StOMP, new indices in a signal estimate can be added <emphasis effect="italics">as well as deleted</emphasis> from the current set of chosen indices. In contrast, greedy pursuit algorithms suffer from the fact that a chosen index (or equivalently, a chosen atom from the dictionary <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> remains in the signal representation until the end. A brief description of CoSaMP is as follows: at the start of a given iteration <m:math overflow="scroll"><m:mi>i</m:mi></m:math>, suppose the signal estimate is <m:math overflow="scroll"><m:msub><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mrow><m:mi>i</m:mi><m:mo>-</m:mo><m:mn>1</m:mn></m:mrow></m:msub></m:math>.</para>
+      <list id="id64948" display="block" list-type="bulleted">
+        <item id="uid19">Form signal residual estimate: <m:math overflow="scroll"><m:mrow><m:mi>e</m:mi><m:mo>←</m:mo><m:msup><m:mi>Φ</m:mi><m:mi>T</m:mi></m:msup><m:mi>r</m:mi></m:mrow></m:math></item>
+        <item id="uid20">Find the biggest <m:math overflow="scroll"><m:mrow><m:mn>2</m:mn><m:mi>K</m:mi></m:mrow></m:math> coefficients of the signal residual <m:math overflow="scroll"><m:mi>e</m:mi></m:math>; call this set of indices <m:math overflow="scroll"><m:mi>Ω</m:mi></m:math>.
+</item>
+        <item id="uid21">Merge supports: <m:math overflow="scroll"><m:mrow><m:mi>T</m:mi><m:mo>←</m:mo><m:mi>Ω</m:mi><m:mo>∪</m:mo><m:mi> supp </m:mi><m:mo>(</m:mo><m:msub><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mrow><m:mi>i</m:mi><m:mo>-</m:mo><m:mn>1</m:mn></m:mrow></m:msub><m:mo>)</m:mo></m:mrow></m:math> .
+</item>
+        <item id="uid22">Form signal estimate <m:math overflow="scroll"><m:mi>b</m:mi></m:math> by subspace projection: <m:math overflow="scroll"><m:mrow><m:msub><m:mrow><m:mi>b</m:mi><m:mo>|</m:mo></m:mrow><m:mi>T</m:mi></m:msub><m:mo>←</m:mo><m:msubsup><m:mi>Φ</m:mi><m:mi>T</m:mi><m:mo>†</m:mo></m:msubsup><m:mi>y</m:mi></m:mrow></m:math>, <m:math overflow="scroll"><m:mrow><m:msub><m:mrow><m:mi>b</m:mi><m:mo>|</m:mo></m:mrow><m:msup><m:mi>T</m:mi><m:mi>C</m:mi></m:msup></m:msub><m:mo>←</m:mo><m:mn>0</m:mn></m:mrow></m:math> .
+</item>
+        <item id="uid23">Prune <m:math overflow="scroll"><m:mi>b</m:mi></m:math> by retaining its <m:math overflow="scroll"><m:mi>K</m:mi></m:math> largest coefficients. Call this new estimate <m:math overflow="scroll"><m:msub><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mi>i</m:mi></m:msub></m:math>.
+</item>
+        <item id="uid24">Update measurement residual: <m:math overflow="scroll"><m:mrow><m:mi>r</m:mi><m:mo>←</m:mo><m:mi>y</m:mi><m:mo>-</m:mo><m:mi>Φ</m:mi><m:msub><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mi>i</m:mi></m:msub></m:mrow></m:math>.
+</item>
+      </list>
+      <para id="id65262">This procedure is summarized in pseudocode form below.</para>
+<code id="eip-id8186764" display="block">Inputs: Measurement matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math>, measurements <m:math overflow="scroll"><m:mi>y</m:mi></m:math>, signal sparsity <m:math overflow="scroll"><m:mi>K</m:mi></m:math>
+Output: <m:math overflow="scroll"><m:mi>K</m:mi></m:math>-sparse approximation <m:math overflow="scroll"><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover></m:math> to true signal representation <m:math overflow="scroll"><m:mi>x</m:mi></m:math>
+Initialize: <m:math overflow="scroll"><m:mrow><m:msub><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mn>0</m:mn></m:msub><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math> , <m:math overflow="scroll"><m:mrow><m:mi>r</m:mi><m:mo>=</m:mo><m:mi>y</m:mi></m:mrow></m:math>; <m:math overflow="scroll"><m:mrow><m:mi>i</m:mi><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math>
+<emphasis effect="bold">while</emphasis> ħalting criterion false <emphasis effect="bold">do</emphasis>
+    1. <m:math overflow="scroll">
+            <m:mrow><m:mi>i</m:mi><m:mo>←</m:mo><m:mi>i</m:mi><m:mo>+</m:mo><m:mn>1</m:mn></m:mrow></m:math>
+    2. <m:math overflow="scroll"><m:mrow><m:mi>e</m:mi><m:mo>←</m:mo><m:msup><m:mi>Φ</m:mi><m:mi>T</m:mi></m:msup><m:mi>r</m:mi></m:mrow></m:math> {form signal residual estimate}
+    3. <m:math overflow="scroll"><m:mrow><m:mi>Ω</m:mi><m:mo>←</m:mo><m:mi> supp </m:mi><m:mo>(</m:mo><m:mi mathvariant="bold">T</m:mi><m:mo>(</m:mo><m:mi>e</m:mi><m:mo>,</m:mo><m:mn>2</m:mn><m:mi>K</m:mi><m:mo>)</m:mo><m:mo>)</m:mo></m:mrow></m:math> {prune signal residual estimate}
+    4. <m:math overflow="scroll"><m:mrow><m:mi>T</m:mi><m:mo>←</m:mo><m:mi>Ω</m:mi><m:mo>∪</m:mo><m:mi> supp </m:mi><m:mo>(</m:mo><m:msub><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mrow><m:mi>i</m:mi><m:mo>-</m:mo><m:mn>1</m:mn></m:mrow></m:msub><m:mo>)</m:mo></m:mrow></m:math> {merge supports}
+    5. <m:math overflow="scroll"><m:mrow><m:msub><m:mrow><m:mi>b</m:mi><m:mo>|</m:mo></m:mrow><m:mi>T</m:mi></m:msub><m:mo>←</m:mo><m:msubsup><m:mi>Φ</m:mi><m:mi>T</m:mi><m:mo>†</m:mo></m:msubsup><m:mi>y</m:mi></m:mrow></m:math>, <m:math overflow="scroll"><m:msub><m:mrow><m:mi>b</m:mi><m:mo>|</m:mo></m:mrow><m:msup><m:mi>T</m:mi><m:mi>C</m:mi></m:msup></m:msub></m:math> {form signal estimate}
+    6. <m:math overflow="scroll"><m:mrow><m:msub><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mi>i</m:mi></m:msub><m:mo>←</m:mo><m:mi mathvariant="bold">T</m:mi><m:mrow><m:mo>(</m:mo><m:mi>b</m:mi><m:mo>,</m:mo><m:mi>K</m:mi><m:mo>)</m:mo></m:mrow></m:mrow></m:math> {prune signal estimate}
+    7. <m:math overflow="scroll"><m:mrow><m:mi>r</m:mi><m:mo>←</m:mo><m:mi>y</m:mi><m:mo>-</m:mo><m:mi>Φ</m:mi><m:msub><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mi>i</m:mi></m:msub></m:mrow></m:math> {update measurement residual}
+<emphasis effect="bold">end while</emphasis>
+return <m:math overflow="scroll"><m:mrow><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mo>←</m:mo><m:msub><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mi>i</m:mi></m:msub></m:mrow></m:math>
+</code>
+      <para id="id65795">As discussed in <link target-id="bid8"/>, the key computational issues for CoSaMP are the formation of the signal residual, and the method used for subspace projection in the signal estimation step. Under certain general assumptions, the computational cost of CoSaMP can be shown to be <m:math overflow="scroll"><m:mrow><m:mi>O</m:mi><m:mo>(</m:mo><m:mi>M</m:mi><m:mi>N</m:mi><m:mo>)</m:mo></m:mrow></m:math>, which is <emphasis effect="italics">independent</emphasis> of the sparsity of the original signal. This represents an improvement over both greedy algorithms as well as convex methods.</para>
+      <para id="id65832">While CoSaMP arguably represents the state of the art in sparse recovery algorithm performance, it possesses one drawback: the algorithm requires prior knowledge of the sparsity <m:math overflow="scroll"><m:mi>K</m:mi></m:math> of the target signal. An incorrect choice of input sparsity may lead to a worse guarantee than the actual error incurred by a weaker algorithm such as OMP. The stability bounds accompanying CoSaMP ensure that the error due to an incorrect parameter choice is bounded, but it is not yet known how these bounds translate into practice.</para>
+    </section>
+    <section id="uid32">
+      <title>Iterative Hard Thresholding</title>
+      <para id="id65859">Iterative Hard Thresholding (IHT) is a well-known algorithm for solving nonlinear inverse problems. The structure of IHT is simple: starting with an initial estimate <m:math overflow="scroll"><m:msub><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover><m:mn>0</m:mn></m:msub></m:math>, iterative hard thresholding (IHT) obtains a sequence of estimates using the iteration:</para>
+      <equation id="id65885">
+        <m:math overflow="scroll" mode="display">
+          <m:mrow>
+            <m:msub>
+              <m:mover accent="true">
+                <m:mi>x</m:mi>
+                <m:mo>^</m:mo>
+              </m:mover>
+              <m:mrow>
+                <m:mi>i</m:mi>
+                <m:mo>+</m:mo>
+                <m:mn>1</m:mn>
+              </m:mrow>
+            </m:msub>
+            <m:mo>=</m:mo>
+            <m:mi mathvariant="bold">T</m:mi>
+            <m:mrow>
+              <m:mo>(</m:mo>
+              <m:msub>
+                <m:mover accent="true">
+                  <m:mi>x</m:mi>
+                  <m:mo>^</m:mo>
+                </m:mover>
+                <m:mi>i</m:mi>
+              </m:msub>
+              <m:mo>+</m:mo>
+              <m:msup>
+                <m:mi>Φ</m:mi>
+                <m:mi>T</m:mi>
+              </m:msup>
+              <m:mrow>
+                <m:mo>(</m:mo>
+                <m:mi>y</m:mi>
+                <m:mo>-</m:mo>
+                <m:mi>Φ</m:mi>
+                <m:msub>
+                  <m:mover accent="true">
+                    <m:mi>x</m:mi>
+                    <m:mo>^</m:mo>
+                  </m:mover>
+                  <m:mi>i</m:mi>
+                </m:msub>
+                <m:mo>)</m:mo>
+              </m:mrow>
+              <m:mo>,</m:mo>
+              <m:mi>K</m:mi>
+              <m:mo>)</m:mo>
+            </m:mrow>
+            <m:mo>.</m:mo>
+          </m:mrow>
+        </m:math>
+      </equation>
+      <para id="id65982">In <link target-id="bid10"/>, Blumensath and Davies proved that this sequence of iterations converges to a fixed point <m:math overflow="scroll"><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover></m:math>; further, if the matrix <m:math overflow="scroll"><m:mi>Φ</m:mi></m:math> possesses the RIP, they showed that the recovered signal <m:math overflow="scroll"><m:mover accent="true"><m:mi>x</m:mi><m:mo>^</m:mo></m:mover></m:math> satisfies an instance-optimality guarantee of the type described <link document="m37179" version="latest">earlier</link>.
+The guarantees (as well as the proof technique) are reminiscent of the ones that are derived in the development of other algorithms such as ROMP and CoSaMP.</para>
+    </section>
+    <section id="uid33">
+      <title>Discussion</title>
+      <para id="id66050">While convex optimization techniques are powerful methods for computing sparse representations, there are also a variety of greedy/iterative methods for solving such problems. Greedy algorithms rely on iterative approximation of the signal coefficients and support, either by iteratively identifying the support of the signal until a convergence criterion is met, or alternatively by obtaining an improved estimate of the sparse signal at each iteration by accounting for the mismatch to the measured data. Some greedy methods can actually be shown to have performance guarantees that match those obtained for convex optimization approaches. In fact, some of the more sophisticated greedy algorithms are remarkably similar to those used for <m:math overflow="scroll"><m:msub><m:mi>ℓ</m:mi><m:mn>1</m:mn></m:msub></m:math> minimization described <link document="m37293" version="latest">previously</link>. However, the techniques required to prove performance guarantees are substantially different. There also exist iterative techniques for sparse recovery based on message passing schemes for sparse graphical models. In fact, some greedy algorithms (such as those in <link target-id="bid18"/>, <link target-id="bid17"/>) can be directly interpreted as message passing methods <link target-id="bid21"/>.</para>
+    </section>
+  </content>
+  <bib:file>
+    <bib:entry id="bid10">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Blumensath, T. and Davies, M.</bib:author>
+        <bib:title>Iterative hard thresholding for compressive sensing</bib:title>
+        <bib:journal>Appl. Comput. Harmon. Anal.</bib:journal>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume>27</bib:volume>
+        <bib:number>3</bib:number>
+        <bib:pages>265–274</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid18">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Berinde, R. and Indyk, P. and Ruzic, M.</bib:author>
+        <bib:title>Practical near-optimal sparse recovery in the L1 norm</bib:title>
+        <bib:booktitle>Proc. Allerton Conf. Communication, Control, and Computing</bib:booktitle>
+        <bib:year>2008</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Monticello, IL</bib:address>
+        <bib:month>Sept.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid12">
+      <bib:unpublished>
+        <!--required fields-->
+        <bib:author>Donoho, D. and Drori, I. and Tsaig, Y. and Stark, J.-L.</bib:author>
+        <bib:title>Sparse Solution of Underdetermined Linear Equations by Stagewise Orthogonal Matching Pursuit</bib:title>
+        <bib:note>Preprint</bib:note>
+        <!--optional fields-->
+        <bib:month/>
+        <bib:year>2006</bib:year>
+      </bib:unpublished>
+    </bib:entry>
+    <bib:entry id="bid9">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Dai, W. and Milenkovic, O.</bib:author>
+        <bib:title>Subspace pursuit for compressive sensing signal reconstruction</bib:title>
+        <bib:journal>IEEE Trans. Inform. Theory</bib:journal>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume>55</bib:volume>
+        <bib:number>5</bib:number>
+        <bib:pages>2230–2249</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid21">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Donoho, D. and Maleki, A. and Montanari, A.</bib:author>
+        <bib:title>Message passing algorithms for compressed sensing</bib:title>
+        <bib:journal>Proc. Natl. Acad. Sci.</bib:journal>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume>106</bib:volume>
+        <bib:number>45</bib:number>
+        <bib:pages>18914–18919</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid19">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Davenport, M. and Wakin, M.</bib:author>
+        <bib:title>Analysis of orthogonal matching pursuit using the restricted isometry property</bib:title>
+        <bib:journal>IEEE Trans. Inform. Theory</bib:journal>
+        <bib:year>2010</bib:year>
+        <!--optional fields-->
+        <bib:volume>56</bib:volume>
+        <bib:number>9</bib:number>
+        <bib:pages>4395–4401</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid2">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Duarte, M. and Wakin, M. and Baraniuk, R.</bib:author>
+        <bib:title>Fast reconstruction of piecewise smooth signals from random projections</bib:title>
+        <bib:booktitle>Proc. Work. Struc. Parc. Rep. Adap. Signaux (SPARS)</bib:booktitle>
+        <bib:year>2005</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Rennes, France</bib:address>
+        <bib:month>Nov.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid17">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Indyk, P. and Ruzic, M.</bib:author>
+        <bib:title>Near-optimal sparse recovery in the L1 norm</bib:title>
+        <bib:booktitle>Proc. IEEE Symp. Found. Comp. Science (FOCS)</bib:booktitle>
+        <bib:year>2008</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Philadelphia, PA</bib:address>
+        <bib:month>Oct.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid1">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Mallat, S.</bib:author>
+        <bib:title>A Wavelet Tour of Signal Processing</bib:title>
+        <bib:publisher>Academic Press</bib:publisher>
+        <bib:year>1999</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address>San Diego, CA</bib:address>
+        <bib:edition/>
+        <bib:month/>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid0">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Mallat, S. and Zhang, Z.</bib:author>
+        <bib:title>Matching pursuits with time-frequency dictionaries</bib:title>
+        <bib:journal>IEEE Trans. Signal Processing</bib:journal>
+        <bib:year>1993</bib:year>
+        <!--optional fields-->
+        <bib:volume>41</bib:volume>
+        <bib:number>12</bib:number>
+        <bib:pages>3397–3415</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid8">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Needell, D. and Tropp, J.</bib:author>
+        <bib:title>CoSaMP: Iterative signal recovery from incomplete and inaccurate samples</bib:title>
+        <bib:journal>Appl. Comput. Harmon. Anal.</bib:journal>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume>26</bib:volume>
+        <bib:number>3</bib:number>
+        <bib:pages>301–321</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid6">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Needell, D. and Vershynin, R.</bib:author>
+        <bib:title>Uniform uncertainty principle and signal recovery via regularized orthogonal matching pursuit</bib:title>
+        <bib:journal>Found. Comput. Math.</bib:journal>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume>9</bib:volume>
+        <bib:number>3</bib:number>
+        <bib:pages>317–334</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid7">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Needell, D. and Vershynin, R.</bib:author>
+        <bib:title>Signal recovery from incomplete and inaccurate measurements via regularized orthogonal matching pursuit</bib:title>
+        <bib:journal>IEEE J. Select. Top. Signal Processing</bib:journal>
+        <bib:year>2010</bib:year>
+        <!--optional fields-->
+        <bib:volume>4</bib:volume>
+        <bib:number>2</bib:number>
+        <bib:pages>310–316</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid3">
+      <bib:inproceedings>
+        <!--required fields-->
+        <bib:author>Pati, Y. and Rezaifar, R. and Krishnaprasad, P.</bib:author>
+        <bib:title>Orthogonal Matching Pursuit: Recursive function approximation with applications to wavelet decomposition</bib:title>
+        <bib:booktitle>Proc. Asilomar Conf. Signals, Systems, and Computers</bib:booktitle>
+        <bib:year>1993</bib:year>
+        <!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages/>
+        <bib:address>Pacific Grove, CA</bib:address>
+        <bib:month>Nov.</bib:month>
+        <bib:organization/>
+        <bib:publisher/>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+    <bib:entry id="bid4">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Tropp, J. and Gilbert, A.</bib:author>
+        <bib:title>Signal recovery from partial information via orthogonal matching pursuit</bib:title>
+        <bib:journal>IEEE Trans. Inform. Theory</bib:journal>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:volume>53</bib:volume>
+        <bib:number>12</bib:number>
+        <bib:pages>4655–4666</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+  </bib:file>
+</document>
