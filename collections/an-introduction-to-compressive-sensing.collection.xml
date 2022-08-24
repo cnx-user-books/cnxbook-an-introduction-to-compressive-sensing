@@ -1,12 +1,13 @@
-<col:collection xmlns="http://cnx.rice.edu/collxml" xmlns:md="http://cnx.rice.edu/mdml" xmlns:col="http://cnx.rice.edu/collxml" xml:lang="en">
+<?xml version="1.0"?>
+<col:collection xmlns="http://cnx.rice.edu/collxml" xmlns:md="http://cnx.rice.edu/mdml" xmlns:col="http://cnx.rice.edu/collxml" xml:lang="en" authors="Richard Baraniuk ,Mark A. Davenport ,Marco F. Duarte ,Chinmay Hegde">
   <metadata xmlns:md="http://cnx.rice.edu/mdml" mdml-version="0.5">
     <md:content-id>col11133</md:content-id>
     <md:title>An Introduction to Compressive Sensing</md:title>
     <md:language>en</md:language>
     <md:license url="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution License</md:license>
     <md:uuid>f70b6ba0-b9f0-460f-8828-e8fc6179e65f</md:uuid>
-<md:slug>an-introduction-to-compressive-sensing</md:slug>
-</metadata>
+    <md:slug>an-introduction-to-compressive-sensing</md:slug>
+  </metadata>
   <col:content>
     <col:subcollection>
       <md:title>Introduction</md:title>
@@ -35,7 +36,7 @@
       </col:content>
     </col:subcollection>
     <col:subcollection>
-      <md:title>Sparse Signal Recovery via ℓ_1 Minimization</md:title>
+      <md:title>Sparse Signal Recovery via &#x2113;_1 Minimization</md:title>
       <col:content>
         <col:module document="m37179"/>
         <col:module document="m37181"/>
